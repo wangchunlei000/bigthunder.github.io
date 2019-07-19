@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title>Android中两种序列化方式的比较Serializable和Parcelable | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="Serializable和Parcelable接口可以完成对象的序列化过程，当我们需要通过Intent和Binder传输数据时就需要使用者两种序列化方式。还有，我们需要对象持久化到存储设备或者通过网络传输给其他客户端，这个使用也需要使用Serializale来完成对象的序列化。在Android应用开发中，这两种方式都很常见，但两者方式并不相同。 1.Serializable接口Serializab">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+<meta property="og:title" content="Android中两种序列化方式的比较Serializable和Parcelable">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/Android中两种序列化方式的比较Serializable和Parcelable/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Serializable和Parcelable接口可以完成对象的序列化过程，当我们需要通过Intent和Binder传输数据时就需要使用者两种序列化方式。还有，我们需要对象持久化到存储设备或者通过网络传输给其他客户端，这个使用也需要使用Serializale来完成对象的序列化。在Android应用开发中，这两种方式都很常见，但两者方式并不相同。 1.Serializable接口Serializab">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
+<meta property="og:updated_time" content="2019-07-19T13:39:43.567Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Android中两种序列化方式的比较Serializable和Parcelable">
+<meta name="twitter:description" content="Serializable和Parcelable接口可以完成对象的序列化过程，当我们需要通过Intent和Binder传输数据时就需要使用者两种序列化方式。还有，我们需要对象持久化到存储设备或者通过网络传输给其他客户端，这个使用也需要使用Serializale来完成对象的序列化。在Android应用开发中，这两种方式都很常见，但两者方式并不相同。 1.Serializable接口Serializab">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -154,39 +155,142 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Android中两种序列化方式的比较Serializable和Parcelable" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Android中两种序列化方式的比较Serializable和Parcelable
     </h1>
   
 
         
         <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-19T13:38:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <p>Serializable和Parcelable接口可以完成对象的序列化过程，当我们需要通过Intent和Binder传输数据时就需要使用者两种序列化方式。还有，我们需要对象持久化到存储设备或者通过网络传输给其他客户端，这个使用也需要使用Serializale来完成对象的序列化。在Android应用开发中，这两种方式都很常见，但两者方式并不相同。</p>
+<h4 id="1-Serializable接口"><a href="#1-Serializable接口" class="headerlink" title="1.Serializable接口"></a>1.Serializable接口</h4><p>Serializable接口是Java提供的一个序列化接口，它是一个空接口，为对象提供标准的序列化和反序列化操作。使用Serializable来实现的对象的序列化相当简单，只需要在类的生命中指定一个类似相面的标识即可自动实现默认的序列化过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static final long serialVersionUID=871238749032;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>完整的对象序列化代码示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//Model</span><br><span class="line">public class User implements Serializable&#123;</span><br><span class="line">	private static final long serialVersionUID=871238749032;</span><br><span class="line"></span><br><span class="line">	public int userId;</span><br><span class="line">	public String userName;</span><br><span class="line">	public String password;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//序列化到本地</span><br><span class="line">User user=new User(0,&quot;wcl_android@163.com&quot;,&quot;123456&quot;);</span><br><span class="line">ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(&quot;user.obj&quot;));</span><br><span class="line">out.writeObject(user);</span><br><span class="line">out.close;</span><br><span class="line"></span><br><span class="line">//反序列化</span><br><span class="line">ObjectInputStream in=new ObjectInputStream(new FileInputStream(&quot;user.obj&quot;));</span><br><span class="line">User user=(User)in.readObject();</span><br><span class="line">in.close();</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>这种方式是Java提供的一种序列化方式，过程非常简单，甚至有些开发人员都不需要声明serialVersionUID也可以完成这个过程，但serialVersionUID到底需不需要指定呢？</p>
+<p>需要！</p>
+<p>Java API既然提供了这个serialVersionUID，那么它必定是有用的。这个serialVersionUID是用来辅助序列化和反序列化过程的，原则上序列化后的数据中的serialVersionUID只有和当前类的serialVersionUID相同才能够正常地被反序列化。</p>
+<p>serialVersionUID的详细工作过程是这样的：序列化的时候系统会把当前类的serialVersionUID写入序列化的二进制文件中，当反序列化的时候系统会检测文件中的serialVersionUID是否和当前类的serialVersionUID一致，如果一致就说明序列化的类的版本和当前类的版本是相同的，这个时候可以成功反序列化；否则说明当前类和反序列化的类相比发生了某些变化，比如成员变量的数量、类型发生了变化，这个时候是无法正常反序列化的。</p>
+<p>一般来说，我们应该手动指定serialVersionUID的值，比如1L，也可以让IDE根据当前类的结构自动去生成它的hash值，这样序列化和反序列化时两者的serialVersionUID是相同的，因此可以正常进行反序列化操作。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然，我们还需要考虑一种情况，如果类结构发生了非城规改变，比如修改了类名，修改了成员变量的类型，这个时候尽管serialVersionUID验证通过了，但是反序列化过程仍然会失败，因为类的结构有了毁灭性的改变，根本无法从老版本的数据中还原出一个新的类结构的对象。</span><br><span class="line"></span><br><span class="line">对于使用序列化还有两点需要注意：</span><br><span class="line">1.静态成员变量属于类不属于对象，所以不参与序列化过程</span><br><span class="line">2.用transient关键字标记的成员变量不参与序列化过程</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 2.Parcelable接口</span><br><span class="line">Parcelable接口是Android SDK提供的一种专门用于Android应用中对象的序列化和反序列化的方式，相比于Seriablizable具有更好的性能。实现Parcelable接口的对象就可以实现序列化并可以通过Intent和Binder传递。</span><br><span class="line"></span><br><span class="line">下面是一个完成的实现了Parcelable接口的类</span><br></pre></td></tr></table></figure></p>
+<p>public class User implements Parcelable{<br>    public int userId;<br>    public String userName;<br>    public String password;<br>    public Book book;</p>
+<pre><code>public User(int userId,String userName,String password,Book book){
+    this.userId=userId;
+    this.userName=userName;
+    this.password=password;
+    this.book=book;
+}
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+public int describeContents(){
+    //几乎所有情况都返回0，仅在当前对象中存在文件描述符时返回1
+    return 0;
+}
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+public void writeToParcel(Parcel out,int flags){
+    out.writeInt(userId);
+    out.writeString(userName);
+    out.writeString(password);
+    out.writeParcelable(book,0);
+}
+
+public static final Parcelable.Creator&lt;User&gt; CREATOR=new Parcelable.Creator&lt;User&gt;(){
+    public User createFromParcel(Parcel in){
+        return new User(in);
+    }
+
+    public User[] newArray(int size){
+        return new User[size];
+    }
+}
+
+private User(Parcel in){
+    userId=in.readInt();
+    userName=in.readString();
+    password=in.readString();        book=in.readParcelable(Thread.currentThread().getContextClassLoader());
+}</code></pre><p>}<br>```<br>看起来比Serializable方式复杂太多。我们使用表格把Parcelable方式的相关方法进行说明</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+<th>标记位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>createFromParcel(Parcel in)</td>
+<td>从序列化后的对象中创建原始对象</td>
+<td></td>
+</tr>
+<tr>
+<td>newArray(int size)</td>
+<td>创建指定长度的原始对象数组</td>
+<td></td>
+</tr>
+<tr>
+<td>User(Parcel in)</td>
+<td>从序列化后的对象中创建原始对象</td>
+<td></td>
+</tr>
+<tr>
+<td>writeToParcel(Parcel out,int flags)</td>
+<td>将当前对象写入序列化结构中</td>
+<td>PARCALABLE_WRITE_RETURN_VALUE</td>
+</tr>
+<tr>
+<td>describeContents</td>
+<td>返回当前对象的内容描述，几乎所有情况都返回0，仅在当前对象中存在文件描述符时返回1</td>
+<td>CONTENTS_FILE_DESCRIPTOR</td>
+</tr>
+</tbody></table>
+<p>既然Parcelable和Serializable都可以实现序列化并且可以用于Intent间的数据传递，那么两者有什么区别呢？</p>
+<table>
+<thead>
+<tr>
+<th>区别</th>
+<th>Serializable</th>
+<th>Parcelable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所属API</td>
+<td>JAVA API</td>
+<td>Android SDK API</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>序列化和反序列化过程需要大量的I/O操作</td>
+<td>序列化和反序列化过程不需要大量的I/O操作</td>
+</tr>
+<tr>
+<td>开销</td>
+<td>开销大</td>
+<td>开销小</td>
+</tr>
+<tr>
+<td>效率</td>
+<td>低</td>
+<td>很高</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>序列化到本地或者通过网络传输</td>
+<td>内存序列化</td>
+</tr>
+</tbody></table>
 
       
 
@@ -216,6 +320,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -266,7 +381,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/19/Android中两种序列化方式的比较Serializable和Parcelable/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,15 +395,20 @@
   
 <nav id="article-nav">
   
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../支持Html渲染的TextView—LinkTextView/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          my first page
+          支持Html渲染的TextView—LinkTextView
         
       </div>
     </a>
   
+  
+    <a href="../Android中的线程池ThreadPoolExecutor/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android中的线程池ThreadPoolExecutor</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -412,19 +532,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

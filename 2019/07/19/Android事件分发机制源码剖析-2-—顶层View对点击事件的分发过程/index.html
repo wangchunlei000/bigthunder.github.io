@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title>Android事件分发机制源码剖析(2)—顶层View对点击事件的分发过程 | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="点击事件到达顶层View（一般是一个ViewGroup）以后，会调用ViewGroup的dispatchTouchEvent方法，然后逻辑是这样的:如果顶层ViewGroup拦截事件，即onInterceptTouchEvent返回true，则事件交由ViewGroup处理，这时如果ViewGroup的mOnTouchListener被设置，则onTouch会被调用，否则onTouchEvent会">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+<meta property="og:title" content="Android事件分发机制源码剖析(2)—顶层View对点击事件的分发过程">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="点击事件到达顶层View（一般是一个ViewGroup）以后，会调用ViewGroup的dispatchTouchEvent方法，然后逻辑是这样的:如果顶层ViewGroup拦截事件，即onInterceptTouchEvent返回true，则事件交由ViewGroup处理，这时如果ViewGroup的mOnTouchListener被设置，则onTouch会被调用，否则onTouchEvent会">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
+<meta property="og:updated_time" content="2019-07-19T13:43:07.362Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Android事件分发机制源码剖析(2)—顶层View对点击事件的分发过程">
+<meta name="twitter:description" content="点击事件到达顶层View（一般是一个ViewGroup）以后，会调用ViewGroup的dispatchTouchEvent方法，然后逻辑是这样的:如果顶层ViewGroup拦截事件，即onInterceptTouchEvent返回true，则事件交由ViewGroup处理，这时如果ViewGroup的mOnTouchListener被设置，则onTouch会被调用，否则onTouchEvent会">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -154,39 +155,52 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Android事件分发机制源码剖析(2)—顶层View对点击事件的分发过程
     </h1>
   
 
         
         <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-19T13:42:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <p>点击事件到达顶层View（一般是一个ViewGroup）以后，会调用ViewGroup的dispatchTouchEvent方法，然后逻辑是这样的:如果顶层ViewGroup拦截事件，即onInterceptTouchEvent返回true，则事件交由ViewGroup处理，这时如果ViewGroup的mOnTouchListener被设置，则onTouch会被调用，否则onTouchEvent会被调用。也就是说，如果都提供的话，mTouch会屏蔽掉onTouchEvent。在onTouchEvent中，如果设置了mOnClickListener，则onClick会被调用。如果顶级ViewGroup不拦截事件，则事件会传递给它所在的点击事件莲上的子View，这是子View的dispatchTouchEvent会被调用。到此为止，事件已经从顶级View传递给了下一层View，接下来的传递过程和顶级View是一致的，如此循环，完成整个事件的分发。</p>
+<p>接下来从源码的角度剖析一下ViewGroup的事件分发过程，其主要实现是在ViewGroup的dispatchTouchEvent方法中，简略的逻辑代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//check for intercetion.</span><br><span class="line">final boolean intercepted;</span><br><span class="line"></span><br><span class="line">if(actionMasked==MotionEvent.ACTION_DOWN</span><br><span class="line">	||mFirstTouchTarget!=null)&#123;</span><br><span class="line">		final boolean disallowIntercept=(mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT)!=0;</span><br><span class="line">		if(!disallowIntercept)&#123;</span><br><span class="line">			intercepted=onInterceptTouchEvent(ev);</span><br><span class="line">			ev.setAction(action);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			intercepted=false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		//There are no touch targets and this action is not an initial down</span><br><span class="line">		//so this view group continues to intercept touches.</span><br><span class="line">		intercepted=true;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>从上面的代码可以看出，ViewGroup在如下两种情况下会判断是否要拦截当前事件：事件类型为ACTION_DOWN或者mFirstTouchTarget!=null。mFirstTouchTarget是什么呢？我们从后面的代码逻辑可以看出，当事件由ViewGroup得子元素处理成功后，mFirstTouchTarget会被赋值并指向子元素，换种方式来说，当ViewGroup不拦截事件并将事件交由子元素处理时mFirstTouchTarget!=null。反过来，一旦事件由当前ViewGroup拦截时，mFirstTouchTarget!=null就不成立。那么当ACTION_MOVE和ACTION_UP事件到来时，由于(actionMasked==MotionEvent.ACTION_DOWN || mFirstTouchTarget !=null)这个条件为false，将导致ViewGroup的onInterceptTouchEvent不会再被调用，并且同一个序列中的其他事件都会默认交给他处理。</p>
+<p>当然，这里有一种特殊情况，那就是FLAG_DISALLOW_INTERCEPT标记位，这个标记位通过requestDisallowInterceptTouchEvent方法来设置的，一般用于子View中。FLAG_DISALLOW_INTERCEPT一旦设置后，ViewGroup将无法拦截除了ACTION_DOWN以外的其他事件。为什么说是除了ACTION_DOWN以外的其他事件呢？这是因为ViewGroup在分发事件时，如果是ACTION_DOWN就会重置FLAG_DISALLOW_INTERCEPT这个标记位，将导致子View中设置的这个标记位无效。因此，当面对ACTION_DOWN事件时，ViewGroup总会调用自己的onInterceptTouchEven方法来询问自己是否要拦截事件，这一点从源码中也可以看出来。在下面的代码中，ViewGroup会在ACTION_DOWN事件到来时做重置状态的操作，而在resetTouchState方法中会对FLAG_DISALLOW_INTERCEPT进行重置，因此子View调用requestDisallowInterceptTouchEvent方法并不能影响ViewGroup对ACTION_DOWN事件的处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//Handle an initial down.</span><br><span class="line">if(actionMasked == MotionEvent.ACTION_DOWN)&#123;</span><br><span class="line">	//Throw away all previous state when starting a new touch gesture.</span><br><span class="line">	//The framework may have dropped the up or cancel event for the previous gesture.</span><br><span class="line">	//due to an app switch,ANR,or some other state change.</span><br><span class="line">	cancelAndClearTouchTargets(ev);</span><br><span class="line">	resetTouchState();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>从上面的源码分析，我们可以得出结论，当ViewGroup决定拦截事件后，那么后续的事件就会默认交由它处理并且不会再次调用onInterceptTouchEvent方法。FLAG_DISALLOW_INTERCEPT这个标记的作用是让ViewGroup不在拦截事件，当然前提是ViewGroup不拦截ACTION_DOWN事件。总结一下可以得出连个结论：</p>
+<p>1.onInterceptTouchEvent不是每次事件都会被调用，如果我们想提前处理所有的点击事件，要选择dispatchTouchEvent方法，只有这个方法能确保每次都会调用，当然前提是事件能够传递到当前的ViewGroup中。<br>2.FLAG_DISALLOW_INTERCEPT这个标记位的作用，可以用来处理事件的滑动冲突。</p>
+<p>接着在看当ViewGroup不拦截事件的时候，事件会向下分发交由它的子View进行处理，源代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">final View[] children=mChildren;</span><br><span class="line">for(int i=childrenCount-1;i&gt;=0;i++)&#123;</span><br><span class="line">	final int childIndex=customOrder?getChildDrawingOrder(childrenCount,i):i;</span><br><span class="line">	final View child=(preorderedList==null)?children[childIndex]:preorderedList.get(childIndex);</span><br><span class="line">	if(!canViewReceivePointerEvents(child) ||</span><br><span class="line">		!isTransformedTouchPointInView(x,y,child,null)&#123;</span><br><span class="line">		continue;</span><br><span class="line">	&#125;</span><br><span class="line">	newTouchTarget=getTouchTarget(child);</span><br><span class="line">	if(newTouchTarget!=null)&#123;</span><br><span class="line">		//Child is already receiving touch within its bounds.</span><br><span class="line">		//Give it the new pointer in addtion to the ones it is handling.</span><br><span class="line">		newTouchTarget.pointerIdBits|=idBitsToAssign;</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	resetCancelNextUpFlag(child);</span><br><span class="line">	if(dispatchTransformedTouchEvent(ev,false,child,idBitsToAssign))&#123;</span><br><span class="line">		//Child wants to receive touch within its bounds.</span><br><span class="line">		mLastTouchDownTime=ev.getDownTime();</span><br><span class="line">		if(preorderedList!=null)&#123;</span><br><span class="line">			//childIndex points to presorted list,find original index</span><br><span class="line">			for(int j=0;j&lt;childrenCount;j++)&#123;</span><br><span class="line">				if(children[childIndex]==mChildren[j])&#123;</span><br><span class="line">					mLastTouchDownIndex=j;</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			mLastTouchDownIndex=childIndex;</span><br><span class="line">		&#125;</span><br><span class="line">		mLastTouchDownX=ev.getX();</span><br><span class="line">		mLastTouchDownY=ev.getY();</span><br><span class="line">		newTouchTarget=addTouchTarget(child,idBitsToAssign);</span><br><span class="line">		alreadyDispatchToNewTouchTarget=true;</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>上面的代码逻辑很清晰，首先遍历ViewGroup的所有子View，然后判断子元素是否能够接受到点击事件。<strong>是否能够接受到点击事件主要由两点蓝衡量：子元素是否在播放动画和点击事件的坐标是否落在子元素的区域内。</strong>如果某个子元素满足上述两个条件，那么事件就会传递给它来处理。可以看到，dispatchTransformedTouchEvent事件上调用了子元素的dispatchTouchEvent方法，在它的内部有如下一段内容，而在上面的代码中child传递的不是null,因此他会直接调用子元素的dispatchTouchEvent方法，这样事件就交由子元素处理了，从而完成了一轮事件分发。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(child==null)&#123;</span><br><span class="line">	handled=super.dispatchTouchEvent(event);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	handled=child.dispatchTouchEvent(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>如果子元素的dispatchTouchEvent返回true，这时我们暂时不用考虑事件在子元素内部是怎么分发的，那么mFirstTouchTarget就会被赋值同时跳出for循环，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">newTouchTarget=addTouchTarget(child,idBitsToAssign);</span><br><span class="line">alreadyDispatchedToNewTouchTarget=true;</span><br><span class="line">break;</span><br></pre></td></tr></table></figure>
+
+<p>这几行代码完成了mFirstTouchTarget的赋值并且终止对子View的遍历。如果子元素的dispatchTouchEvent返回false，ViewGroup就会把事件分发给下一个子元素。<br>其实mFirstTouchTarget真正的赋值过程是在addTouchTarget内部完成的，从下面的addTouchTarget方法的内部可以看出，mFirstTouchTarget其实是一种单链表结构。mFirstTouchTarget是否被赋值，将直接影响到ViewGroup对事件的拦截策略，如果mFirstTouchTarget为null,那么ViewGroup就默认拦截接下来同一事件序列中的所有的点击事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private TouchTarget addTouchTarget(View child,int pointerIdBits)&#123;</span><br><span class="line">	TouchTarget target=TouchTarget.obtain(child,pointerIdBits);</span><br><span class="line">	target.next=mFirstTouchTarget;</span><br><span class="line">	return target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果遍历所有的子元素事件都没有被合适地处理，这包含两种情况：<br>1.ViewGroup没有子元素<br>2.子元素处理了点击事件，但是在dispatchTouchEvent中返回了false（一般是因为子元素在onTouchEvent中返回了false）<br>在这两种情况下，ViewGroup会自己处理点击事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(mFirstTouchTarget ==null)&#123;</span><br><span class="line">	//No touch targets so treat this as an ordinary view.</span><br><span class="line">	handled=dispatchTransformedTouchEvent(ev,canceled,null,TouchTarget.ALL_POINTER_IDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，这里的第三个参数child 为null，从前面的分析可以知道，它会调用super.dispatchTouchEvent，很显然，这里就转到了View的dispatchTouchEvent方法，有关View的事件分发，请关注后面的博文。</p>
 
       
 
@@ -216,6 +230,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -266,7 +291,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/19/Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,15 +305,20 @@
   
 <nav id="article-nav">
   
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../Android事件分发机制源码剖析-1-——Activity对点击事件的分发过程/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          my first page
+          Android事件分发机制源码剖析(1)——Activity对点击事件的分发过程
         
       </div>
     </a>
   
+  
+    <a href="../支持Html渲染的TextView—LinkTextView/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">支持Html渲染的TextView—LinkTextView</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -412,19 +442,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

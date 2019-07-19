@@ -6,19 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title>使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题 | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="最新版的点我达骑手APP对新订单消息提醒、订单信息被修改、新的可抢订单等声音及制动提醒做出了规范和优化，加入了消息提醒(包括声音及振动提醒)优先级机制，即在优先级较高的声音在播放过程中有优先级较低的声音插入播放队列，则忽略优先级较低的声音不进行播放；优先级较低的声音在播放过程中有优先级较高的声音插入播放队列，则在优先级较低的声音播放结束后再对插入的优先级较高的声音进行播放。本文从如何更安全高效的执">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+<meta property="og:title" content="使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="最新版的点我达骑手APP对新订单消息提醒、订单信息被修改、新的可抢订单等声音及制动提醒做出了规范和优化，加入了消息提醒(包括声音及振动提醒)优先级机制，即在优先级较高的声音在播放过程中有优先级较低的声音插入播放队列，则忽略优先级较低的声音不进行播放；优先级较低的声音在播放过程中有优先级较高的声音插入播放队列，则在优先级较低的声音播放结束后再对插入的优先级较高的声音进行播放。本文从如何更安全高效的执">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MDMxMDU1">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MDU3MDk2">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MTIzMzgz">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MTM3ODYy">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MjAwMDAz">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MjIyMjEy">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MzUyNjc4">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1NDIyNzYw">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1NDU3MDU0">
+<meta property="og:updated_time" content="2019-07-19T13:37:05.930Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题">
+<meta name="twitter:description" content="最新版的点我达骑手APP对新订单消息提醒、订单信息被修改、新的可抢订单等声音及制动提醒做出了规范和优化，加入了消息提醒(包括声音及振动提醒)优先级机制，即在优先级较高的声音在播放过程中有优先级较低的声音插入播放队列，则忽略优先级较低的声音不进行播放；优先级较低的声音在播放过程中有优先级较高的声音插入播放队列，则在优先级较低的声音播放结束后再对插入的优先级较高的声音进行播放。本文从如何更安全高效的执">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MDMxMDU1">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -154,39 +165,62 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题
     </h1>
   
 
         
         <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-19T13:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <p>最新版的点我达骑手APP对新订单消息提醒、订单信息被修改、新的可抢订单等声音及制动提醒做出了规范和优化，加入了消息提醒(包括声音及振动提醒)优先级机制，即<strong>在优先级较高的声音在播放过程中有优先级较低的声音插入播放队列，则忽略优先级较低的声音不进行播放；优先级较低的声音在播放过程中有优先级较高的声音插入播放队列，则在优先级较低的声音播放结束后再对插入的优先级较高的声音进行播放。</strong>本文从如何更安全高效的执行耗时任务(音频播放等)，如何有序执行任务队列中的任务等方面进行介绍。</p>
+<h3 id="1-怎么播放音频文件？"><a href="#1-怎么播放音频文件？" class="headerlink" title="1.怎么播放音频文件？"></a>1.怎么播放音频文件？</h3><pre><code>这里说的&quot;怎么播放音频文件&quot;并不是指用什么API区播放，而是在Android客户端APP在应用内存被限制的情况下(具体APP被分配的内存与Android系统版本、手机厂商对Android系统的个性化定制、手机硬件配置等有关)如何保证在播放音频文件的过程中尽可能不损耗应用的性能从而产生ANR、Crash等重大性能问题。</code></pre><p>首先贴一下后文中介绍的三种播放音频文件方式公用的工具类代码，不喜勿喷。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line">package audio.rider.dwd.com.audioplayer.util;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.media.MediaPlayer;</span><br><span class="line">import android.util.Log;</span><br><span class="line"></span><br><span class="line">import audio.rider.dwd.com.audioplayer.R;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunelei on 16/10/28.</span><br><span class="line"> * 音频播放工具类</span><br><span class="line"> */</span><br><span class="line">public class AudioManager &#123;</span><br><span class="line">    private static final String TAG = &quot;AudioManager&quot;;</span><br><span class="line">    private static AudioManager singleton;</span><br><span class="line">    /*正在播放的音频优先级*/</span><br><span class="line">    private int audioPriority;</span><br><span class="line">    /*回调对象*/</span><br><span class="line">    private OnAudioChangeListener onAudioChangeListener;</span><br><span class="line">    /*当前音频播放的次数*/</span><br><span class="line">    private int currentRepeatIndex = 0;</span><br><span class="line">    /*声音播放器对象*/</span><br><span class="line">    private MediaPlayer mediaPlayer = null;</span><br><span class="line">    /*声音的播放次数*/</span><br><span class="line">    int audioRepeatCount = 0;</span><br><span class="line"></span><br><span class="line">    private AudioManager() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static AudioManager getInstance() &#123;</span><br><span class="line">        if (singleton == null) &#123;</span><br><span class="line">            synchronized (AudioManager.class) &#123;</span><br><span class="line">                if (singleton == null) &#123;</span><br><span class="line">                    singleton = new AudioManager();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 播放音频文件</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     * @param audioPriority 提醒优先级</span><br><span class="line">     */</span><br><span class="line">    public void playAudio(Context context, int audioPriority) &#123;</span><br><span class="line">        this.audioPriority = audioPriority;</span><br><span class="line">        this.currentRepeatIndex = 0;</span><br><span class="line">        this.audioRepeatCount = 0;</span><br><span class="line"></span><br><span class="line">        android.media.AudioManager audioManager = (android.media.AudioManager) context.getSystemService(Context.AUDIO_SERVICE);</span><br><span class="line">        int current = audioManager.getStreamVolume(android.media.AudioManager.STREAM_MUSIC);</span><br><span class="line">        int maxcurrent = audioManager.getStreamMaxVolume(android.media.AudioManager.STREAM_MUSIC);</span><br><span class="line">        while (current &lt; maxcurrent) &#123;</span><br><span class="line">            audioManager.adjustStreamVolume(android.media.AudioManager.STREAM_MUSIC, android.media.AudioManager.ADJUST_RAISE, 0);</span><br><span class="line">            current = audioManager.getStreamVolume(android.media.AudioManager.STREAM_MUSIC);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        switch (audioPriority) &#123;</span><br><span class="line">            case 1:</span><br><span class="line">                mediaPlayer = MediaPlayer.create(context, R.raw.voice_1);</span><br><span class="line">                audioRepeatCount = 2;</span><br><span class="line">                break;</span><br><span class="line">            case 2:</span><br><span class="line">                mediaPlayer = MediaPlayer.create(context, R.raw.voice_2);</span><br><span class="line">                audioRepeatCount = 3;</span><br><span class="line">                break;</span><br><span class="line">            case 3:</span><br><span class="line">                mediaPlayer = MediaPlayer.create(context, R.raw.voice_3);</span><br><span class="line">                audioRepeatCount = 3;</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        if (onAudioChangeListener != null) &#123;</span><br><span class="line">            onAudioChangeListener.onAudioStartPlaying();</span><br><span class="line">        &#125;</span><br><span class="line">        //音频文件播放结束后的回调</span><br><span class="line"></span><br><span class="line">        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onCompletion(MediaPlayer mp) &#123;</span><br><span class="line">                Log.e(TAG, &quot;currentThread:&quot; + Thread.currentThread().getName());</span><br><span class="line">                try &#123;</span><br><span class="line">                    //播放指定次数的音频文件</span><br><span class="line">                    if (currentRepeatIndex &lt; audioRepeatCount - 1) &#123;</span><br><span class="line">                        mediaPlayer.start();</span><br><span class="line">                        currentRepeatIndex++;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        //播放完成</span><br><span class="line">                        if (onAudioChangeListener != null) &#123;</span><br><span class="line">                            onAudioChangeListener.onAudioFinished();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        mediaPlayer.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取正在播放的音频文件类型</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private int getPlayingAudioType() &#123;</span><br><span class="line">        return audioPriority;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置状态切换监听器</span><br><span class="line">     *</span><br><span class="line">     * @param onAudioChangeListener</span><br><span class="line">     */</span><br><span class="line">    public void setOnAudioChangeListener(OnAudioChangeListener onAudioChangeListener) &#123;</span><br><span class="line">        this.onAudioChangeListener = onAudioChangeListener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 音频文件播放过程中状态切换的回调</span><br><span class="line">     */</span><br><span class="line">    public interface OnAudioChangeListener &#123;</span><br><span class="line">        //开始播放音频文件</span><br><span class="line">        void onAudioStartPlaying();</span><br><span class="line"></span><br><span class="line">        //播放完成</span><br><span class="line">        void onAudioFinished();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>####1.主线程执行消息提醒任务</p>
+<p>Android系统的主线程又称为UI线程，一般情况下，在UI线程多以处理UI变更的工作居多，耗时任务建议不要放在UI线程处理，否则很容易产生UI卡顿、ANR等性能问题，对应用的流畅性有严重影响。</p>
+<p>那么问题来了，在主线程执行循环播放声音的任务，是否也会造成应用卡顿，产生性能和流畅性的损耗呢？</p>
+<p>在Activity添加一个点击事件并直接调用一下方法，就可以循环播放类型为1的音频文件了。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MDMxMDU1" alt="这里写图片描述"></p>
+<p>事实上直接这么使用并未对性能和流畅性产生明显影响，是不是意味着播放音频文件的工作在底层实现上并未放在主线程呢？我们查看MediaPlayer的start方法，可以很容易翻到下面的几行代码：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MDU3MDk2" alt="这里写图片描述"></p>
+<p>从代码中可以清晰地看到，其实底层在播放音频文件的时候是在native层进行的，也就是C/C++层，因为在播放音频文件的过程中需要调用相关硬件设备并执行加载设备驱动等工作。</p>
+<p>通过这种方式实现的效果是：在声音播放结束之后会立即执行进行下一次播放。如果现在需求修改成：在每次播放结束间隔2s后再进行下一次的播放，那么这种方式是否仍然没有问题呢？</p>
+<p>最容易想到的实现方式就是让线程休眠2s。</p>
+<p>既然是让线程休眠，那么这个工作就一定不能放在主线程了，因为在线程休眠的过程中应用会直接卡顿做不了任何操作。解决问题的思路就自然是自定义子线程去处理播放音频及休眠间隔了。</p>
+<p>####2.新建Thread执行消息提醒任务</p>
+<p>将上面代码中的声音结束监听并播放下一次声音的代码中增加线程休眠时间。代码截图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MTIzMzgz" alt="这里写图片描述"></p>
+<p>然后新建一个Thread类，在run()中调用播放声音的方法，Thread中代码如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MTM3ODYy" alt="这里写图片描述"></p>
+<p>在Activity中新建该线程的实例并调用start方法开启子线程。运行之后很快就会发现，在声音播放结束的2秒休眠期间，UI也会直接卡顿。事实上，通过查看日志可以看到，MediaPlayer的onCompletion回调其实是直接在主线程进行的。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MjAwMDAz" alt="这里写图片描述"></p>
+<p>那我们就需要改变一下声音循环播放的实现方式了，通过for循环+Thread休眠的方式同样也可以很容易的实现这一效果，该部分代码逻辑演化成下图所示：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MjIyMjEy" alt="这里写图片描述"></p>
+<p>只不过这个休眠的时间需要做一下处理，也就是在执行完mediaPlayer.start()后立即进入线程休眠阶段，休眠的时间是声音的播放时长+2s，也就是声音在播放过程中线程也同步休眠，声音播放完成后线程仍有2s的休眠剩余时间，等休眠时间结束后，进入下一次的循环。</p>
+<p>虽然通过Thread的方式解决了目前的产品需求且对应用的性能和流畅性没有产生影响，但是也会有一些令人头疼的后续问题，比如在任务执行结束后怎样安全退出线程以减少内存消耗、这种实现方式怎么解决因优先级排序带来的任务插入问题等问题。问题肯定是可以解决的，但却是如履薄冰，线程使用过程中稍有不当就会出现各种直接导致应用Crash的问题。</p>
+<p>那么有没有一种任务结束自动关闭、临时插入任务自动排队且使用过程中没有过多“雷区”的解决方案呢？IntentService就派上用场了。</p>
+<p>####3.使用IntentService执行消息提醒任务</p>
+<p>做过Android开发的对Service一定不陌生，Service作为Android四大组件之一，充当着计算型组件的角色，主要用于在后台处理一些任务，比如点我达骑手Android客户端的用户经纬度上传就是Service后台进行处理的。</p>
+<p>Service在后台处理任务，但”后台”并不等于”异步”，Service默认也是在UI线程进行的，所以对于一些耗时、耗性能的工作如果需要在Service处理的话，也是需要在Service中单独开线程进行处理的。</p>
+<p>IntentService是Service的子类，但却与Service有着较大的区别：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.IntentService默认创建一个独立的工作线程来处理任务，对应用性能几乎没影响</span><br><span class="line"></span><br><span class="line">2.IntentService具有任务依次处理的&quot;排队&quot;功能(其实就是Looper轮询和线程的等待-唤醒机制实现的)，可以依次执行任务队列中的任务。</span><br><span class="line"></span><br><span class="line">3.任务完成后Service自动销毁，无法担心空任务Service对应用性能的影响</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>IntentService的使用方式与普通Service比较像，比如都需要在AndroidManifest.xml中进行声明，都可以用startService的方式启动等。不过IntentService需要一个默认的构造函数，任务的执行是在onHandleIntent内部进行的，这也是与普通Service使用过程中的一些不同点。</p>
+<p>新建的IntentService代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package audio.rider.dwd.com.audioplayer;</span><br><span class="line"></span><br><span class="line">import android.app.IntentService;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.util.Log;</span><br><span class="line"></span><br><span class="line">import audio.rider.dwd.com.audioplayer.util.AudioManager;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunLei on 16/11/1.</span><br><span class="line"> */</span><br><span class="line">public class AudioPlayerIntentService extends IntentService &#123;</span><br><span class="line">    private static final String TAG = &quot;AudioIntentService&quot;;</span><br><span class="line"></span><br><span class="line">    public AudioPlayerIntentService() &#123;</span><br><span class="line">        super(&quot;AudioPlayerIntentService&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        super.onCreate();</span><br><span class="line">        Log.e(TAG, &quot;onCreate&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onHandleIntent(Intent intent) &#123;</span><br><span class="line">        //声音类型</span><br><span class="line">        int audioType = intent.getIntExtra(&quot;AUDIO_TYPE&quot;, 0);</span><br><span class="line">        Log.e(TAG, &quot;currentThread:&quot; + Thread.currentThread().getName());</span><br><span class="line">        Log.e(TAG, &quot;onHandleIntent&quot;);</span><br><span class="line">        AudioManager.getInstance().playAudio(getApplicationContext(), audioType);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        Log.e(TAG, &quot;onDestroy&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>然后在Activity通过startService的方式即可启动该IntentService，即可实现在子线程中进行的、且在任务结束后自动关闭的、有休眠间隔的声音循环播放逻辑，代码的执行顺序如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MzUyNjc4" alt="这里写图片描述"></p>
+<h3 id="2-怎么解决消息提醒机制的优先级排序问题？"><a href="#2-怎么解决消息提醒机制的优先级排序问题？" class="headerlink" title="2.怎么解决消息提醒机制的优先级排序问题？"></a>2.怎么解决消息提醒机制的优先级排序问题？</h3><p>上文介绍了IntentService的特性，这也是消息提醒机制优先级排序问题的解决方案。</p>
+<p>模拟一个在声音播放过程中有优先级较高的声音进入播放队列的过程，代码如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1NDIyNzYw" alt="这里写图片描述"></p>
+<p>代码的执行顺序如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1NDU3MDU0" alt="这里写图片描述"></p>
+<p>至此，任务的排序问题就解决了。</p>
 
       
 
@@ -216,6 +250,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -266,7 +311,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/19/使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,15 +325,20 @@
   
 <nav id="article-nav">
   
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../Android中的线程池ThreadPoolExecutor/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          my first page
+          Android中的线程池ThreadPoolExecutor
         
       </div>
     </a>
   
+  
+    <a href="../属性动画在Android自定义View中的应用场景/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">属性动画在Android自定义View中的应用场景</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -412,19 +462,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

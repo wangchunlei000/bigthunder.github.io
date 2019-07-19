@@ -6,19 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title></title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -57,9 +53,9 @@
 		<nav class="header-menu">
 			<ul>
 			
-				<li><a href="../../../../index.html">主页</a></li>
+				<li><a href="../../index.html">主页</a></li>
 	        
-				<li><a href="../../../../tags/随笔/">随笔</a></li>
+				<li><a href="../../tags/随笔/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -137,9 +133,9 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 50%"><a href="../../../../index.html">主页</a></li>
+					<li style="width: 50%"><a href="../../index.html">主页</a></li>
 		        
-					<li style="width: 50%"><a href="../../../../tags/随笔/">随笔</a></li>
+					<li style="width: 50%"><a href="../../tags/随笔/">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -154,144 +150,96 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            
+  
+    <article id="post-使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      Hello World
+    <h1 itemprop="name">
+      <a class="article-title" href="../../2019/07/19/使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题/">使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题</a>
     </h1>
   
 
         
-        <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+        <a href="../../2019/07/19/使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <p>最新版的点我达骑手APP对新订单消息提醒、订单信息被修改、新的可抢订单等声音及制动提醒做出了规范和优化，加入了消息提醒(包括声音及振动提醒)优先级机制，即<strong>在优先级较高的声音在播放过程中有优先级较低的声音插入播放队列，则忽略优先级较低的声音不进行播放；优先级较低的声音在播放过程中有优先级较高的声音插入播放队列，则在优先级较低的声音播放结束后再对插入的优先级较高的声音进行播放。</strong>本文从如何更安全高效的执行耗时任务(音频播放等)，如何有序执行任务队列中的任务等方面进行介绍。</p>
+<h3 id="1-怎么播放音频文件？"><a href="#1-怎么播放音频文件？" class="headerlink" title="1.怎么播放音频文件？"></a>1.怎么播放音频文件？</h3><pre><code>这里说的&quot;怎么播放音频文件&quot;并不是指用什么API区播放，而是在Android客户端APP在应用内存被限制的情况下(具体APP被分配的内存与Android系统版本、手机厂商对Android系统的个性化定制、手机硬件配置等有关)如何保证在播放音频文件的过程中尽可能不损耗应用的性能从而产生ANR、Crash等重大性能问题。</code></pre><p>首先贴一下后文中介绍的三种播放音频文件方式公用的工具类代码，不喜勿喷。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line">package audio.rider.dwd.com.audioplayer.util;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.media.MediaPlayer;</span><br><span class="line">import android.util.Log;</span><br><span class="line"></span><br><span class="line">import audio.rider.dwd.com.audioplayer.R;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunelei on 16/10/28.</span><br><span class="line"> * 音频播放工具类</span><br><span class="line"> */</span><br><span class="line">public class AudioManager &#123;</span><br><span class="line">    private static final String TAG = &quot;AudioManager&quot;;</span><br><span class="line">    private static AudioManager singleton;</span><br><span class="line">    /*正在播放的音频优先级*/</span><br><span class="line">    private int audioPriority;</span><br><span class="line">    /*回调对象*/</span><br><span class="line">    private OnAudioChangeListener onAudioChangeListener;</span><br><span class="line">    /*当前音频播放的次数*/</span><br><span class="line">    private int currentRepeatIndex = 0;</span><br><span class="line">    /*声音播放器对象*/</span><br><span class="line">    private MediaPlayer mediaPlayer = null;</span><br><span class="line">    /*声音的播放次数*/</span><br><span class="line">    int audioRepeatCount = 0;</span><br><span class="line"></span><br><span class="line">    private AudioManager() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static AudioManager getInstance() &#123;</span><br><span class="line">        if (singleton == null) &#123;</span><br><span class="line">            synchronized (AudioManager.class) &#123;</span><br><span class="line">                if (singleton == null) &#123;</span><br><span class="line">                    singleton = new AudioManager();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 播放音频文件</span><br><span class="line">     *</span><br><span class="line">     * @param context</span><br><span class="line">     * @param audioPriority 提醒优先级</span><br><span class="line">     */</span><br><span class="line">    public void playAudio(Context context, int audioPriority) &#123;</span><br><span class="line">        this.audioPriority = audioPriority;</span><br><span class="line">        this.currentRepeatIndex = 0;</span><br><span class="line">        this.audioRepeatCount = 0;</span><br><span class="line"></span><br><span class="line">        android.media.AudioManager audioManager = (android.media.AudioManager) context.getSystemService(Context.AUDIO_SERVICE);</span><br><span class="line">        int current = audioManager.getStreamVolume(android.media.AudioManager.STREAM_MUSIC);</span><br><span class="line">        int maxcurrent = audioManager.getStreamMaxVolume(android.media.AudioManager.STREAM_MUSIC);</span><br><span class="line">        while (current &lt; maxcurrent) &#123;</span><br><span class="line">            audioManager.adjustStreamVolume(android.media.AudioManager.STREAM_MUSIC, android.media.AudioManager.ADJUST_RAISE, 0);</span><br><span class="line">            current = audioManager.getStreamVolume(android.media.AudioManager.STREAM_MUSIC);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        switch (audioPriority) &#123;</span><br><span class="line">            case 1:</span><br><span class="line">                mediaPlayer = MediaPlayer.create(context, R.raw.voice_1);</span><br><span class="line">                audioRepeatCount = 2;</span><br><span class="line">                break;</span><br><span class="line">            case 2:</span><br><span class="line">                mediaPlayer = MediaPlayer.create(context, R.raw.voice_2);</span><br><span class="line">                audioRepeatCount = 3;</span><br><span class="line">                break;</span><br><span class="line">            case 3:</span><br><span class="line">                mediaPlayer = MediaPlayer.create(context, R.raw.voice_3);</span><br><span class="line">                audioRepeatCount = 3;</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        if (onAudioChangeListener != null) &#123;</span><br><span class="line">            onAudioChangeListener.onAudioStartPlaying();</span><br><span class="line">        &#125;</span><br><span class="line">        //音频文件播放结束后的回调</span><br><span class="line"></span><br><span class="line">        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onCompletion(MediaPlayer mp) &#123;</span><br><span class="line">                Log.e(TAG, &quot;currentThread:&quot; + Thread.currentThread().getName());</span><br><span class="line">                try &#123;</span><br><span class="line">                    //播放指定次数的音频文件</span><br><span class="line">                    if (currentRepeatIndex &lt; audioRepeatCount - 1) &#123;</span><br><span class="line">                        mediaPlayer.start();</span><br><span class="line">                        currentRepeatIndex++;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        //播放完成</span><br><span class="line">                        if (onAudioChangeListener != null) &#123;</span><br><span class="line">                            onAudioChangeListener.onAudioFinished();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        mediaPlayer.start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 获取正在播放的音频文件类型</span><br><span class="line">     *</span><br><span class="line">     * @return</span><br><span class="line">     */</span><br><span class="line">    private int getPlayingAudioType() &#123;</span><br><span class="line">        return audioPriority;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置状态切换监听器</span><br><span class="line">     *</span><br><span class="line">     * @param onAudioChangeListener</span><br><span class="line">     */</span><br><span class="line">    public void setOnAudioChangeListener(OnAudioChangeListener onAudioChangeListener) &#123;</span><br><span class="line">        this.onAudioChangeListener = onAudioChangeListener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 音频文件播放过程中状态切换的回调</span><br><span class="line">     */</span><br><span class="line">    public interface OnAudioChangeListener &#123;</span><br><span class="line">        //开始播放音频文件</span><br><span class="line">        void onAudioStartPlaying();</span><br><span class="line"></span><br><span class="line">        //播放完成</span><br><span class="line">        void onAudioFinished();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>####1.主线程执行消息提醒任务</p>
+<p>Android系统的主线程又称为UI线程，一般情况下，在UI线程多以处理UI变更的工作居多，耗时任务建议不要放在UI线程处理，否则很容易产生UI卡顿、ANR等性能问题，对应用的流畅性有严重影响。</p>
+<p>那么问题来了，在主线程执行循环播放声音的任务，是否也会造成应用卡顿，产生性能和流畅性的损耗呢？</p>
+<p>在Activity添加一个点击事件并直接调用一下方法，就可以循环播放类型为1的音频文件了。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MDMxMDU1" alt="这里写图片描述"></p>
+<p>事实上直接这么使用并未对性能和流畅性产生明显影响，是不是意味着播放音频文件的工作在底层实现上并未放在主线程呢？我们查看MediaPlayer的start方法，可以很容易翻到下面的几行代码：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MDU3MDk2" alt="这里写图片描述"></p>
+<p>从代码中可以清晰地看到，其实底层在播放音频文件的时候是在native层进行的，也就是C/C++层，因为在播放音频文件的过程中需要调用相关硬件设备并执行加载设备驱动等工作。</p>
+<p>通过这种方式实现的效果是：在声音播放结束之后会立即执行进行下一次播放。如果现在需求修改成：在每次播放结束间隔2s后再进行下一次的播放，那么这种方式是否仍然没有问题呢？</p>
+<p>最容易想到的实现方式就是让线程休眠2s。</p>
+<p>既然是让线程休眠，那么这个工作就一定不能放在主线程了，因为在线程休眠的过程中应用会直接卡顿做不了任何操作。解决问题的思路就自然是自定义子线程去处理播放音频及休眠间隔了。</p>
+<p>####2.新建Thread执行消息提醒任务</p>
+<p>将上面代码中的声音结束监听并播放下一次声音的代码中增加线程休眠时间。代码截图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MTIzMzgz" alt="这里写图片描述"></p>
+<p>然后新建一个Thread类，在run()中调用播放声音的方法，Thread中代码如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MTM3ODYy" alt="这里写图片描述"></p>
+<p>在Activity中新建该线程的实例并调用start方法开启子线程。运行之后很快就会发现，在声音播放结束的2秒休眠期间，UI也会直接卡顿。事实上，通过查看日志可以看到，MediaPlayer的onCompletion回调其实是直接在主线程进行的。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MjAwMDAz" alt="这里写图片描述"></p>
+<p>那我们就需要改变一下声音循环播放的实现方式了，通过for循环+Thread休眠的方式同样也可以很容易的实现这一效果，该部分代码逻辑演化成下图所示：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MjIyMjEy" alt="这里写图片描述"></p>
+<p>只不过这个休眠的时间需要做一下处理，也就是在执行完mediaPlayer.start()后立即进入线程休眠阶段，休眠的时间是声音的播放时长+2s，也就是声音在播放过程中线程也同步休眠，声音播放完成后线程仍有2s的休眠剩余时间，等休眠时间结束后，进入下一次的循环。</p>
+<p>虽然通过Thread的方式解决了目前的产品需求且对应用的性能和流畅性没有产生影响，但是也会有一些令人头疼的后续问题，比如在任务执行结束后怎样安全退出线程以减少内存消耗、这种实现方式怎么解决因优先级排序带来的任务插入问题等问题。问题肯定是可以解决的，但却是如履薄冰，线程使用过程中稍有不当就会出现各种直接导致应用Crash的问题。</p>
+<p>那么有没有一种任务结束自动关闭、临时插入任务自动排队且使用过程中没有过多“雷区”的解决方案呢？IntentService就派上用场了。</p>
+<p>####3.使用IntentService执行消息提醒任务</p>
+<p>做过Android开发的对Service一定不陌生，Service作为Android四大组件之一，充当着计算型组件的角色，主要用于在后台处理一些任务，比如点我达骑手Android客户端的用户经纬度上传就是Service后台进行处理的。</p>
+<p>Service在后台处理任务，但”后台”并不等于”异步”，Service默认也是在UI线程进行的，所以对于一些耗时、耗性能的工作如果需要在Service处理的话，也是需要在Service中单独开线程进行处理的。</p>
+<p>IntentService是Service的子类，但却与Service有着较大的区别：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.IntentService默认创建一个独立的工作线程来处理任务，对应用性能几乎没影响</span><br><span class="line"></span><br><span class="line">2.IntentService具有任务依次处理的&quot;排队&quot;功能(其实就是Looper轮询和线程的等待-唤醒机制实现的)，可以依次执行任务队列中的任务。</span><br><span class="line"></span><br><span class="line">3.任务完成后Service自动销毁，无法担心空任务Service对应用性能的影响</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>IntentService的使用方式与普通Service比较像，比如都需要在AndroidManifest.xml中进行声明，都可以用startService的方式启动等。不过IntentService需要一个默认的构造函数，任务的执行是在onHandleIntent内部进行的，这也是与普通Service使用过程中的一些不同点。</p>
+<p>新建的IntentService代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">package audio.rider.dwd.com.audioplayer;</span><br><span class="line"></span><br><span class="line">import android.app.IntentService;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.util.Log;</span><br><span class="line"></span><br><span class="line">import audio.rider.dwd.com.audioplayer.util.AudioManager;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunLei on 16/11/1.</span><br><span class="line"> */</span><br><span class="line">public class AudioPlayerIntentService extends IntentService &#123;</span><br><span class="line">    private static final String TAG = &quot;AudioIntentService&quot;;</span><br><span class="line"></span><br><span class="line">    public AudioPlayerIntentService() &#123;</span><br><span class="line">        super(&quot;AudioPlayerIntentService&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate() &#123;</span><br><span class="line">        super.onCreate();</span><br><span class="line">        Log.e(TAG, &quot;onCreate&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onHandleIntent(Intent intent) &#123;</span><br><span class="line">        //声音类型</span><br><span class="line">        int audioType = intent.getIntExtra(&quot;AUDIO_TYPE&quot;, 0);</span><br><span class="line">        Log.e(TAG, &quot;currentThread:&quot; + Thread.currentThread().getName());</span><br><span class="line">        Log.e(TAG, &quot;onHandleIntent&quot;);</span><br><span class="line">        AudioManager.getInstance().playAudio(getApplicationContext(), audioType);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onDestroy() &#123;</span><br><span class="line">        super.onDestroy();</span><br><span class="line">        Log.e(TAG, &quot;onDestroy&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>然后在Activity通过startService的方式即可启动该IntentService，即可实现在子线程中进行的、且在任务结束后自动关闭的、有休眠间隔的声音循环播放逻辑，代码的执行顺序如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1MzUyNjc4" alt="这里写图片描述"></p>
+<h3 id="2-怎么解决消息提醒机制的优先级排序问题？"><a href="#2-怎么解决消息提醒机制的优先级排序问题？" class="headerlink" title="2.怎么解决消息提醒机制的优先级排序问题？"></a>2.怎么解决消息提醒机制的优先级排序问题？</h3><p>上文介绍了IntentService的特性，这也是消息提醒机制优先级排序问题的解决方案。</p>
+<p>模拟一个在声音播放过程中有优先级较高的声音进入播放队列的过程，代码如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1NDIyNzYw" alt="这里写图片描述"></p>
+<p>代码的执行顺序如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYxMTAxMTY1NDU3MDU0" alt="这里写图片描述"></p>
+<p>至此，任务的排序问题就解决了。</p>
 
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
       
       
-      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
 
       
 
       
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
-        </div>
-      </div>
-    </span>
-  </div>
-</div>
+        <p class="article-more-link">
+          <a class="article-more-a" href="../../2019/07/19/使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题/">展开全文 >></a>
+        </p>
+      
 
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          my first page
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -311,14 +259,252 @@
 
 
 
-  
-  
-  
 
   
-
+    <article id="post-属性动画在Android自定义View中的应用场景" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="../../2019/07/19/属性动画在Android自定义View中的应用场景/">属性动画在Android自定义View中的应用场景</a>
+    </h1>
   
 
+        
+        <a href="../../2019/07/19/属性动画在Android自定义View中的应用场景/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:34:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android中动画的类型，按照系统版本可以简单的分为两大类型，一种是传统的动画，也就是Android中最常用的View动画，即帧动画和补间动画；另一种是Android3.0以后支持的PropertyAnimation,即属性动画。这两大类型的动画虽然在实现一些动画效果上有异曲同工之处，但实现方式和使用场景还是有较大的差别。</p>
+<h3 id="View动画"><a href="#View动画" class="headerlink" title="View动画"></a>View动画</h3><p>帧动画和补间动画是安卓中最常见的动画，表现形式有AlphaAnimation(透明度动画)、TranslateAnimation(位移动画)、ScaleAnimation(缩放动画)、RotateAnimation(旋转动画)、AnimationSet(动画集合)以及帧动画这些类型。可以通过xml方式定义动画动作，也可以通过代码方式定义动画动作。以位移动画为例，这两种动画方式的典型使用方式如下：</p>
+<h5 id="1-xml定义动画"><a href="#1-xml定义动画" class="headerlink" title="1.xml定义动画"></a>1.xml定义动画</h5><p>Step.1:在res/anim资源文件夹下创建translate动画xml文件，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;translate xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">        android:duration=&quot;2000&quot;</span><br><span class="line">        android:fillAfter=&quot;true&quot;</span><br><span class="line">        android:fromXDelta=&quot;0&quot;</span><br><span class="line">        android:fromYDelta=&quot;0&quot;</span><br><span class="line">        android:repeatCount=&quot;3&quot;</span><br><span class="line">        android:toXDelta=&quot;0&quot;</span><br><span class="line">        android:toYDelta=&quot;100&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Step.2:代码中引入xml动画，设置到对应的View上并启动动画，关键代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animation translateAnimation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.translation);</span><br><span class="line">        imageView.setAnimation(translateAnimation);</span><br><span class="line">        imageView.startAnimation(translateAnimation);</span><br></pre></td></tr></table></figure>
+
+<p>以上为xml声明动画的典型使用方式。</p>
+<h5 id="2-代码声明动画"><a href="#2-代码声明动画" class="headerlink" title="2.代码声明动画"></a>2.代码声明动画</h5><p>代码声明动画的步骤相对xml声明动画的方式，不需要额外再res/anim中声明动画xml文件，而是通过代码的方式直接声明动画及播放动画时的相关动作，虽然步骤貌似比xml文件更少，但是代码中声明动画相对于xml声明动画会更加复杂一下。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation translateAnimation1 = new TranslateAnimation(TranslateAnimation.ABSOLUTE, mIvImg.getWidth(), TranslateAnimation.ABSOLUTE, mIvImg</span><br><span class="line">                .getWidth() * 2f, TranslateAnimation.RELATIVE_TO_SELF, 0f, TranslateAnimation.RELATIVE_TO_SELF, 0);</span><br><span class="line">        //设置动画持续时长</span><br><span class="line">        translateAnimation1.setDuration(3000);</span><br><span class="line">        //设置动画结束之后的状态是否是动画的最终状态，true，表示是保持动画结束时的最终状态</span><br><span class="line">        translateAnimation1.setFillAfter(true);</span><br><span class="line">        //设置动画结束之后的状态是否是动画开始时的状态，true，表示是保持动画开始时的状态</span><br><span class="line">        translateAnimation1.setFillBefore(true);</span><br><span class="line">        //设置动画的重复模式：反转REVERSE和重新开始RESTART</span><br><span class="line">        translateAnimation1.setRepeatMode(ScaleAnimation.REVERSE);</span><br><span class="line">        //设置动画播放次数</span><br><span class="line">        translateAnimation1.setRepeatCount(ScaleAnimation.INFINITE);</span><br><span class="line">        //开始动画</span><br><span class="line">        mIvImg.startAnimation(translateAnimation1);</span><br></pre></td></tr></table></figure>
+
+<p>对于帧动画和补间动画，对于Android开发者应该是非常熟悉，在此对使用方式和相关的api不做过多介绍，后续会分析帧动画/补间动画和属性动画的不同之处及各自的使用场景等。</p>
+<hr>
+<h3 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h3><h5 id="1-什么是属性动画？"><a href="#1-什么是属性动画？" class="headerlink" title="1.什么是属性动画？"></a>1.什么是属性动画？</h5><p>属性动画是Android3.0以后系统提供的另外一种“动画”方式，这种“动画”方式并不是直接对页面或者相关的View展示动态效果，它适用的对象也不局限在View上，可以理解为它可以使用在任何有“渐进”数据变化的对象上面，它作用的也不是对象本身而是对象中的相关提供了Getter和Setter的属性。所以严格意义上来说，PropertyAnimation并非是一个View动画支持库，而是数据在t秒内从x转变成y的过程数据渐进变更库。<br>正因为PropertyAnimator并非严格意义上的View动画支持库，它可以监控一个属性在特定时间内的“演进过程”，就可以做一些View动画（帧动画/补间动画）做不到的事情，在实现特定的动画效果上也有非常优秀的表现能力。</p>
+<h5 id="2-属性动画的分类"><a href="#2-属性动画的分类" class="headerlink" title="2.属性动画的分类"></a>2.属性动画的分类</h5><p>属性动画有ObjectAnimator、ValueAnimator以及AnimatorSet三种实现形式。在使用方式上，属性动画和View动画一样有xml声明和代码声明两种方式。</p>
+<h5 id="3-常用语法及API"><a href="#3-常用语法及API" class="headerlink" title="3.常用语法及API"></a>3.常用语法及API</h5><p><strong>3.1 xml声明动画</strong><br>xml声明动画的常用用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;set</span><br><span class="line">  android:ordering=[&quot;together&quot; | &quot;sequentially&quot;]&gt;</span><br><span class="line"></span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:propertyName=&quot;string&quot;</span><br><span class="line">        android:duration=&quot;int&quot;</span><br><span class="line">        android:valueFrom=&quot;float | int | color&quot;</span><br><span class="line">        android:valueTo=&quot;float | int | color&quot;</span><br><span class="line">        android:startOffset=&quot;int&quot;</span><br><span class="line">        android:repeatCount=&quot;int&quot;</span><br><span class="line">        android:repeatMode=[&quot;repeat&quot; | &quot;reverse&quot;]</span><br><span class="line">        android:valueType=[&quot;intType&quot; | &quot;floatType&quot;]/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;animator</span><br><span class="line">        android:duration=&quot;int&quot;</span><br><span class="line">        android:valueFrom=&quot;float | int | color&quot;</span><br><span class="line">        android:valueTo=&quot;float | int | color&quot;</span><br><span class="line">        android:startOffset=&quot;int&quot;</span><br><span class="line">        android:repeatCount=&quot;int&quot;</span><br><span class="line">        android:repeatMode=[&quot;repeat&quot; | &quot;reverse&quot;]</span><br><span class="line">        android:valueType=[&quot;intType&quot; | &quot;floatType&quot;]/&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+
+<p>其中，<set>标签、<objectanimator>标签、<animator>标签分别对应着AnimatorSet、ObjectAnimator和ValueAnimator三种类型，这三者直接的关系主要是从属关系和继承关系，AnimatorSet是一个动画集，可以包含若干个动画并操作这些动画的执行顺序等。ObjectAnimator是ValueAnimator的子类，在使用上比ValueAnimator更方便，但同时也会屏蔽到ValueAnimator内部实现和数据演进过程。</animator></objectanimator></set></p>
+<p><strong>3.2 代码声明动画</strong></p>
+<p>代码声明动画并设置到View上实现动画效果，以ObjectAnimator为例，最简单也是最典型的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animator = ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 0f, 500f);</span><br><span class="line">            animator.setDuration(trasitionDuration);</span><br><span class="line">            animator.start();</span><br></pre></td></tr></table></figure>
+
+<p>ObjectAnimator支持链式变成，所以代码可以直接精简成一行，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 0f, 500f)</span><br><span class="line">                    .setDuration(500)</span><br><span class="line">                    .start();</span><br></pre></td></tr></table></figure>
+
+<p>这段代码可以实现将View在水平方向上500毫秒内从x=0的位置移动到x=500的位置的动画。这个效果使用补间动画中的位移动画也可以实现，但是实现方式较ObjectAnimator会略复杂，不管是xml声明的方式还是代码声明的方式。<br>下面简单介绍下ObjectAnimator、ValueAnimator以及AnimatorSet类中常用的一些API。</p>
+<p><strong>ObjectAnimator</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(1)public static ObjectAnimator ofFloat(Object target, String propertyName, float... values)</span><br><span class="line">    这个是ObjectAnimator初始化入口之一，还有ofFloat/ofInt/ofArgb/ofMultiInt等入口，且ObjectAnimator不支持new ObjectAnimator来初始化对象，因为构造函数是私有的。</span><br><span class="line">参数说明：</span><br><span class="line">  ①target:该动画作用的对象，类型是Object而不是View，说明ObjectAnimator并不仅仅是为了实现View的动画效果而设计的。</span><br><span class="line">  ②propertyName:属性动画作用的属性名称，一般是对象内提供了Getter和Setter方法的属性，上面代码的&quot;translationX&quot;就是View类中提供了Getter和Setter方法的属性名，类型的属性名还有&quot;translationY&quot;、&quot;translationZ&quot;等。</span><br><span class="line">  ③values:为float类型的不定参，一般是传入两个数值，第一个数值为动画开始时propertyName属性对应的数值，第二个参数为动画结束时propertyName属性对应的数值，也就是动画作用的属性的开始和结束的数值。</span><br><span class="line"></span><br><span class="line">(2)public static ObjectAnimator ofInt(Object target, String propertyName, int... values)</span><br><span class="line">  参数说明见（1），不同之处就是需要传入int类型的不定参数。</span><br><span class="line"></span><br><span class="line">(3)public ObjectAnimator setDuration(long duration)</span><br><span class="line">   设置动画时长。</span><br><span class="line"></span><br><span class="line">(4)public void setEvaluator(TypeEvaluator value)</span><br><span class="line">   设置动画插值器</span><br><span class="line"></span><br><span class="line">(5)public void start()</span><br><span class="line">   启动动画</span><br></pre></td></tr></table></figure>
+
+<p><strong>ValueAnimator</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">(1)public static ValueAnimator ofInt(int... values)</span><br><span class="line">   动画初始化入口函数，入参为动画的开始和结束的数值，类似的入口函数还有ofFloat/ofArgb等等。</span><br><span class="line"></span><br><span class="line">(2)public ValueAnimator setDuration(long duration)</span><br><span class="line">   设置动画时长</span><br><span class="line"></span><br><span class="line">(3)public void setEvaluator(TypeEvaluator value)</span><br><span class="line">   设置动画插值器</span><br><span class="line"></span><br><span class="line">(4)public void addUpdateListener(AnimatorUpdateListener listener)</span><br><span class="line">   设置动画监听回调，可以在回调中监听动画的执行过程，以便在动画执行过程中进行一些除动画以外的操作。</span><br><span class="line"></span><br><span class="line">(5)public void setRepeatCount(int value)</span><br><span class="line">   设置动画执行的次数</span><br><span class="line"></span><br><span class="line">(6)public void setRepeatMode(@RepeatMode int value)</span><br><span class="line">   设置动画重复的模式，可以设置重新开始动画或者反转动画模式。</span><br><span class="line"></span><br><span class="line">(7)public void start()</span><br><span class="line">   启动动画</span><br></pre></td></tr></table></figure>
+
+<p><strong>AnimatorSet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">AnimatorSet本质是一个属性动画的容器，它可以设置多个属性动画作为自身动画效果的一部分，并可以设置这些属性动画是同时执行还是顺序执行。</span><br><span class="line">(1)public AnimatorSet()</span><br><span class="line">   构造函数，用来创建AnimatorSet对象</span><br><span class="line"></span><br><span class="line">(2)public Builder play(Animator anim)</span><br><span class="line">   播放一个属性动画</span><br><span class="line"></span><br><span class="line">(3)public void playTogether(Animator... items)</span><br><span class="line">   同时播放多个属性动画</span><br><span class="line"></span><br><span class="line">(4)public void playSequentially(Animator... items)</span><br><span class="line">   顺序执行多个属性动画</span><br><span class="line"></span><br><span class="line">(5)public AnimatorSet setDuration(long duration)</span><br><span class="line">   设置动画时长</span><br><span class="line"></span><br><span class="line">(6)public void start()</span><br><span class="line">   开始执行AnimatorSet中的动画</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-属性动画在开发中的使用"><a href="#4-属性动画在开发中的使用" class="headerlink" title="4.属性动画在开发中的使用"></a>4.属性动画在开发中的使用</h5><h6 id="4-1-Loading动画效果"><a href="#4-1-Loading动画效果" class="headerlink" title="4.1 Loading动画效果"></a>4.1 Loading动画效果</h6><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3RlY2guZGlhbndvZGEuY29tL2NvbnRlbnQvaW1hZ2VzLzIwMTcvMDkvbW92aWVfNC5naWY" alt="这里写图片描述"><br>   上图为点我达骑手曾经使用过的Loading页面动效，这种动效已经超出了常规动画(帧动画/补间动画)能够实现的效果范围，这时候属性动画就要上场表演了！</p>
+<p>   简单的整理下实现思路，中间那个类似水波纹一样的有渐变颜色的圆圈，其实是需要确定两个因素，一个是圆圈的半径，另一个就是圆圈的颜色的透明度。也就是在使用属性动画的过程中，需要同时监听半径和颜色两个属性的数值，然后实时绘制圆圈并重复执行该动画集合，就可以实现这种特效。主要代码如下：</p>
+<p><strong>播放动画</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public void playAnimation() &#123;</span><br><span class="line">        if (animatorSet == null) &#123;</span><br><span class="line">            animatorSet = new AnimatorSet();</span><br><span class="line">            animatorSet.start();</span><br><span class="line">            //圆圈半径变更动画</span><br><span class="line">            ValueAnimator anim1 = ValueAnimator.ofInt(0, backBitmap.getWidth() / 2);</span><br><span class="line">            //圆圈颜色透明度变更动画</span><br><span class="line">            ValueAnimator anim2 = ValueAnimator.ofInt(256, 0);</span><br><span class="line">            anim1.setRepeatMode();</span><br><span class="line">            animatorSet.playTogether(</span><br><span class="line">                    anim1, anim2</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            anim1.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">            anim2.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line"></span><br><span class="line">            anim1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">                    if (animation != null) &#123;</span><br><span class="line">                        //圆圈半径</span><br><span class="line">                        animCircleRadius = (int) animation.getAnimatedValue();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            anim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">                    if (animation != null) &#123;</span><br><span class="line">                        //圆圈透明度</span><br><span class="line">                        currentOpacity = (int) animation.getAnimatedValue();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        animatorSet.setDuration(2000).start();</span><br><span class="line"></span><br><span class="line">        if (hander == null)</span><br><span class="line">            hander = new Handler();</span><br><span class="line"></span><br><span class="line">        hander.postDelayed(circleAnimRunnable, 50);</span><br><span class="line">    &#125;</span><br><span class="line">    private Runnable circleAnimRunnable = new Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            animCircleColor = Color.argb(currentOpacity, 255, 143, 5);</span><br><span class="line">            gradientPaint.setColor(animCircleColor);</span><br><span class="line"></span><br><span class="line">            postInvalidate();</span><br><span class="line">            //50毫秒刷新一次</span><br><span class="line">            hander.postDelayed(this, 50);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>播放动画的过程，其实就是监听圆圈半径和颜色透明度渐变的过程，在当前时刻圆圈的半径和颜色透明度就是固定的，然后再使用Canvas实时绘制圆圈就可以了。</p>
+<h6 id="4-2-展开-关闭效果"><a href="#4-2-展开-关闭效果" class="headerlink" title="4.2 展开-关闭效果"></a>4.2 展开-关闭效果</h6><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3RlY2guZGlhbndvZGEuY29tL2NvbnRlbnQvaW1hZ2VzLzIwMTcvMDkvbW92aWVfMi5naWY" alt="这里写图片描述"><br>上图是商家发单页面最新的交互效果，点击更换动画的方式展开图标，然后选中图标后以动画的方式回收图标。这种动效很常见，貌似使用普通的位移动画也可以很轻松实现，但使用位移动画实现这种动效并支持图标的点击交互并没有想象中的容易。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwOTMwMTM0NTM2NjU1" alt="这里写图片描述"></p>
+<p>上图中，当View从A位置通过位移动画移动到B位置时，在没有交互的情况下是可以满足动画效果的，但是如果View有一些点击动作的交互，这时候使用位移动画就会有一个非常严重的问题存在，就是View从A虽然”移动“到了B的位置，但是View的点击区域还停留在A的位置，这时候你在B的位置点击View是响应不到View的点击事件的。</p>
+<p>为了解决位移动画在这种场景下使用时出现的问题，大概的思路有两种，一种就是使用位移动画移动到B位置时，在B的位置克隆一份完整的View放到该位置然后将原来的View设置GONE。另外一种，就是通过位移动画的方式将View从A移动到B时，B位置的点击事件是可以响应的。显而易见，使用属性动画在View有交互的场景下更合适。</p>
+<h6 id="4-3-View翻转效果"><a href="#4-3-View翻转效果" class="headerlink" title="4.3 View翻转效果"></a>4.3 View翻转效果</h6><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwOTMwMTM0NjE0MTEx" alt="这里写图片描述"><br>这种View的翻转效果使用常规动画是无从下手的，但使用属性动画一行代码就可以轻松实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator.ofFloat(imageView, &quot;rotationY&quot;, 0f, 360f)</span><br><span class="line">                .setDuration(1000)</span><br><span class="line">                .start();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="View动画-vs-属性动画"><a href="#View动画-vs-属性动画" class="headerlink" title="View动画 vs 属性动画"></a>View动画 vs 属性动画</h3><p><strong>1.View动画</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.View动画只能为View添加动画效果，且不能监听View相关属性的变化过程。</span><br><span class="line">2.View动画提供的动画能力较为单一，目前只支持帧动画、缩放动画、位移动画、旋转动画、透明度动画以及这些动画的集合动画。</span><br><span class="line">3.View动画改变的是View的绘制效果，View的真正位置和相关属性并不会改变，这也就造成了点击事件的触发区域是动画前的位置而不是动画后的位置的原因。</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.属性动画</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.属性动画作用对象不局限在View上，而是任何提供了Getter和Setter方法的对象的属性上。</span><br><span class="line">2.属性动画没有直接改变View状态的能力，而是通过动态改变View相关属性的方式来改变View的显示效果。</span><br><span class="line">3.属性动画使用更方便，可以用更简洁的代码实现相关的动画效果。</span><br><span class="line">4.属性动画上手难度较高，对于propertyName需要自己去挖掘，或者自己通过Wrapper的方式去自定义propertyName。</span><br><span class="line">5.属性动画是Android3.0以上系统提供的能力，在3.0以下需导入nineoldandroids三方库解决兼容性问题。</span><br></pre></td></tr></table></figure>
+
+<p>小结：</p>
+<p>属性动画是功能更强大、实现方式更优雅的动画解决方案，在为自定义View设置动效上有着非常强大的表现能力，可以实现View动画实现不了的更加炫酷的动画效果。自定义动画是Android开发者的基本功，配合属性动画在实现一些动效上可以达到事半功倍的效果，也是Android开发者必须掌握的一向基本技能。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="../../2019/07/19/属性动画在Android自定义View中的应用场景/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-跨平台基础网络框架初探" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="../../2019/07/19/跨平台基础网络框架初探/">跨平台基础网络框架初探</a>
+    </h1>
+  
+
+        
+        <a href="../../2019/07/19/跨平台基础网络框架初探/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:18:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于新派单通知、订单时效变更通知等需要及时反馈给用户的消息，目前点我达骑手的解决方案是定时轮询并通过http请求的方式主动从服务器获取变更，这种方式存在一定的缺陷，如http方式轮询流量消耗较高、消息通知不及时等。随着订单量和活跃用户量的急剧增加，这种轮询方式的弊端也逐渐显现出来，需要一种能够及时发送消息且流量消耗较低、弱网环境表现优异的方案替代现有轮询方案，那就是Socket长连接的方式。</p>
+<p>Android客户端实现Socket长连接的框架有大名鼎鼎的Netty和Mina，也有微信团队开源的跨平台基础网络框架Mars，也就是本文要介绍的网络框架。</p>
+<h3 id="Mars是什么？"><a href="#Mars是什么？" class="headerlink" title="Mars是什么？"></a>Mars是什么？</h3><p>Mars是<strong>==微信官方==</strong>推出的C++编写的跨平台、跨业务的终端基础组件，可以直接在Android、iOS、Mac等平台使用。框架包含Common、STN、SDT、XLog等模块，下图为Mars官方提供的架构图：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTYzODM3MTc2" alt="这里写图片描述"></p>
+<p>各模块的主要功能如下:</p>
+<p><strong>1.Common</strong>:Mars框架最底层部分，为STN、XLOG、SDT模块提供组件支持，主要包括socket、线程、消息队列、协程等基础工具。</p>
+<p><strong>2.STN</strong>：信令分发网络模块，也是 Mars 最主要的部分，可以认为是Mars框架中的网络框架组件，是跨平台的 <code>socket 层解决方案</code>，主要负责终端与服务器的小数据信令通道。包含了微信终端在移动网络上的大量优化经验与成果，经历了微信海量用户的考验。</p>
+<p><strong>3.SDT</strong>：网络诊断模块，可以通过ping、dns、tcp等方式检测网络状况，并能够进行流量的统计。</p>
+<p><strong>4.XLOG</strong>：高性能运行期日志组件，可以通过<a href="http://blog.csdn.net/tencent_bugly/article/details/53157830" target="_blank" rel="noopener">穿越门</a>获取更多关于Xlog的信息。</p>
+<p>框架介绍向来都是高端大气的，在使用过程中是否真的能够做到高可用，高性能，负载均衡？Mars的五年的发展史和微信官方使用意味着这会是不错的移动APP Socket解决方案，在github上开源后已经有近万的star和近两千的fork，微信团队也曾公开表示会持续对Mars维护。</p>
+<h3 id="Mars怎么用？"><a href="#Mars怎么用？" class="headerlink" title="Mars怎么用？"></a>Mars怎么用？</h3><p>Mars于2016年12月28日被微信团队开源，github地址是<a href="https://github.com/Tencent/mars" target="_blank" rel="noopener">https://github.com/Tencent/mars</a> ，所以可以根据需求对源码进行改造来满足项目使用要求。<br>以github提供的demo为例，简要阐述下环境搭建的步骤。</p>
+<p><strong>1.下载源码</strong></p>
+<p>从Mars代码仓库中pull出代码后，代码的组织结构是这样的：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTYzOTI1NTcx" alt="这里写图片描述"><br>其中mars部分为框架的C++源码部分，Mars中的SDT、STN、XLOG等模块的源码都在这里，如有必要，可以对源码进行改造。</p>
+<p>samples为在Mac、Android、iOS等平台集成的demo工程，Server为简易搭建的服务器端代码工程，我们将使用Server+android两个工程构建简易的demo环境并进行Socket通讯。</p>
+<p><strong>2.Server环境搭建</strong></p>
+<p>将目录切换到/mars-master/samples/Server后会有一个start-server.py python脚本，使用<code>python start_server.py</code>执行该脚本并选择对应的编译平台，编译完成后，在mac电脑上出现如下两个弹窗：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MDAyMTAx" alt="这里写图片描述"></p>
+<hr>
+![这里写图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MDE0NDAz)
+至此，Server端的工程已经运行完毕，在Client端只需要将连接的服务器地址配置成自己server的IP即可。
+
+<p><strong>3.Client环境搭建(以Android为例)</strong></p>
+<p>android工程的sample代码在/mars-master/samples/android目录下，将该目录的代码导入到AndroidStudio后，全局搜索<code>marsopen.cn</code>字符串替换成步骤2中运行的Server的IP地址后即可运行。以mac操作系统为例，在终端输入ifconfig即可查看到当前电脑的IP地址，截图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTAyNDQy" alt="这里写图片描述"><br>运行成功后，Sample的界面是这样子的：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTI2MzAx" alt="这里写图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTM2OTAy" alt="这里写图片描述"><br>需要注意的是，页面中的STN Discuss、Xlog Discuss、SDT Discuss并非是针对STN、Xlog、SDT这三个模块的功能定制，这些文案都是从server中获取后填充到RecyclerView中去的，只是为了区分会话的唯一性，在同一个服务器IP地址的同一个模块下才能进行IM通讯。</p>
+<p><strong>4.简易版IM软件</strong></p>
+<p>其实Mars Sample就是一个简单的IM软件，点击页面的STN Discuss、Xlog Discuss、SDT Discuss中的任意一个即可进入聊天页面。聊天页面打开后，首先会弹窗创建一个昵称(不创建也是可以的)，点击确定后开始跟在同一个Server的其他用户聊天。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MjA2MTE3" alt="这里写图片描述"></p>
+<h3 id="网络框架对比"><a href="#网络框架对比" class="headerlink" title="网络框架对比"></a>网络框架对比</h3><p>Mars是一款基于TCP协议的Socket网络框架，Mars与Android/iOS平台中常用的网络框架的对比清下如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MjM1NzQ5" alt="这里写图片描述"><br>Mars目前是不支持完整的Http请求方式的，不过微信官方已表示将集成Http请求方式作为Mars后续开源的重要完善部分。因为Mars是微信团队使用的基础网络框架，对于“移动互联网”中网络状态不稳定等特点做了大量的优化工作，并且这些优化经过微信超大用户量的长期验证和使用的。</p>
+<h3 id="Mars生态"><a href="#Mars生态" class="headerlink" title="Mars生态"></a>Mars生态</h3><p>由于开源时间(2016年底)较晚等原因，Mars生态不够完善，通过搜索引擎搜索到的关于Mars框架的内容也相对较少。但为了表示微信官方对这一跨平台、跨业务的socket解决方案的重视，github仓库中的wiki含有大量微信官方撰写的Blog，不仅包含各平台集成开发文档，还包含一些Mars框架在微信团队在5年的迭代过程中的演进和优化，如Mars智能心跳方案的深入介绍、应对弱网络状况的解决方案、信令传输超时方案优化等。这些Blog对于Mars扫盲和框架集成是没有太大的问题，但独木难成林，未来的Mars生态必然依赖越来越多的框架使用者在使用过程中的经验累计和推广，相信在微信官方的重视和广大使用者的共同努力下，Mars必定会成为跨平台Socket解决方案的不二选择！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/bigthunder.github.io/categories/框架//" class="article-tag-list-link color3">框架</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="../../2019/07/19/跨平台基础网络框架初探/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="../../">&laquo; Prev</a><a class="page-number" href="../../">1</a><span class="page-number current">2</span>
+    </nav>
   
 
 
@@ -341,8 +527,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
-		isPost: true,
+		isHome: true,
+		isPost: false,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
@@ -412,19 +598,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,19 +6,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title>属性动画在Android自定义View中的应用场景 | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="Android中动画的类型，按照系统版本可以简单的分为两大类型，一种是传统的动画，也就是Android中最常用的View动画，即帧动画和补间动画；另一种是Android3.0以后支持的PropertyAnimation,即属性动画。这两大类型的动画虽然在实现一些动画效果上有异曲同工之处，但实现方式和使用场景还是有较大的差别。 View动画帧动画和补间动画是安卓中最常见的动画，表现形式有AlphaA">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+<meta property="og:title" content="属性动画在Android自定义View中的应用场景">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/属性动画在Android自定义View中的应用场景/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="Android中动画的类型，按照系统版本可以简单的分为两大类型，一种是传统的动画，也就是Android中最常用的View动画，即帧动画和补间动画；另一种是Android3.0以后支持的PropertyAnimation,即属性动画。这两大类型的动画虽然在实现一些动画效果上有异曲同工之处，但实现方式和使用场景还是有较大的差别。 View动画帧动画和补间动画是安卓中最常见的动画，表现形式有AlphaA">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL3RlY2guZGlhbndvZGEuY29tL2NvbnRlbnQvaW1hZ2VzLzIwMTcvMDkvbW92aWVfNC5naWY">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL3RlY2guZGlhbndvZGEuY29tL2NvbnRlbnQvaW1hZ2VzLzIwMTcvMDkvbW92aWVfMi5naWY">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwOTMwMTM0NTM2NjU1">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwOTMwMTM0NjE0MTEx">
+<meta property="og:updated_time" content="2019-07-19T13:35:00.592Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="属性动画在Android自定义View中的应用场景">
+<meta name="twitter:description" content="Android中动画的类型，按照系统版本可以简单的分为两大类型，一种是传统的动画，也就是Android中最常用的View动画，即帧动画和补间动画；另一种是Android3.0以后支持的PropertyAnimation,即属性动画。这两大类型的动画虽然在实现一些动画效果上有异曲同工之处，但实现方式和使用场景还是有较大的差别。 View动画帧动画和补间动画是安卓中最常见的动画，表现形式有AlphaA">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL3RlY2guZGlhbndvZGEuY29tL2NvbnRlbnQvaW1hZ2VzLzIwMTcvMDkvbW92aWVfNC5naWY">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -154,39 +160,84 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-属性动画在Android自定义View中的应用场景" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      属性动画在Android自定义View中的应用场景
     </h1>
   
 
         
         <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-19T13:34:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <p>Android中动画的类型，按照系统版本可以简单的分为两大类型，一种是传统的动画，也就是Android中最常用的View动画，即帧动画和补间动画；另一种是Android3.0以后支持的PropertyAnimation,即属性动画。这两大类型的动画虽然在实现一些动画效果上有异曲同工之处，但实现方式和使用场景还是有较大的差别。</p>
+<h3 id="View动画"><a href="#View动画" class="headerlink" title="View动画"></a>View动画</h3><p>帧动画和补间动画是安卓中最常见的动画，表现形式有AlphaAnimation(透明度动画)、TranslateAnimation(位移动画)、ScaleAnimation(缩放动画)、RotateAnimation(旋转动画)、AnimationSet(动画集合)以及帧动画这些类型。可以通过xml方式定义动画动作，也可以通过代码方式定义动画动作。以位移动画为例，这两种动画方式的典型使用方式如下：</p>
+<h5 id="1-xml定义动画"><a href="#1-xml定义动画" class="headerlink" title="1.xml定义动画"></a>1.xml定义动画</h5><p>Step.1:在res/anim资源文件夹下创建translate动画xml文件，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;translate xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">        android:duration=&quot;2000&quot;</span><br><span class="line">        android:fillAfter=&quot;true&quot;</span><br><span class="line">        android:fromXDelta=&quot;0&quot;</span><br><span class="line">        android:fromYDelta=&quot;0&quot;</span><br><span class="line">        android:repeatCount=&quot;3&quot;</span><br><span class="line">        android:toXDelta=&quot;0&quot;</span><br><span class="line">        android:toYDelta=&quot;100&quot;/&gt;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>Step.2:代码中引入xml动画，设置到对应的View上并启动动画，关键代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animation translateAnimation = AnimationUtils.loadAnimation(MainActivity.this,R.anim.translation);</span><br><span class="line">        imageView.setAnimation(translateAnimation);</span><br><span class="line">        imageView.startAnimation(translateAnimation);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>以上为xml声明动画的典型使用方式。</p>
+<h5 id="2-代码声明动画"><a href="#2-代码声明动画" class="headerlink" title="2.代码声明动画"></a>2.代码声明动画</h5><p>代码声明动画的步骤相对xml声明动画的方式，不需要额外再res/anim中声明动画xml文件，而是通过代码的方式直接声明动画及播放动画时的相关动作，虽然步骤貌似比xml文件更少，但是代码中声明动画相对于xml声明动画会更加复杂一下。代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">TranslateAnimation translateAnimation1 = new TranslateAnimation(TranslateAnimation.ABSOLUTE, mIvImg.getWidth(), TranslateAnimation.ABSOLUTE, mIvImg</span><br><span class="line">                .getWidth() * 2f, TranslateAnimation.RELATIVE_TO_SELF, 0f, TranslateAnimation.RELATIVE_TO_SELF, 0);</span><br><span class="line">        //设置动画持续时长</span><br><span class="line">        translateAnimation1.setDuration(3000);</span><br><span class="line">        //设置动画结束之后的状态是否是动画的最终状态，true，表示是保持动画结束时的最终状态</span><br><span class="line">        translateAnimation1.setFillAfter(true);</span><br><span class="line">        //设置动画结束之后的状态是否是动画开始时的状态，true，表示是保持动画开始时的状态</span><br><span class="line">        translateAnimation1.setFillBefore(true);</span><br><span class="line">        //设置动画的重复模式：反转REVERSE和重新开始RESTART</span><br><span class="line">        translateAnimation1.setRepeatMode(ScaleAnimation.REVERSE);</span><br><span class="line">        //设置动画播放次数</span><br><span class="line">        translateAnimation1.setRepeatCount(ScaleAnimation.INFINITE);</span><br><span class="line">        //开始动画</span><br><span class="line">        mIvImg.startAnimation(translateAnimation1);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>对于帧动画和补间动画，对于Android开发者应该是非常熟悉，在此对使用方式和相关的api不做过多介绍，后续会分析帧动画/补间动画和属性动画的不同之处及各自的使用场景等。</p>
+<hr>
+<h3 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h3><h5 id="1-什么是属性动画？"><a href="#1-什么是属性动画？" class="headerlink" title="1.什么是属性动画？"></a>1.什么是属性动画？</h5><p>属性动画是Android3.0以后系统提供的另外一种“动画”方式，这种“动画”方式并不是直接对页面或者相关的View展示动态效果，它适用的对象也不局限在View上，可以理解为它可以使用在任何有“渐进”数据变化的对象上面，它作用的也不是对象本身而是对象中的相关提供了Getter和Setter的属性。所以严格意义上来说，PropertyAnimation并非是一个View动画支持库，而是数据在t秒内从x转变成y的过程数据渐进变更库。<br>正因为PropertyAnimator并非严格意义上的View动画支持库，它可以监控一个属性在特定时间内的“演进过程”，就可以做一些View动画（帧动画/补间动画）做不到的事情，在实现特定的动画效果上也有非常优秀的表现能力。</p>
+<h5 id="2-属性动画的分类"><a href="#2-属性动画的分类" class="headerlink" title="2.属性动画的分类"></a>2.属性动画的分类</h5><p>属性动画有ObjectAnimator、ValueAnimator以及AnimatorSet三种实现形式。在使用方式上，属性动画和View动画一样有xml声明和代码声明两种方式。</p>
+<h5 id="3-常用语法及API"><a href="#3-常用语法及API" class="headerlink" title="3.常用语法及API"></a>3.常用语法及API</h5><p><strong>3.1 xml声明动画</strong><br>xml声明动画的常用用法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;set</span><br><span class="line">  android:ordering=[&quot;together&quot; | &quot;sequentially&quot;]&gt;</span><br><span class="line"></span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:propertyName=&quot;string&quot;</span><br><span class="line">        android:duration=&quot;int&quot;</span><br><span class="line">        android:valueFrom=&quot;float | int | color&quot;</span><br><span class="line">        android:valueTo=&quot;float | int | color&quot;</span><br><span class="line">        android:startOffset=&quot;int&quot;</span><br><span class="line">        android:repeatCount=&quot;int&quot;</span><br><span class="line">        android:repeatMode=[&quot;repeat&quot; | &quot;reverse&quot;]</span><br><span class="line">        android:valueType=[&quot;intType&quot; | &quot;floatType&quot;]/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;animator</span><br><span class="line">        android:duration=&quot;int&quot;</span><br><span class="line">        android:valueFrom=&quot;float | int | color&quot;</span><br><span class="line">        android:valueTo=&quot;float | int | color&quot;</span><br><span class="line">        android:startOffset=&quot;int&quot;</span><br><span class="line">        android:repeatCount=&quot;int&quot;</span><br><span class="line">        android:repeatMode=[&quot;repeat&quot; | &quot;reverse&quot;]</span><br><span class="line">        android:valueType=[&quot;intType&quot; | &quot;floatType&quot;]/&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>其中，<set>标签、<objectanimator>标签、<animator>标签分别对应着AnimatorSet、ObjectAnimator和ValueAnimator三种类型，这三者直接的关系主要是从属关系和继承关系，AnimatorSet是一个动画集，可以包含若干个动画并操作这些动画的执行顺序等。ObjectAnimator是ValueAnimator的子类，在使用上比ValueAnimator更方便，但同时也会屏蔽到ValueAnimator内部实现和数据演进过程。</animator></objectanimator></set></p>
+<p><strong>3.2 代码声明动画</strong></p>
+<p>代码声明动画并设置到View上实现动画效果，以ObjectAnimator为例，最简单也是最典型的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animator = ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 0f, 500f);</span><br><span class="line">            animator.setDuration(trasitionDuration);</span><br><span class="line">            animator.start();</span><br></pre></td></tr></table></figure>
+
+<p>ObjectAnimator支持链式变成，所以代码可以直接精简成一行，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 0f, 500f)</span><br><span class="line">                    .setDuration(500)</span><br><span class="line">                    .start();</span><br></pre></td></tr></table></figure>
+
+<p>这段代码可以实现将View在水平方向上500毫秒内从x=0的位置移动到x=500的位置的动画。这个效果使用补间动画中的位移动画也可以实现，但是实现方式较ObjectAnimator会略复杂，不管是xml声明的方式还是代码声明的方式。<br>下面简单介绍下ObjectAnimator、ValueAnimator以及AnimatorSet类中常用的一些API。</p>
+<p><strong>ObjectAnimator</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(1)public static ObjectAnimator ofFloat(Object target, String propertyName, float... values)</span><br><span class="line">    这个是ObjectAnimator初始化入口之一，还有ofFloat/ofInt/ofArgb/ofMultiInt等入口，且ObjectAnimator不支持new ObjectAnimator来初始化对象，因为构造函数是私有的。</span><br><span class="line">参数说明：</span><br><span class="line">  ①target:该动画作用的对象，类型是Object而不是View，说明ObjectAnimator并不仅仅是为了实现View的动画效果而设计的。</span><br><span class="line">  ②propertyName:属性动画作用的属性名称，一般是对象内提供了Getter和Setter方法的属性，上面代码的&quot;translationX&quot;就是View类中提供了Getter和Setter方法的属性名，类型的属性名还有&quot;translationY&quot;、&quot;translationZ&quot;等。</span><br><span class="line">  ③values:为float类型的不定参，一般是传入两个数值，第一个数值为动画开始时propertyName属性对应的数值，第二个参数为动画结束时propertyName属性对应的数值，也就是动画作用的属性的开始和结束的数值。</span><br><span class="line"></span><br><span class="line">(2)public static ObjectAnimator ofInt(Object target, String propertyName, int... values)</span><br><span class="line">  参数说明见（1），不同之处就是需要传入int类型的不定参数。</span><br><span class="line"></span><br><span class="line">(3)public ObjectAnimator setDuration(long duration)</span><br><span class="line">   设置动画时长。</span><br><span class="line"></span><br><span class="line">(4)public void setEvaluator(TypeEvaluator value)</span><br><span class="line">   设置动画插值器</span><br><span class="line"></span><br><span class="line">(5)public void start()</span><br><span class="line">   启动动画</span><br></pre></td></tr></table></figure>
+
+<p><strong>ValueAnimator</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">(1)public static ValueAnimator ofInt(int... values)</span><br><span class="line">   动画初始化入口函数，入参为动画的开始和结束的数值，类似的入口函数还有ofFloat/ofArgb等等。</span><br><span class="line"></span><br><span class="line">(2)public ValueAnimator setDuration(long duration)</span><br><span class="line">   设置动画时长</span><br><span class="line"></span><br><span class="line">(3)public void setEvaluator(TypeEvaluator value)</span><br><span class="line">   设置动画插值器</span><br><span class="line"></span><br><span class="line">(4)public void addUpdateListener(AnimatorUpdateListener listener)</span><br><span class="line">   设置动画监听回调，可以在回调中监听动画的执行过程，以便在动画执行过程中进行一些除动画以外的操作。</span><br><span class="line"></span><br><span class="line">(5)public void setRepeatCount(int value)</span><br><span class="line">   设置动画执行的次数</span><br><span class="line"></span><br><span class="line">(6)public void setRepeatMode(@RepeatMode int value)</span><br><span class="line">   设置动画重复的模式，可以设置重新开始动画或者反转动画模式。</span><br><span class="line"></span><br><span class="line">(7)public void start()</span><br><span class="line">   启动动画</span><br></pre></td></tr></table></figure>
+
+<p><strong>AnimatorSet</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">AnimatorSet本质是一个属性动画的容器，它可以设置多个属性动画作为自身动画效果的一部分，并可以设置这些属性动画是同时执行还是顺序执行。</span><br><span class="line">(1)public AnimatorSet()</span><br><span class="line">   构造函数，用来创建AnimatorSet对象</span><br><span class="line"></span><br><span class="line">(2)public Builder play(Animator anim)</span><br><span class="line">   播放一个属性动画</span><br><span class="line"></span><br><span class="line">(3)public void playTogether(Animator... items)</span><br><span class="line">   同时播放多个属性动画</span><br><span class="line"></span><br><span class="line">(4)public void playSequentially(Animator... items)</span><br><span class="line">   顺序执行多个属性动画</span><br><span class="line"></span><br><span class="line">(5)public AnimatorSet setDuration(long duration)</span><br><span class="line">   设置动画时长</span><br><span class="line"></span><br><span class="line">(6)public void start()</span><br><span class="line">   开始执行AnimatorSet中的动画</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-属性动画在开发中的使用"><a href="#4-属性动画在开发中的使用" class="headerlink" title="4.属性动画在开发中的使用"></a>4.属性动画在开发中的使用</h5><h6 id="4-1-Loading动画效果"><a href="#4-1-Loading动画效果" class="headerlink" title="4.1 Loading动画效果"></a>4.1 Loading动画效果</h6><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3RlY2guZGlhbndvZGEuY29tL2NvbnRlbnQvaW1hZ2VzLzIwMTcvMDkvbW92aWVfNC5naWY" alt="这里写图片描述"><br>   上图为点我达骑手曾经使用过的Loading页面动效，这种动效已经超出了常规动画(帧动画/补间动画)能够实现的效果范围，这时候属性动画就要上场表演了！</p>
+<p>   简单的整理下实现思路，中间那个类似水波纹一样的有渐变颜色的圆圈，其实是需要确定两个因素，一个是圆圈的半径，另一个就是圆圈的颜色的透明度。也就是在使用属性动画的过程中，需要同时监听半径和颜色两个属性的数值，然后实时绘制圆圈并重复执行该动画集合，就可以实现这种特效。主要代码如下：</p>
+<p><strong>播放动画</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">public void playAnimation() &#123;</span><br><span class="line">        if (animatorSet == null) &#123;</span><br><span class="line">            animatorSet = new AnimatorSet();</span><br><span class="line">            animatorSet.start();</span><br><span class="line">            //圆圈半径变更动画</span><br><span class="line">            ValueAnimator anim1 = ValueAnimator.ofInt(0, backBitmap.getWidth() / 2);</span><br><span class="line">            //圆圈颜色透明度变更动画</span><br><span class="line">            ValueAnimator anim2 = ValueAnimator.ofInt(256, 0);</span><br><span class="line">            anim1.setRepeatMode();</span><br><span class="line">            animatorSet.playTogether(</span><br><span class="line">                    anim1, anim2</span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">            anim1.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">            anim2.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line"></span><br><span class="line">            anim1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">                    if (animation != null) &#123;</span><br><span class="line">                        //圆圈半径</span><br><span class="line">                        animCircleRadius = (int) animation.getAnimatedValue();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">            anim2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                @Override</span><br><span class="line">                public void onAnimationUpdate(ValueAnimator animation) &#123;</span><br><span class="line">                    if (animation != null) &#123;</span><br><span class="line">                        //圆圈透明度</span><br><span class="line">                        currentOpacity = (int) animation.getAnimatedValue();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        animatorSet.setDuration(2000).start();</span><br><span class="line"></span><br><span class="line">        if (hander == null)</span><br><span class="line">            hander = new Handler();</span><br><span class="line"></span><br><span class="line">        hander.postDelayed(circleAnimRunnable, 50);</span><br><span class="line">    &#125;</span><br><span class="line">    private Runnable circleAnimRunnable = new Runnable() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void run() &#123;</span><br><span class="line">            animCircleColor = Color.argb(currentOpacity, 255, 143, 5);</span><br><span class="line">            gradientPaint.setColor(animCircleColor);</span><br><span class="line"></span><br><span class="line">            postInvalidate();</span><br><span class="line">            //50毫秒刷新一次</span><br><span class="line">            hander.postDelayed(this, 50);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>播放动画的过程，其实就是监听圆圈半径和颜色透明度渐变的过程，在当前时刻圆圈的半径和颜色透明度就是固定的，然后再使用Canvas实时绘制圆圈就可以了。</p>
+<h6 id="4-2-展开-关闭效果"><a href="#4-2-展开-关闭效果" class="headerlink" title="4.2 展开-关闭效果"></a>4.2 展开-关闭效果</h6><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL3RlY2guZGlhbndvZGEuY29tL2NvbnRlbnQvaW1hZ2VzLzIwMTcvMDkvbW92aWVfMi5naWY" alt="这里写图片描述"><br>上图是商家发单页面最新的交互效果，点击更换动画的方式展开图标，然后选中图标后以动画的方式回收图标。这种动效很常见，貌似使用普通的位移动画也可以很轻松实现，但使用位移动画实现这种动效并支持图标的点击交互并没有想象中的容易。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwOTMwMTM0NTM2NjU1" alt="这里写图片描述"></p>
+<p>上图中，当View从A位置通过位移动画移动到B位置时，在没有交互的情况下是可以满足动画效果的，但是如果View有一些点击动作的交互，这时候使用位移动画就会有一个非常严重的问题存在，就是View从A虽然”移动“到了B的位置，但是View的点击区域还停留在A的位置，这时候你在B的位置点击View是响应不到View的点击事件的。</p>
+<p>为了解决位移动画在这种场景下使用时出现的问题，大概的思路有两种，一种就是使用位移动画移动到B位置时，在B的位置克隆一份完整的View放到该位置然后将原来的View设置GONE。另外一种，就是通过位移动画的方式将View从A移动到B时，B位置的点击事件是可以响应的。显而易见，使用属性动画在View有交互的场景下更合适。</p>
+<h6 id="4-3-View翻转效果"><a href="#4-3-View翻转效果" class="headerlink" title="4.3 View翻转效果"></a>4.3 View翻转效果</h6><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcwOTMwMTM0NjE0MTEx" alt="这里写图片描述"><br>这种View的翻转效果使用常规动画是无从下手的，但使用属性动画一行代码就可以轻松实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator.ofFloat(imageView, &quot;rotationY&quot;, 0f, 360f)</span><br><span class="line">                .setDuration(1000)</span><br><span class="line">                .start();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="View动画-vs-属性动画"><a href="#View动画-vs-属性动画" class="headerlink" title="View动画 vs 属性动画"></a>View动画 vs 属性动画</h3><p><strong>1.View动画</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.View动画只能为View添加动画效果，且不能监听View相关属性的变化过程。</span><br><span class="line">2.View动画提供的动画能力较为单一，目前只支持帧动画、缩放动画、位移动画、旋转动画、透明度动画以及这些动画的集合动画。</span><br><span class="line">3.View动画改变的是View的绘制效果，View的真正位置和相关属性并不会改变，这也就造成了点击事件的触发区域是动画前的位置而不是动画后的位置的原因。</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.属性动画</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1.属性动画作用对象不局限在View上，而是任何提供了Getter和Setter方法的对象的属性上。</span><br><span class="line">2.属性动画没有直接改变View状态的能力，而是通过动态改变View相关属性的方式来改变View的显示效果。</span><br><span class="line">3.属性动画使用更方便，可以用更简洁的代码实现相关的动画效果。</span><br><span class="line">4.属性动画上手难度较高，对于propertyName需要自己去挖掘，或者自己通过Wrapper的方式去自定义propertyName。</span><br><span class="line">5.属性动画是Android3.0以上系统提供的能力，在3.0以下需导入nineoldandroids三方库解决兼容性问题。</span><br></pre></td></tr></table></figure>
+
+<p>小结：</p>
+<p>属性动画是功能更强大、实现方式更优雅的动画解决方案，在为自定义View设置动效上有着非常强大的表现能力，可以实现View动画实现不了的更加炫酷的动画效果。自定义动画是Android开发者的基本功，配合属性动画在实现一些动效上可以达到事半功倍的效果，也是Android开发者必须掌握的一向基本技能。</p>
 
       
 
@@ -216,6 +267,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -266,7 +328,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/19/属性动画在Android自定义View中的应用场景/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,15 +342,20 @@
   
 <nav id="article-nav">
   
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          my first page
+          使用IntentService解决点我达骑手APP消息提醒机制中的优先级排序问题
         
       </div>
     </a>
   
+  
+    <a href="../跨平台基础网络框架初探/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">跨平台基础网络框架初探</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -412,19 +479,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

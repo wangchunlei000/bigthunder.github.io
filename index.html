@@ -152,29 +152,41 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-my-first-page" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-使用ObjectAnimator实现ArcMenu动画效果" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="2019/07/18/my-first-page/">my first page</a>
+      <a class="article-title" href="2019/07/19/使用ObjectAnimator实现ArcMenu动画效果/">使用ObjectAnimator实现ArcMenu动画效果</a>
     </h1>
   
 
         
-        <a href="2019/07/18/my-first-page/" class="archive-article-date">
-  	<time datetime="2019-07-18T13:59:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+        <a href="2019/07/19/使用ObjectAnimator实现ArcMenu动画效果/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:47:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ul>
-<li>My first Page</li>
-</ul>
+        <p>##使用ObjectAnimator实现ArcMenu动画效果<br>ObjectAnimator是Google3.0+系统提供的另一套动画框架，相比于原始的Animation动画框架，ObjectAnimator(属性动画)更灵活、方便且效率更高。</p>
+<p>使用普通的Animation框架，如果我们需要实现一个ImageView的移动效果，可以使用TranslateAnimation很轻松的”实现”，这里所说的实现是指界面层次的，但是这种仅停留在界面层次的”实现”会出现很多的问题，例如我们用TranslateAnimation把ImageView从A点移动到了B点，但其实移动后的ImageView的响应事件如点击时间等，依然停留在移动前的A点。换句话说，使用Animation框架实现的效果停留在”界面”层次而非”交互层次”。</p>
+<p>对于ObjectAnimator的详细介绍，大家可以参考其他的博文了解，在此不在详细说明。</p>
+<p>我们要实现的效果大致是这样的:<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUxMDMxMTUyNTQ4MjQ5" alt="这里写图片描述"></p>
+<p>PS:不会用录屏软件做gif,只能拿一张效果图充数，见谅＝＝＝</p>
+<p>布局文件中很简单，一个FrameLayout包含6个ImageView,代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">             android:orientation=&quot;vertical&quot;</span><br><span class="line">             android:background=&quot;#ffffff&quot;</span><br><span class="line">             android:padding=&quot;20dp&quot;</span><br><span class="line">             android:layout_width=&quot;match_parent&quot;</span><br><span class="line">             android:layout_height=&quot;match_parent&quot;&gt;</span><br><span class="line">    &lt;ImageView android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">               android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">               android:src=&quot;@drawable/composer_camera&quot;</span><br><span class="line">               android:id=&quot;@+id/iv_camera&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">               android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">               android:src=&quot;@drawable/composer_music&quot;</span><br><span class="line">               android:id=&quot;@+id/iv_music&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">               android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">               android:src=&quot;@drawable/composer_place&quot;</span><br><span class="line">               android:id=&quot;@+id/iv_place&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">               android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">               android:src=&quot;@drawable/composer_sleep&quot;</span><br><span class="line">               android:id=&quot;@+id/iv_sleep&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">               android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">               android:src=&quot;@drawable/composer_thought&quot;</span><br><span class="line">               android:id=&quot;@+id/iv_thought&quot;/&gt;</span><br><span class="line"></span><br><span class="line">    &lt;ImageView android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">               android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">               android:src=&quot;@drawable/composer_with&quot;</span><br><span class="line">               android:id=&quot;@+id/iv_with&quot;/&gt;</span><br><span class="line">&lt;/FrameLayout&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这篇博客的主要目的是用ObjectAnimator实现动画效果，所以并没有吧ArcMenu抽成自定义View。<br>ArcMenuActivity中的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">package com.example.myview;</span><br><span class="line"></span><br><span class="line">import android.animation.AnimatorSet;</span><br><span class="line">import android.animation.ObjectAnimator;</span><br><span class="line">import android.app.Activity;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.view.animation.BounceInterpolator;</span><br><span class="line">import android.widget.ImageView;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">import java.util.LinkedList;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunLei on 15/10/31.</span><br><span class="line"> */</span><br><span class="line">public class ArcMenuActivity extends Activity implements View.OnClickListener &#123;</span><br><span class="line"></span><br><span class="line">    int[] resId = &#123;R.id.iv_camera, R.id.iv_music, R.id.iv_place, R.id.iv_sleep, R.id.iv_thought, R.id.iv_with&#125;;</span><br><span class="line">    List&lt;ImageView&gt; list = new LinkedList&lt;ImageView&gt;();</span><br><span class="line">    boolean isShowing = false;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.layout_arc_menu);</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; resId.length; i++) &#123;</span><br><span class="line">            ImageView iv = (ImageView) findViewById(resId[i]);</span><br><span class="line">            list.add(iv);</span><br><span class="line">            iv.setOnClickListener(this);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onClick(View v) &#123;</span><br><span class="line">        switch (v.getId()) &#123;</span><br><span class="line">            case R.id.iv_with:</span><br><span class="line">                if (isShowing) &#123;//收回</span><br><span class="line">                    closeArcMenu();</span><br><span class="line">                &#125; else &#123;//弹出</span><br><span class="line">                    showArcMenu();</span><br><span class="line">                &#125;</span><br><span class="line">                isShowing = !isShowing;</span><br><span class="line">                break;</span><br><span class="line">            case R.id.iv_thought:</span><br><span class="line">            case R.id.iv_camera:</span><br><span class="line">            case R.id.iv_sleep:</span><br><span class="line">            case R.id.iv_music:</span><br><span class="line">            case R.id.iv_place:</span><br><span class="line">                Toast.makeText(this, &quot;当前点击的图片ID为:&quot; + v.getId(), Toast.LENGTH_LONG).show();</span><br><span class="line">                break;</span><br><span class="line">            default:</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void showArcMenu() &#123;</span><br><span class="line">        int radius = (list.size() - 2) * 120;//半径</span><br><span class="line">        float perAngle = (float) ((90 / (list.size() - 2)) * Math.PI / 180);</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; list.size() - 1; i++) &#123;</span><br><span class="line">            float x = (float) (radius * Math.cos(i * perAngle));</span><br><span class="line">            float y = (float) (radius * Math.sin(i * perAngle));</span><br><span class="line">            ObjectAnimator animator1 = ObjectAnimator.ofFloat(list.get(i),</span><br><span class="line">                    &quot;translationY&quot;, 0f, x);</span><br><span class="line">            ObjectAnimator animator2 = ObjectAnimator.ofFloat(list.get(i),</span><br><span class="line">                    &quot;translationX&quot;, 0f, y);</span><br><span class="line"></span><br><span class="line">            AnimatorSet set = new AnimatorSet();</span><br><span class="line">            set.playTogether(animator1, animator2);</span><br><span class="line">            set.setDuration(300);</span><br><span class="line">            set.setInterpolator(new BounceInterpolator());</span><br><span class="line">            set.setStartDelay(i * 100);</span><br><span class="line">            set.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void closeArcMenu() &#123;</span><br><span class="line">        int radius = (list.size() - 2) * 120;//半径</span><br><span class="line">        float perAngle = (float) ((90 / (list.size() - 2)) * Math.PI / 180);</span><br><span class="line"></span><br><span class="line">        for (int i = 0; i &lt; list.size() - 1; i--) &#123;</span><br><span class="line">            float x = (float) (radius * Math.cos(i * perAngle));</span><br><span class="line">            float y = (float) (radius * Math.sin(i * perAngle));</span><br><span class="line"></span><br><span class="line">            ObjectAnimator animator1 = ObjectAnimator.ofFloat(list.get(i), &quot;translationY&quot;, x, 0f);</span><br><span class="line">            ObjectAnimator animator2 = ObjectAnimator.ofFloat(list.get(i), &quot;translationX&quot;, y, 0f);</span><br><span class="line"></span><br><span class="line">            AnimatorSet set = new AnimatorSet();</span><br><span class="line">            set.playTogether(animator1, animator2);</span><br><span class="line">            set.setDuration(300);</span><br><span class="line">            set.setInterpolator(new BounceInterpolator());</span><br><span class="line">            set.setStartDelay(i * 100);</span><br><span class="line">            set.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个ImageView移动的位置是需要一些数学计算的，以下图做解释：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUxMDMxMTU0ODQ0Njk2" alt="这里写图片描述"><br>通过上图的原理，再作一些简单的计算，就能够得到每个图片移动后的位置<br>x=radius<em>Math.cos(α)；<br>y=radius</em>Math.sin(α);</p>
+<p>代码中，showArcMenu表示菜单展开的方法，closeArcMenu表示菜单收回的方法，这两个动作的动画恰好是相反的，只是起始x,y和终止x,y调换了一下位置而已。</p>
+<p>写博文不容易，用Photoshop画示意图更是蛋疼，希望该博文会有所帮助。</p>
 
       
 
@@ -188,7 +200,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Diary</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义控件</a>
         		</li>
       		
 		</ul>
@@ -198,7 +214,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="2019/07/18/my-first-page/">展开全文 >></a>
+          <a class="article-more-a" href="2019/07/19/使用ObjectAnimator实现ArcMenu动画效果/">展开全文 >></a>
         </p>
       
 
@@ -228,39 +244,31 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Intellij-IDEA配置Android-Annotations注解框架" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="2019/07/18/hello-world/">Hello World</a>
+      <a class="article-title" href="2019/07/19/Intellij-IDEA配置Android-Annotations注解框架/">Intellij IDEA配置Android Annotations注解框架</a>
     </h1>
   
 
         
-        <a href="2019/07/18/hello-world/" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+        <a href="2019/07/19/Intellij-IDEA配置Android-Annotations注解框架/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:46:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>##Intellij IDEA配置Android Annotations注解框架<br>作为安卓开发人员应该对Android Annotations注解框架并不陌生，使用该框架中的注解，可以极大的简化我们开发过程中的不得不做但又毫无营养的工作，如findViewById,setOnClickListener等等。Annotations框架绝对是拯救安卓开发人员的福音和救世主，呵呵呵呵<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在Eclipse中使用该框架时，无需繁杂的配置工作，Eclipse就可以直接帮我们识别和引用使用该框架生成的代码，并直接将这些代码引用到我们的项目中去。但是随着Google推出新的安卓开发工具Android Studio之后，Eclipse正在处于渐渐被抛弃的地步，越来越多的Developer开始投向Intellij IDEA和Android Studio的怀抱，至于Intellij IDEA和Android Studio的关系，可以说是&quot;孪生兄弟&quot;,无论是界面还是使用习惯，都是非常类似的，所以我们就以Intellij IDEA为例讲解Android Annotations的配置过程。</span><br><span class="line"></span><br><span class="line">###1.新建工程，引入所需的jar</span><br><span class="line">![这里写图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUxMTA3MTM0MTE3NjYy)</span><br><span class="line"></span><br><span class="line">使用项目新建向导，创建一个Android Application，过程不再赘述，如果不会使用Intellij IDEA创建Android 项目的话，可以参看其他博文。</span><br><span class="line">以下是创建的项目过程截图。</span><br><span class="line">![这里写图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUxMTA3MTM0NDAxMDM2)</span><br><span class="line">新建的项目工程会自动给我们生成一些基本的文件夹和配置文件等。</span><br><span class="line">&lt;strong&gt;点击项目，右键，为项目新建一个文件夹并命名为compile-libs&lt;/strong&gt;</span><br><span class="line"></span><br><span class="line">&lt;strong&gt;Android Annotation共有两个资源库需要引入，分别是androidannotations-xx.jar 和androidannotations-api-xx.jar&lt;/strong&gt;其中xx表示版本号。</span><br><span class="line">&lt;strong&gt;将androidannotaion-xx.jar资源库拷贝到新建的compile-libs文件夹，然后将androidannotations-api-xx.jar拷贝到libs文件夹，并点击右键--&gt;add library引入到项目中去。&lt;/strong&gt;</span><br><span class="line"></span><br><span class="line">###2.配置Preferences相关选项</span><br><span class="line">![这里写图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUxMTA3MTQwMTU1NDI4)</span><br><span class="line">&lt;strong&gt;进入Preferences全局环境配置面板，依次选择【Build,Execution,Deployment】---&gt;【Compiler】---&gt;【Annotations Processors】菜单，在右侧主面板上方勾选【Enable annotations processing】，然后选择【Processor Path】，并在右方将路径设置为步骤1中新建的compile-libs文件夹下的androidannotations-xx.jar，然后将【Store generated sources relative to】选择为【Module Content root】,大致的意思就是要将生成的资源放在哪个文件夹下的意思。&lt;/strong&gt;</span><br><span class="line">以上配置设置完成后，点击OK应用本次设置。</span><br><span class="line">###3.使用Annotations编写测试代码</span><br><span class="line">进行完上述一连串的配置后，也是&quot;旦旦&quot;碎了一地的节奏，是挺麻烦的说。</span><br><span class="line">那么问题来了，配置了这么多，应该可以使用Annotations框架进行开发了吧？实践是检验真理的唯一标准，上测试代码跑程序试试看不就知道了？！</span><br><span class="line"></span><br><span class="line">于是乎，我们写了在main.xml中写了如下简单到不行的测试布局：</span><br><span class="line"></span><br><span class="line">```</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">              android:orientation=&quot;vertical&quot;</span><br><span class="line">              android:layout_width=&quot;fill_parent&quot;</span><br><span class="line">              android:layout_height=&quot;fill_parent&quot;</span><br><span class="line">              android:background=&quot;#ffffff&quot;&gt;</span><br><span class="line">    &lt;Button</span><br><span class="line">            android:layout_width=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_height=&quot;wrap_content&quot;</span><br><span class="line">            android:layout_gravity=&quot;center&quot;</span><br><span class="line">            android:id=&quot;@+id/button&quot;</span><br><span class="line">            android:text=&quot;Hello,Android Annotations&quot;/&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br><span class="line">```</span><br><span class="line"></span><br><span class="line">布局中只有一个id为button的按钮，然后我们想要实现的效果是点击该按钮弹出Toast并显示&quot;Hello,Android Annotations!!!&quot;。</span><br><span class="line">MainActivity中的代码是这样的：</span><br><span class="line"></span><br><span class="line">```</span><br><span class="line">package com.wcl.annotation;</span><br><span class="line"></span><br><span class="line">import android.app.Activity;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.Button;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line">import com.googlecode.androidannotations.annotations.AfterViews;</span><br><span class="line">import com.googlecode.androidannotations.annotations.EActivity;</span><br><span class="line">import com.googlecode.androidannotations.annotations.ViewById;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@EActivity(R.layout.main)</span><br><span class="line">public class MainActivity extends Activity &#123;</span><br><span class="line">    @ViewById(R.id.button)</span><br><span class="line">    Button button;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @AfterViews</span><br><span class="line">    void initView() &#123;</span><br><span class="line">        button.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                Toast.makeText(MainActivity.this, &quot;Hello,Android Annotations!!!&quot;, Toast.LENGTH_LONG).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">```</span><br><span class="line">然后运行程序，静静地等待见证奇迹时刻的到来</span><br></pre></td></tr></table></figure></p>
+<p>然后，项目目录结构下生成了一个generated文件夹，文件夹下面有个很奇怪的MainActivity_类，再然后。。。就没有然后了==<br>报错了！错误信息如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUxMTA3MTQyNjUwNzU5" alt="这里写图片描述"><br>是的，我们在使用Android Annotations框架时，我们在AndroidManifest.xml清单文件中注册Activity时，需要在类的后面添加一个下划线。然后再次运行，还是无果，那么第四步就来了。</p>
+<p>###4.设置Project Structure选项<br>打开项目结构对话框<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTUxMTA3MTQzNTQ1MjI3" alt="这里写图片描述"></p>
+<p>在Project Structure对话框中依次按照图示步骤操作，将生成的generated文件夹内容引入到Sources中，也就是把生成的内容应哟个到项目运行中去。<br>然后，再次运行，可能会出现说MainActivity_找不到之类的错误，直接无视点击【Continue Anyway】,就可以正常打开应用了。</p>
+<p>那么问题来了，这么复杂的配置过程让多少Developer望而却步，其实也就是第一次会觉得很麻烦，等感受到Annotations框架给你带来的无与伦比的快感之后，一定会让你爱的深陷其中无法自拔，哈哈～～大家思想一定要端正，别想到其他地方去了！</p>
 
       
 
@@ -269,11 +277,22 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">IDE</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="2019/07/18/hello-world/">展开全文 >></a>
+          <a class="article-more-a" href="2019/07/19/Intellij-IDEA配置Android-Annotations注解框架/">展开全文 >></a>
         </p>
       
 
@@ -303,6 +322,918 @@
 
 
   
+    <article id="post-Android中View的事件分发机制" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/Android中View的事件分发机制/">Android中View的事件分发机制</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/Android中View的事件分发机制/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:45:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>见过太多的讲解View事件分发机制的博客和文章，绝大多数都是从源码层次讲解，枯燥乏味又让初学者望而生畏，而且不方便记忆。<br>今天在月的任玉刚先生的《Android开发艺术探索》一书中的有关View的事件分发机制章节，伪代码的讲解形式顿时让人对”View的事件分发机制”有醍醐灌顶之神效，故将该章节的内容摘抄给大家供参考。</p>
+<p><strong>1.点击事件的传递规则</strong><br>所谓的点击事件的事件分发，其实就是对MotionEvent事件的分发过程，即当一个MotionEvent产生了以后，系统需要把这个事件传递给一个具体的View,而这个传递的过程就是分发过程。点击事件的分发过程由三个很重要的方法共同完成：dispatchTouchEvent,onInterceptTouchEvent和onTouchEvent，下面我们先介绍一个这几个方法</p>
+<p><strong>1.1 public boolean dispatchTouchEvent(MotionEvent ev)</strong><br>用来进行事件的分发。如果事件能够传递给当前View,那么此方法一定会被调用，返回结果受当前View的onTouchEvent和下级View的dispatchTouchEvent方法的影响，表示是否消耗当前事件。</p>
+<p><strong>1.2 public boolean onInterceptTouchEvent(MotionEvent ev)</strong><br>在上述方法内部调用，用于判断是否拦截某个事件，如果当前View拦截了这个事件，那么在同一个事件序列当中，此方法不会再被调用，返回结果表示是否拦截当前事件。</p>
+<p><strong>1.3 public boolean onTouchEvent(MotionEvent ev)</strong><br>在dispatchTouchEvent方法中调用，用来处理点击事件，返回结果表示是否消耗当前事件，如果不消耗，则在同一个事件序列中，当前View无法再次接收到事件。</p>
+<p>上述三个方法到底有什么区别？它们之间是什么关系？<br><strong>用以下伪代码简单表示三者之间的关系！</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public boolean dispatchTouchEvent(MotionEvent ev)&#123;</span><br><span class="line">	boolean consume=false;//是否消耗该事件</span><br><span class="line">	if(onInterceptTouchEvent(ev))&#123;//事件被拦截</span><br><span class="line">		consume=onTouchEvent(ev);</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		consume=child.dispatchTouchEvent(ev);</span><br><span class="line">	&#125;</span><br><span class="line">	return consume;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的伪代码，我们也可以大致了解点击事件的传递规则：对于一个根ViewGroup来说，点击事件产生后，首先会传递给自己，这是它的dispatchTouchEvent就会被调用，如果这个ViewGroup的onInterceptTouchEvent方法返回true就表示他要拦截这个事件，接着事件就会交给这个ViewGroup处理，即它的onTouchEvent方法机会被调用；如果这个ViewGroup的onInterceptTouchEvent方法返回false,就表示他不拦截当前事件，这时当前事件就会传递给它的子元素，接着子元素的dispatchTouchEvent方法就会被调用，如此反复直到事件被最终处理。</p>
+<p>当一个View需要处理事件时，如果它设置了onTouchListener,那么onTouchListener中的onTOuch方法就会被调用。这时事件如何处理还要看onTouch的返回值，如果返回false，则当前View的onTouchEvent方法会被调用；如果返回true,那么onTouchEvent方法将不会被调用。由此可见，给View设置的onTouchListener，其优先级比onTouchEvent要高。在onTouchEvent方法中，如果当前设置的有onClickListener,那么他的onClick方法会被调用。可以看出，平时我们常用的onClickListener，其优先级最低，即处于事件传递的尾端。</p>
+<p>当一个点击事件产生后，它的传递过程遵循如顺序：Activity——&gt;Window——&gt;View,即事件总是先传递给Activity,Activity再传递给Window，最后WIndow再传递给顶级View，顶级View接收到事件后，就会按照事件分发机制去分发事件。如果一个View的onTouchEvent返回false,那么它的父容器的onTouchEvent就会被调用，以此类推，如果所有的元素都不处理这个事件，那么这个事件就会被最终传递给Activity处理，即Activity的onTouchEvent就会被调用。</p>
+<p>关于事件传递的机制，这里给出以下一些结论：<br>(1) 同一个事件序列是从手指接触屏幕的那一刻起，到手指离开屏幕的那一刻结束，在这个过程中所产生的一系列事件，这个事件序列以DOWN开始，中间含有数量不定的MOVE，最终以UP事件结束。</p>
+<p>(2)正常情况下，一个事件序列只能被一个View拦截并消耗。这一条的原因可以参考(3)，因为一旦一个元素拦截了某个事件，那么同一个事件序列内的所有事件都会直接交由它处理，因此同一个事件序列中的事件不能分别由两个View同时处理，但是通过特殊手段可以做到，比如一个View将本该自己处理的事件通过onTouchEvent强行传递给其他View处理。</p>
+<p>(3)某个View一旦决定拦截，那么这一个事件序列都只能由他来处理(如果事件序列能够传递给他的话)，并且它的onInterceptTouchEvent方法不会被调用。就是说当一个View决定拦截一个事件后，那么系统会把同一个事件序列中的其他方法都直接交给他处理，因此就不会再调用这个View的onInterceptTouchEvent方法去询问它是否要拦截了。</p>
+<p>(4)某个View一旦开始处理事件，如果它不消耗ACTION_DOWN事件(onTouchEvent返回了false),那么同一个事件序列中的其他事件都不会再交给他来处理，并且事件将重新交由它的父元素去处理，即父元素的onTouchEvent会被调用。</p>
+<p>(5)如果View不消耗除ACTION_DOWN以外的其他事件，那么这个点击事件就会消失，此时父元素的onTouchEvent就不会被调用，并且当前View可以持续受到后续的事件，最终这些消失的点击事件会传递给Activity处理。</p>
+<p>(6)ViewGroup默认不拦截任何事件。</p>
+<p>(7)View没有onInterceptTouchEvent方法，一旦有点击事件传递给他，那么它的onTouchEvent方法就会被调用。</p>
+<p>(8)View的onTouchEvent默认都会消耗事件(返回true)，除非他是不可点击的(clickable和longClickable同时为false)。</p>
+<p>(9)View的enable属性不影响onTouchEvent的默认返回值。哪怕一个View是disable状态，只要它的clickable和longClickable有一个为true，那么它的onTouchEvent就会返回true.</p>
+<p>(10)onClick会产生的前提是当前View是可点击的，并且它收到了DOWN和UP事件。</p>
+<p>(11)事件传递过程是由外向内的，即事件总是先传递给父元素，然后再有父元素传递给View，通过requestDisallowInterceptTouchEvent方法可以在子元素中干预父元素的事件分发过程，但是ACTION_DOWN事件除外。</p>
+<p>以上是任玉刚先生有关事件分发的部分章节，如果有兴趣大家可以考虑购买以下《Android开发艺术探索》这本书，内容真心不错！</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/Android中View的事件分发机制/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Android自定义控件实现圆形进度CircleProgressBar" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/Android自定义控件实现圆形进度CircleProgressBar/">Android自定义控件实现圆形进度CircleProgressBar</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/Android自定义控件实现圆形进度CircleProgressBar/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:44:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>近日有朋友问我有没有如下图效果的开源控件</p>
+<hr>
+<p>，<img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMTA3MjAyNDI5Njc2" alt="这里写图片描述"></p>
+<hr>
+<p>相信大家无论是用IOS还是Android,都对这种效果不陌生，很多主流APP都会有这样或类似的效果，之前也打算研究一下这类控件的代码，苦于一直不知道应该怎么搜索这种效果(就是关键词)或者所搜的结果不是自己想要的，所以就一直搁置了下来。<br>正好朋友需要这种效果，所以就忙里偷闲写了一个类似的、更加常见和适用范围更多的控件，效果如下图所示：</p>
+<hr>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMTA3MjAzMjUwODE5" alt="这里写图片描述"></p>
+<hr>
+<p>自定义上图所示效果的控件时，其实就是用Canvas绘制不同效果，比如渐变圆弧背景、圆周白色分割线、中间文字等，这篇博客也根据绘制的顺序依次阐述。</p>
+<p><strong>1.自定义CircleProgressBar，继承View，并实现响应的构造函数</strong><br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * Created by WangChunLei on 2016.1.16</span><br><span class="line"> * E-mail:wcl_android@163.com</span><br><span class="line"> */</span><br><span class="line">public class GradientProgressBar extends View &#123;</span><br><span class="line">	 public GradientProgressBar(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public GradientProgressBar(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public GradientProgressBar(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">        super(context, attrs, defStyleAttr);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中init方法是对相关画笔进行初始化的方法，init方法代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">    private void init() &#123;</span><br><span class="line">        backCirclePaint = new Paint();</span><br><span class="line">        backCirclePaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        backCirclePaint.setAntiAlias(true);</span><br><span class="line">        backCirclePaint.setColor(Color.LTGRAY);</span><br><span class="line">        backCirclePaint.setStrokeWidth(circleBorderWidth);</span><br><span class="line">//        backCirclePaint.setMaskFilter(new BlurMaskFilter(20, BlurMaskFilter.Blur.OUTER));</span><br><span class="line"></span><br><span class="line">        gradientCirclePaint = new Paint();</span><br><span class="line">        gradientCirclePaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        gradientCirclePaint.setAntiAlias(true);</span><br><span class="line">        gradientCirclePaint.setColor(Color.LTGRAY);</span><br><span class="line">        gradientCirclePaint.setStrokeWidth(circleBorderWidth);</span><br><span class="line"></span><br><span class="line">        linePaint = new Paint();</span><br><span class="line">        linePaint.setColor(Color.WHITE);</span><br><span class="line">        linePaint.setStrokeWidth(5);</span><br><span class="line"></span><br><span class="line">        textPaint = new Paint();</span><br><span class="line">        textPaint.setAntiAlias(true);</span><br><span class="line">        textPaint.setTextSize(textSize);</span><br><span class="line">        textPaint.setColor(Color.BLACK);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.测量控件的宽高-onMeasure</strong><br>onMeasure是自定义控件的第一步，目的就是测量得到该控件应该占有的宽高尺寸。其中onMeasure方法的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line"> protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">     int measureWidth = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">     int measureHeight = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">     setMeasuredDimension(Math.min(measureWidth, measureHeight), Math.min(measureWidth, measureHeight));</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>贴上onMeasure的代码后，大家估计是很少见过测量过程这么简单的onMeasure，不要介意，有兴趣的同僚们可以细化一下这个测量过程，对不同的测量模式分别进行处理和测量，让控件适配效果更好更完善！<br>onMeasure方法中，分别获取期望的宽度和高度，并取其中较小的尺寸作为该控件的宽和高。<br><strong>3.依次绘制不同的控件组成部分。</strong><br>因为控件是直接继承自View,所以不需要再处理onLayout方法，这也是自定义View的难度远小于自定义ViewGroup的原因，但继承ViewGroup也并不一定要重写onMeasure。<br>要实现如图所示的效果，需要分以下步骤依次实现<br>    (1)绘制灰色空心圆环<br>    (2)绘制颜色渐变的圆环<br>    (3)绘制圆环上分割的白色线条<br>    (4)绘制百分比文字等。<br>绘制过程过，后绘制的内容如果与之前绘制的内容存在交集，则后绘制的内容会覆盖掉之前绘制的内容。<br>按照上述步骤依次介绍<br>在绘制过程中，会产生以下成员变量，下文中会用到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">/*圆弧线宽*/</span><br><span class="line">    private float circleBorderWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());</span><br><span class="line">    /*内边距*/</span><br><span class="line">    private float circlePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());</span><br><span class="line">    /*字体大小*/</span><br><span class="line">    private float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 50, getResources().getDisplayMetrics());</span><br><span class="line">    /*绘制圆周的画笔*/</span><br><span class="line">    private Paint backCirclePaint;</span><br><span class="line">    /*绘制圆周白色分割线的画笔*/</span><br><span class="line">    private Paint linePaint;</span><br><span class="line">    /*绘制文字的画笔*/</span><br><span class="line">    private Paint textPaint;</span><br><span class="line">    /*百分比*/</span><br><span class="line">    private int percent = 0;</span><br><span class="line">    /*渐变圆周颜色数组*/</span><br><span class="line">    private int[] gradientColorArray = new int[]&#123;Color.GREEN, Color.parseColor(&quot;#fe751a&quot;), Color.parseColor(&quot;#13be23&quot;), Color.GREEN&#125;;</span><br><span class="line">    private Paint gradientCirclePaint;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.1绘制灰色空心圆环</strong><br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//1.绘制灰色背景圆环</span><br><span class="line">        canvas.drawArc(</span><br><span class="line">                new RectF(circlePadding * 2, circlePadding * 2,</span><br><span class="line">                        getMeasuredWidth() - circlePadding * 2, getMeasuredHeight() - circlePadding * 2), -90, 360, false, backCirclePaint);</span><br></pre></td></tr></table></figure>
+
+<p>其中，-90为绘制圆弧的起始角度，360是圆弧绘制的角度，即sweepAngle.</p>
+<p><strong>3.2绘制颜色渐变的圆环</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//2.绘制颜色渐变圆环</span><br><span class="line">        LinearGradient linearGradient = new LinearGradient(circlePadding, circlePadding,</span><br><span class="line">                getMeasuredWidth() - circlePadding,</span><br><span class="line">                getMeasuredHeight() - circlePadding,</span><br><span class="line">                gradientColorArray, null, Shader.TileMode.MIRROR);</span><br><span class="line">        gradientCirclePaint.setShader(linearGradient);</span><br><span class="line">        gradientCirclePaint.setShadowLayer(10, 10, 10, Color.RED);</span><br><span class="line">        canvas.drawArc(</span><br><span class="line">                new RectF(circlePadding * 2, circlePadding * 2,</span><br><span class="line">                        getMeasuredWidth() - circlePadding * 2, getMeasuredHeight() - circlePadding * 2), -90, (float) (percent / 100.0) * 360, false, gradientCirclePaint);</span><br></pre></td></tr></table></figure>
+
+<p>其中，linearGradient是Paint的shadow,是为了圆弧的颜色渐变效果的而需要设置的，日常开发中应用频率不高，但的确是可以实现非常理想的颜色渐变效果。<br><strong>3.3绘制圆环上分割的白色线条</strong><br>绘制圆弧上的白色线条时，需要进行一些简单的运算，比如线条的起始坐标startX,startY和线条的终止坐标stopX,stopY等，利用简单的三角函数还是很容易去计算出来的。<br>效果中，将圆弧使用白色线条平分成100分，每一个的阶级为1，可以满足int类型的百分比与效果图比例的一致。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//半径</span><br><span class="line">      float radius = (getMeasuredWidth() - circlePadding * 3) / 2;</span><br><span class="line">      //X轴中点坐标</span><br><span class="line">      int centerX = getMeasuredWidth() / 2;</span><br><span class="line"></span><br><span class="line">      //3.绘制100份线段，切分空心圆弧</span><br><span class="line">      for (float i = 0; i &lt; 360; i += 3.6) &#123;</span><br><span class="line">          double rad = i * Math.PI / 180;</span><br><span class="line">          float startX = (float) (centerX + (radius - circleBorderWidth) * Math.sin(rad));</span><br><span class="line">          float startY = (float) (centerX + (radius - circleBorderWidth) * Math.cos(rad));</span><br><span class="line"></span><br><span class="line">          float stopX = (float) (centerX + radius * Math.sin(rad) + 1);</span><br><span class="line">          float stopY = (float) (centerX + radius * Math.cos(rad) + 1);</span><br><span class="line"></span><br><span class="line">          canvas.drawLine(startX, startY, stopX, stopY, linePaint);</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.4绘制百分比文字等</strong><br>最后绘制百分比文字。<br>绘制文字时，为了保持文字的中心点和圆弧的原点一致，需要先测量得到要显示文字的宽度和高度，然后再进行一些简单的运算，原理不再赘述，相信大家数学一定都比我好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//4.绘制文字</span><br><span class="line">      float textWidth = textPaint.measureText(percent + &quot;%&quot;);</span><br><span class="line">      int textHeight = (int) (Math.ceil(textPaint.getFontMetrics().descent - textPaint.getFontMetrics().ascent) + 2);</span><br><span class="line">      canvas.drawText(percent + &quot;%&quot;, centerX - textWidth / 2, centerX + textHeight / 4, textPaint);</span><br></pre></td></tr></table></figure>
+
+<p>最后，暴漏一个公共的方法供改变显示的百分比，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 设置百分比</span><br><span class="line">     *</span><br><span class="line">     * @param percent</span><br><span class="line">     */</span><br><span class="line">    public void setPercent(int percent) &#123;</span><br><span class="line">        if (percent &lt; 0) &#123;</span><br><span class="line">            percent = 0;</span><br><span class="line">        &#125; else if (percent &gt; 100) &#123;</span><br><span class="line">            percent = 100;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        this.percent = percent;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，所有绘制过程简述完毕，130行代码就能实现很炫酷的效果有木有？<br>最后，贴上项目完整代码，供懒得看实现过程的同僚们使用，O(∩_∩)O哈哈~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">package com.example.myview;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.graphics.*;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.util.TypedValue;</span><br><span class="line">import android.view.View;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunLei on 2016.1.16</span><br><span class="line"> * e-mail:wcl_android@163.com</span><br><span class="line"> */</span><br><span class="line">public class GradientProgressBar extends View &#123;</span><br><span class="line">    /*圆弧线宽*/</span><br><span class="line">    private float circleBorderWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());</span><br><span class="line">    /*内边距*/</span><br><span class="line">    private float circlePadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, getResources().getDisplayMetrics());</span><br><span class="line">    /*字体大小*/</span><br><span class="line">    private float textSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 50, getResources().getDisplayMetrics());</span><br><span class="line">    /*绘制圆周的画笔*/</span><br><span class="line">    private Paint backCirclePaint;</span><br><span class="line">    /*绘制圆周白色分割线的画笔*/</span><br><span class="line">    private Paint linePaint;</span><br><span class="line">    /*绘制文字的画笔*/</span><br><span class="line">    private Paint textPaint;</span><br><span class="line">    /*百分比*/</span><br><span class="line">    private int percent = 0;</span><br><span class="line">    /*渐变圆周颜色数组*/</span><br><span class="line">    private int[] gradientColorArray = new int[]&#123;Color.GREEN, Color.parseColor(&quot;#fe751a&quot;), Color.parseColor(&quot;#13be23&quot;), Color.GREEN&#125;;</span><br><span class="line">    private Paint gradientCirclePaint;</span><br><span class="line"></span><br><span class="line">    public GradientProgressBar(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public GradientProgressBar(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public GradientProgressBar(Context context, AttributeSet attrs, int defStyleAttr) &#123;</span><br><span class="line">        super(context, attrs, defStyleAttr);</span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void init() &#123;</span><br><span class="line">        backCirclePaint = new Paint();</span><br><span class="line">        backCirclePaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        backCirclePaint.setAntiAlias(true);</span><br><span class="line">        backCirclePaint.setColor(Color.LTGRAY);</span><br><span class="line">        backCirclePaint.setStrokeWidth(circleBorderWidth);</span><br><span class="line">//        backCirclePaint.setMaskFilter(new BlurMaskFilter(20, BlurMaskFilter.Blur.OUTER));</span><br><span class="line"></span><br><span class="line">        gradientCirclePaint = new Paint();</span><br><span class="line">        gradientCirclePaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        gradientCirclePaint.setAntiAlias(true);</span><br><span class="line">        gradientCirclePaint.setColor(Color.LTGRAY);</span><br><span class="line">        gradientCirclePaint.setStrokeWidth(circleBorderWidth);</span><br><span class="line"></span><br><span class="line">        linePaint = new Paint();</span><br><span class="line">        linePaint.setColor(Color.WHITE);</span><br><span class="line">        linePaint.setStrokeWidth(5);</span><br><span class="line"></span><br><span class="line">        textPaint = new Paint();</span><br><span class="line">        textPaint.setAntiAlias(true);</span><br><span class="line">        textPaint.setTextSize(textSize);</span><br><span class="line">        textPaint.setColor(Color.BLACK);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        int measureWidth = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        int measureHeight = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">        setMeasuredDimension(Math.min(measureWidth, measureHeight), Math.min(measureWidth, measureHeight));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        //1.绘制灰色背景圆环</span><br><span class="line">        canvas.drawArc(</span><br><span class="line">                new RectF(circlePadding * 2, circlePadding * 2,</span><br><span class="line">                        getMeasuredWidth() - circlePadding * 2, getMeasuredHeight() - circlePadding * 2), -90, 360, false, backCirclePaint);</span><br><span class="line">        //2.绘制颜色渐变圆环</span><br><span class="line">        LinearGradient linearGradient = new LinearGradient(circlePadding, circlePadding,</span><br><span class="line">                getMeasuredWidth() - circlePadding,</span><br><span class="line">                getMeasuredHeight() - circlePadding,</span><br><span class="line">                gradientColorArray, null, Shader.TileMode.MIRROR);</span><br><span class="line">        gradientCirclePaint.setShader(linearGradient);</span><br><span class="line">        gradientCirclePaint.setShadowLayer(10, 10, 10, Color.RED);</span><br><span class="line">        canvas.drawArc(</span><br><span class="line">                new RectF(circlePadding * 2, circlePadding * 2,</span><br><span class="line">                        getMeasuredWidth() - circlePadding * 2, getMeasuredHeight() - circlePadding * 2), -90, (float) (percent / 100.0) * 360, false, gradientCirclePaint);</span><br><span class="line"></span><br><span class="line">        //半径</span><br><span class="line">        float radius = (getMeasuredWidth() - circlePadding * 3) / 2;</span><br><span class="line">        //X轴中点坐标</span><br><span class="line">        int centerX = getMeasuredWidth() / 2;</span><br><span class="line"></span><br><span class="line">        //3.绘制100份线段，切分空心圆弧</span><br><span class="line">        for (float i = 0; i &lt; 360; i += 3.6) &#123;</span><br><span class="line">            double rad = i * Math.PI / 180;</span><br><span class="line">            float startX = (float) (centerX + (radius - circleBorderWidth) * Math.sin(rad));</span><br><span class="line">            float startY = (float) (centerX + (radius - circleBorderWidth) * Math.cos(rad));</span><br><span class="line"></span><br><span class="line">            float stopX = (float) (centerX + radius * Math.sin(rad) + 1);</span><br><span class="line">            float stopY = (float) (centerX + radius * Math.cos(rad) + 1);</span><br><span class="line"></span><br><span class="line">            canvas.drawLine(startX, startY, stopX, stopY, linePaint);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //4.绘制文字</span><br><span class="line">        float textWidth = textPaint.measureText(percent + &quot;%&quot;);</span><br><span class="line">        int textHeight = (int) (Math.ceil(textPaint.getFontMetrics().descent - textPaint.getFontMetrics().ascent) + 2);</span><br><span class="line">        canvas.drawText(percent + &quot;%&quot;, centerX - textWidth / 2, centerX + textHeight / 4, textPaint);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置百分比</span><br><span class="line">     *</span><br><span class="line">     * @param percent</span><br><span class="line">     */</span><br><span class="line">    public void setPercent(int percent) &#123;</span><br><span class="line">        if (percent &lt; 0) &#123;</span><br><span class="line">            percent = 0;</span><br><span class="line">        &#125; else if (percent &gt; 100) &#123;</span><br><span class="line">            percent = 100;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        this.percent = percent;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后，贴上自定义控件代码(自定义控件、Activity，布局文件)下载地址：<br><a href="http://download.csdn.net/detail/wangchunlei123/9415456" target="_blank" rel="noopener">http://download.csdn.net/detail/wangchunlei123/9415456</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义控件</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/Android自定义控件实现圆形进度CircleProgressBar/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Android自定义控件—仿仪表盘进度控件ArcProgressBar" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/Android自定义控件—仿仪表盘进度控件ArcProgressBar/">Android自定义控件—仿仪表盘进度控件ArcProgressBar</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/Android自定义控件—仿仪表盘进度控件ArcProgressBar/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:44:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>开门见山，效果图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzAyMTA1NTAwNTQ2" alt="这里写图片描述"></p>
+<p>这种效果经常会遇到，但却一直不知道这个效果图应该怎么描述，所以暂且以“仪表盘进度控件”来描述，各位博友如果有更好的描述这种效果的词汇，请回复博文告诉我，在此先谢谢各位博友了！</p>
+<p>其实做出这样的效果并不困难，只需要了解自定义控件的常规步骤，Canvas绘图操作，外加一点点数学基础就行了，因为在绘制控件的过程中，需要计算一些坐标点和圆弧位置等信息。</p>
+<p>为了更加方便的使用该控件，该控件支持自定义控件属性，并提供支持链式编程的方法供开发者设置各种参数，以下是控件实现的各个步骤。</p>
+<p><strong>1.自定义控件属性，在布局中直接设置控件参数</strong><br>在res-&gt;values-&gt;attrs.xml中新增自定义的控件属性如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;declare-styleable name=&quot;ArcProgressBar&quot;&gt;</span><br><span class="line">        &lt;attr name=&quot;current_progress&quot; format=&quot;float&quot;/&gt;</span><br><span class="line">        &lt;attr name=&quot;chart_title&quot; format=&quot;string&quot;/&gt;</span><br><span class="line">        &lt;attr name=&quot;max_progress&quot; format=&quot;float&quot;/&gt;</span><br><span class="line">        &lt;attr name=&quot;progress_unit&quot; format=&quot;string&quot;/&gt;</span><br><span class="line">&lt;/declare-styleable&gt;</span><br></pre></td></tr></table></figure>
+
+<p>PS：如不存在attrs.xml文件，则可以新建任意支持自定义属性的xml文件，且文件名无需保持一致。</p>
+<p><strong>2.自定义AroProgressBar过程</strong></p>
+<p><strong>2.1 新建ArcProgressBar类并继承View</strong><br><strong>2.2 获取自定义控件属性并进行相关资源（画笔，颜色等）的初始化</strong><br>由于需要从布局文件中的自定义属性获取相关布局初始化数据，所以必须实现如下构造函数并从自定义属性对象中获取相关属性数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public ArcProgressBar(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArcProgressBar);</span><br><span class="line">        float hours = typedArray.getFloat(R.styleable.ArcProgressBar_current_progress, 0);</span><br><span class="line">        String chartTitle = typedArray.getString(R.styleable.ArcProgressBar_chart_title);</span><br><span class="line">        float maxProgress = typedArray.getFloat(R.styleable.ArcProgressBar_max_progress, 0);</span><br><span class="line">        String progressUnit = typedArray.getString(R.styleable.ArcProgressBar_progress_unit);</span><br><span class="line"></span><br><span class="line">        if (hours &gt; 0) &#123;</span><br><span class="line">            this.currentProgress = hours;</span><br><span class="line">        &#125;</span><br><span class="line">        if (maxProgress &gt; 0) &#123;</span><br><span class="line">            this.maxProgress = maxProgress;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!TextUtils.isEmpty(chartTitle)) &#123;</span><br><span class="line">            this.chartName = chartTitle;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!TextUtils.isEmpty(progressUnit)) &#123;</span><br><span class="line">            this.progressUnitString = progressUnit;</span><br><span class="line">        &#125;</span><br><span class="line">        typedArray.recycle();</span><br><span class="line"></span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的一点，在获取自定义属性完毕后，请调用typedArray.recycle();方法释放自定义属性对象。</p>
+<p>其中init()方法中是对相关要使用到的画笔进行初始化操作，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">private void init() &#123;</span><br><span class="line">        backArcPaint = new Paint();</span><br><span class="line">        backArcPaint.setAntiAlias(true);</span><br><span class="line">        backArcPaint.setColor(INNER_CIRCLE_BORDER_COLOR);</span><br><span class="line">        backArcPaint.setStrokeWidth(arcStrokeWidth);</span><br><span class="line">        backArcPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        backArcPaint.setStrokeCap(Paint.Cap.ROUND);</span><br><span class="line"></span><br><span class="line">        fontArcPaint = new Paint();</span><br><span class="line">        fontArcPaint.setAntiAlias(true);</span><br><span class="line">        fontArcPaint.setColor(FONT_CIRCLE_BORDER_COLOR);</span><br><span class="line">        fontArcPaint.setStrokeWidth(arcStrokeWidth);</span><br><span class="line">        fontArcPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        fontArcPaint.setStrokeCap(Paint.Cap.ROUND);</span><br><span class="line"></span><br><span class="line">        chartNamePaint = new Paint();</span><br><span class="line">        chartNamePaint.setStyle(Paint.Style.FILL);</span><br><span class="line">        chartNamePaint.setAntiAlias(true);</span><br><span class="line">        chartNamePaint.setTextSize(chartNameTextSize);</span><br><span class="line">        chartNamePaint.setColor(FONT_CIRCLE_BORDER_COLOR);</span><br><span class="line"></span><br><span class="line">        unitTextWidth = chartNamePaint.measureText(progressUnitString);</span><br><span class="line"></span><br><span class="line">        currentProgressNumberPaint = new Paint();</span><br><span class="line">        currentProgressNumberPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">        currentProgressNumberPaint.setAntiAlias(true);</span><br><span class="line">        currentProgressNumberPaint.setTextSize(unitTextSize);</span><br><span class="line">        currentProgressNumberPaint.setColor(Color.WHITE);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>相关要涉及到的控件的成员变量声明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">private int circleRectWidth;</span><br><span class="line">    //圆弧边框宽度</span><br><span class="line">    private float arcStrokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,</span><br><span class="line">            10, getContext().getResources().getDisplayMetrics());</span><br><span class="line">    //图标名称字符大小</span><br><span class="line">    private float chartNameTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,</span><br><span class="line">            15, getContext().getResources().getDisplayMetrics());</span><br><span class="line">    //圆形中心当前进度数字字符大小</span><br><span class="line">    private float unitTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,</span><br><span class="line">            30, getContext().getResources().getDisplayMetrics());</span><br><span class="line">    //底层圆弧画笔</span><br><span class="line">    private Paint backArcPaint;</span><br><span class="line">    //前层圆弧画笔</span><br><span class="line">    private Paint fontArcPaint;</span><br><span class="line">    //绘制图标名称的画笔</span><br><span class="line">    private Paint chartNamePaint;</span><br><span class="line">    //绘制数字的画笔</span><br><span class="line">    private Paint currentProgressNumberPaint;</span><br><span class="line">    //圆弧半径</span><br><span class="line">    private int circleRadius;</span><br><span class="line">    //中心点X轴坐标</span><br><span class="line">    private int centerX;</span><br><span class="line">    //中心店Y轴坐标</span><br><span class="line">    private int centerY;</span><br><span class="line">    //半径占控件宽度的比例</span><br><span class="line">    private final float RADIUS_RATIO = 0.3f;</span><br><span class="line">    //圆弧开始绘制的角度</span><br><span class="line">    private final int START_ANGLE = 135;</span><br><span class="line">    //底层圆弧扫过的角度</span><br><span class="line">    private final int INNER_CIRCLE_SWEEP_ANGLE = 270;</span><br><span class="line">    //底层圆弧的颜色</span><br><span class="line">    private final int INNER_CIRCLE_BORDER_COLOR = Color.parseColor(&quot;#aaf0f1f2&quot;);</span><br><span class="line">    //上层圆弧的颜色</span><br><span class="line">    private final int FONT_CIRCLE_BORDER_COLOR = Color.parseColor(&quot;#eef0f1f2&quot;);</span><br><span class="line">    private final int BG_COLOR = Color.parseColor(&quot;#fe751a&quot;);</span><br><span class="line">    //默认图标名称</span><br><span class="line">    private String chartName = &quot;无标题&quot;;</span><br><span class="line">    //默认当前进度</span><br><span class="line">    private float currentProgress = 0;</span><br><span class="line">    //当前进度单位</span><br><span class="line">    private String progressUnitString = &quot;&quot;;</span><br><span class="line">    //进度单位所占的宽度</span><br><span class="line">    private float unitTextWidth;</span><br><span class="line">    //底部文案的y轴坐标</span><br><span class="line">    private float yPosBottomAlign;</span><br><span class="line">    //最大进度數</span><br><span class="line">    private float maxProgress = 8;</span><br><span class="line">    private RectF rectF;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.3 控件的测量过程</strong><br>控件的测量过程需要重写父类的onMeasure方法并通过setMeasuredDimension方法将最终的测量结果设置给控件。<br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        if (widthSpecMode == MeasureSpec.AT_MOST || heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            float defaultSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,</span><br><span class="line">                    200, getContext().getResources().getDisplayMetrics());</span><br><span class="line">            widthSpecSize = (int) defaultSize;</span><br><span class="line">            heightSpecSize = (int) defaultSize;</span><br><span class="line">        &#125;</span><br><span class="line">        setMeasuredDimension(Math.min(widthSpecSize, heightSpecSize), Math.min(widthSpecSize, heightSpecSize));</span><br><span class="line"></span><br><span class="line">        circleRectWidth = widthSpecSize;</span><br><span class="line">        circleRadius = (int) (circleRectWidth * RADIUS_RATIO);</span><br><span class="line">        centerX = circleRectWidth / 2;</span><br><span class="line">        centerY = circleRectWidth / 2;</span><br><span class="line">        float rad = (float) (45 * Math.PI / 180);</span><br><span class="line">        yPosBottomAlign = (float) (circleRadius * Math.sin(rad) + centerY);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的测量过程就是获取控件的宽和高，并取宽和高中较小的一个作为控件的宽高，因为我们实现的控件的宽高是一致的。<br>这里需要特别注意的是对控件AT_MOST测量模式的处理，如果在布局文件中设置的宽高是wrap_content，则获取到的宽高是0，这时候就需要对控件设置默认的宽高，这也是自定义控件中的应该需要做的处理过程之一。</p>
+<p><strong>2.4 控件的绘制过程</strong><br>控件的绘制操作需要重写父类的onDraw，并通过Canvas对图形进行绘制。<br>每个控件的绘制都是有先后顺序的，并且后面绘制的图形如果在坐标上与前面绘制的图形有交集，则后面绘制的图形会在坐标存在交集的区域覆盖前面绘制的图形。<br>该控件的绘制过程代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onDraw(final Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        drawChart(canvas, currentProgress);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void drawChart(Canvas canvas, float loopIndex) &#123;</span><br><span class="line">        canvas.drawColor(BG_COLOR);</span><br><span class="line">        //1.绘制背景圆弧</span><br><span class="line">        if (rectF == null) &#123;</span><br><span class="line">            rectF = new RectF(centerX - circleRadius,//left</span><br><span class="line">                    centerY - circleRadius,//top</span><br><span class="line">                    centerX + circleRadius,//right</span><br><span class="line">                    centerY + circleRadius);//bottom</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        canvas.drawArc(rectF, START_ANGLE, INNER_CIRCLE_SWEEP_ANGLE, false, backArcPaint);</span><br><span class="line"></span><br><span class="line">        //2.绘制进度圆弧</span><br><span class="line">        if (maxProgress &gt; 0) &#123;</span><br><span class="line">            canvas.drawArc(rectF, START_ANGLE, loopIndex / maxProgress * 270, false, fontArcPaint);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //3.绘制底部文案</span><br><span class="line">        float chartNameWidth = chartNamePaint.measureText(chartName);</span><br><span class="line">        Paint.FontMetrics fontMetrics = chartNamePaint.getFontMetrics();</span><br><span class="line">        float chartNameHeight = fontMetrics.descent - fontMetrics.ascent;</span><br><span class="line">        canvas.drawText(chartName, centerX - chartNameWidth / 2, (float) (yPosBottomAlign + chartNameHeight * 1.5), chartNamePaint);</span><br><span class="line"></span><br><span class="line">        //4.绘制中间的当前进度</span><br><span class="line">        float hourNumberWidth = currentProgressNumberPaint.measureText(String.valueOf(loopIndex));</span><br><span class="line">        float hourNumberHeight = currentProgressNumberPaint.getFontMetrics().bottom - currentProgressNumberPaint.getFontMetrics().top;</span><br><span class="line">        //4.1绘制当前进度数字</span><br><span class="line">        canvas.drawText(String.valueOf(loopIndex), centerX - hourNumberWidth / 2, centerY + chartNameHeight / 4, currentProgressNumberPaint);</span><br><span class="line">        //4.1绘制进度单位</span><br><span class="line">        canvas.drawText(progressUnitString, centerX - unitTextWidth / 2, centerY + chartNameHeight / 4 + hourNumberHeight / 2, chartNamePaint);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，控件的实现过程已基本完成，但为了更方便地修改控件的相关属性，需要暴漏一些公共方法供开发者使用，此控件暴漏的公共方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 设置当前进度</span><br><span class="line">     *</span><br><span class="line">     * @param hour</span><br><span class="line">     */</span><br><span class="line">    public ArcProgressBar setCurrentProgress(float hour) &#123;</span><br><span class="line">        if (hour &lt; 0) &#123;</span><br><span class="line">            currentProgress = 0f;</span><br><span class="line">        &#125; else if (hour &gt; maxProgress) &#123;</span><br><span class="line">            currentProgress = maxProgress;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            currentProgress = hour;</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图标名称(底部)</span><br><span class="line">     *</span><br><span class="line">     * @param chartName</span><br><span class="line">     */</span><br><span class="line">    public ArcProgressBar setProgressUnit(String chartName) &#123;</span><br><span class="line">        if (TextUtils.isEmpty(chartName))</span><br><span class="line">            return this;</span><br><span class="line"></span><br><span class="line">        this.chartName = chartName;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置最大进度</span><br><span class="line">     */</span><br><span class="line">    public ArcProgressBar setMaxProgress(float maxHour) &#123;</span><br><span class="line">        if (maxHour &lt;= 0) &#123;</span><br><span class="line">            return this;</span><br><span class="line">        &#125; else if (maxHour &lt; currentProgress) &#123;</span><br><span class="line">            this.maxProgress = currentProgress;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            this.maxProgress = maxHour;</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 刷新界面</span><br><span class="line">     * PS:参数设置完成后，务必调用此方法刷新页面</span><br><span class="line">     */</span><br><span class="line">    public void refresh() &#123;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在设置完相应的参数后，需调用refresh方法才会调用控件的重绘操作，这也是为了避免过多的重复绘制造成系统处理很多不必要的控件重绘过程。</p>
+<p>如果开发者需要涉及到动态绘制当前进度的效果，用户可以通过handler进行绘制或者继承SurfaceView进行绘制，不过强烈推荐继承SurfaceView进行绘制，因为在SurfaceView中其实是在子线程中完成的控件绘制过程，这样就很大程度上降低了在UI线程绘制控件造成的性能问题，有关SurfaceView绘制控件的过程大家可以关注相关博文。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义控件</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/Android自定义控件—仿仪表盘进度控件ArcProgressBar/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Android事件分发机制源码剖析-1-——Activity对点击事件的分发过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/Android事件分发机制源码剖析-1-——Activity对点击事件的分发过程/">Android事件分发机制源码剖析(1)——Activity对点击事件的分发过程</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/Android事件分发机制源码剖析-1-——Activity对点击事件的分发过程/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:42:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>点击事件用MotionEvent表示，当一个点击操作发生时，事件最先传递给当前的Activity，由Activity得dispatchTouchEvent来进行事件派发，具体的工作由Activity内部的Window来完成。Window会将事件传递给DecorView，DecorView一般就是当前页面的顶层容器（即setContentView所设置的View的父容器），通过Acitivty#getWindow().getDecorView()可以获得。Activity的dispatchTouchEvent源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Activity#dispatchTouchEvent</span><br><span class="line"></span><br><span class="line">public boolean dispatchTouchEvent(MotionEvent ev)&#123;</span><br><span class="line">	if(ev.getAction==MotionEvent.ACTION_DOWN)&#123;</span><br><span class="line">		onUserInteraction();</span><br><span class="line">	&#125;</span><br><span class="line">	if(getWindow().superDispatchTouchEvent(ev))&#123;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	return onTouchEvent();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>分析一下上面的代码，首先事件开始交给Acitivty所附属的Window进行分发，如果返回true，整个事件循环就结束了，返回false意味着事件没人处理，所有View的onTouchEvent都返回了false，那么Activity的onTouchEvent就会被调用。</p>
+<p>接下来看Window是如何将事件传递给ViewGroup的。通过源码我们知道，Window是个抽象类，而Window的superDispatchTouchEvent方法也是个抽象方法，因此我们必须找到Window的实现类。</p>
+<p>然后，我们很容易就会发现Window的实现类就是PhoneWindow，那么PhoneWindow是如何处理事件的呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PhoneWindow#superDispatchTouchEvent</span><br><span class="line"></span><br><span class="line">public boolean superDispatchTouchEvent(MotionEvent ev)&#123;</span><br><span class="line">	return mDecor.superDispatchTouchEvent(ev);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，PhoneWindow将事件直接传递给了DecorView，这个DecorView又是什么呢？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private final class DecorView extends FrameLayou implements RootViewSurfaceTaker</span><br><span class="line"></span><br><span class="line">//This is the top-level view of window,containing the window decor.</span><br><span class="line">private DecorView mDecor;</span><br><span class="line"></span><br><span class="line">publiv final View getDecorView()&#123;</span><br><span class="line">	if(mDecor==null)&#123;</span><br><span class="line">		installDecor();</span><br><span class="line">	&#125;</span><br><span class="line">	return mDecor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们知道，通过((ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0)这种方式就可以获取Activity所设置的View，这个mDecor显然就是getWindow().getDecorView()返回的View，而我们通过setContentView设置的View是它的一个子View。目前事件传递到了DecorView这里，由于DecorView继承自FrameLayout且是父View，所以最终事件就会传递给View。换句话说，事件肯定会传递到View，不然应用怎么响应点击事件呢？分析到这里，事件已经传递给顶级的View了，即在Activity中通过setContentView设置的View，另外顶层View也叫根View，顶层View一般来说都是ViewGroup。</p>
+<p>至此，Activity对点击事件的分发过程已经介绍完毕，有关事件在ViewGroup和View中的传递过程请关注后面的博文。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/Android事件分发机制源码剖析-1-——Activity对点击事件的分发过程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程/">Android事件分发机制源码剖析(2)—顶层View对点击事件的分发过程</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:42:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>点击事件到达顶层View（一般是一个ViewGroup）以后，会调用ViewGroup的dispatchTouchEvent方法，然后逻辑是这样的:如果顶层ViewGroup拦截事件，即onInterceptTouchEvent返回true，则事件交由ViewGroup处理，这时如果ViewGroup的mOnTouchListener被设置，则onTouch会被调用，否则onTouchEvent会被调用。也就是说，如果都提供的话，mTouch会屏蔽掉onTouchEvent。在onTouchEvent中，如果设置了mOnClickListener，则onClick会被调用。如果顶级ViewGroup不拦截事件，则事件会传递给它所在的点击事件莲上的子View，这是子View的dispatchTouchEvent会被调用。到此为止，事件已经从顶级View传递给了下一层View，接下来的传递过程和顶级View是一致的，如此循环，完成整个事件的分发。</p>
+<p>接下来从源码的角度剖析一下ViewGroup的事件分发过程，其主要实现是在ViewGroup的dispatchTouchEvent方法中，简略的逻辑代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//check for intercetion.</span><br><span class="line">final boolean intercepted;</span><br><span class="line"></span><br><span class="line">if(actionMasked==MotionEvent.ACTION_DOWN</span><br><span class="line">	||mFirstTouchTarget!=null)&#123;</span><br><span class="line">		final boolean disallowIntercept=(mGroupFlags &amp; FLAG_DISALLOW_INTERCEPT)!=0;</span><br><span class="line">		if(!disallowIntercept)&#123;</span><br><span class="line">			intercepted=onInterceptTouchEvent(ev);</span><br><span class="line">			ev.setAction(action);</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			intercepted=false;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;else&#123;</span><br><span class="line">		//There are no touch targets and this action is not an initial down</span><br><span class="line">		//so this view group continues to intercept touches.</span><br><span class="line">		intercepted=true;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的代码可以看出，ViewGroup在如下两种情况下会判断是否要拦截当前事件：事件类型为ACTION_DOWN或者mFirstTouchTarget!=null。mFirstTouchTarget是什么呢？我们从后面的代码逻辑可以看出，当事件由ViewGroup得子元素处理成功后，mFirstTouchTarget会被赋值并指向子元素，换种方式来说，当ViewGroup不拦截事件并将事件交由子元素处理时mFirstTouchTarget!=null。反过来，一旦事件由当前ViewGroup拦截时，mFirstTouchTarget!=null就不成立。那么当ACTION_MOVE和ACTION_UP事件到来时，由于(actionMasked==MotionEvent.ACTION_DOWN || mFirstTouchTarget !=null)这个条件为false，将导致ViewGroup的onInterceptTouchEvent不会再被调用，并且同一个序列中的其他事件都会默认交给他处理。</p>
+<p>当然，这里有一种特殊情况，那就是FLAG_DISALLOW_INTERCEPT标记位，这个标记位通过requestDisallowInterceptTouchEvent方法来设置的，一般用于子View中。FLAG_DISALLOW_INTERCEPT一旦设置后，ViewGroup将无法拦截除了ACTION_DOWN以外的其他事件。为什么说是除了ACTION_DOWN以外的其他事件呢？这是因为ViewGroup在分发事件时，如果是ACTION_DOWN就会重置FLAG_DISALLOW_INTERCEPT这个标记位，将导致子View中设置的这个标记位无效。因此，当面对ACTION_DOWN事件时，ViewGroup总会调用自己的onInterceptTouchEven方法来询问自己是否要拦截事件，这一点从源码中也可以看出来。在下面的代码中，ViewGroup会在ACTION_DOWN事件到来时做重置状态的操作，而在resetTouchState方法中会对FLAG_DISALLOW_INTERCEPT进行重置，因此子View调用requestDisallowInterceptTouchEvent方法并不能影响ViewGroup对ACTION_DOWN事件的处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//Handle an initial down.</span><br><span class="line">if(actionMasked == MotionEvent.ACTION_DOWN)&#123;</span><br><span class="line">	//Throw away all previous state when starting a new touch gesture.</span><br><span class="line">	//The framework may have dropped the up or cancel event for the previous gesture.</span><br><span class="line">	//due to an app switch,ANR,or some other state change.</span><br><span class="line">	cancelAndClearTouchTargets(ev);</span><br><span class="line">	resetTouchState();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的源码分析，我们可以得出结论，当ViewGroup决定拦截事件后，那么后续的事件就会默认交由它处理并且不会再次调用onInterceptTouchEvent方法。FLAG_DISALLOW_INTERCEPT这个标记的作用是让ViewGroup不在拦截事件，当然前提是ViewGroup不拦截ACTION_DOWN事件。总结一下可以得出连个结论：</p>
+<p>1.onInterceptTouchEvent不是每次事件都会被调用，如果我们想提前处理所有的点击事件，要选择dispatchTouchEvent方法，只有这个方法能确保每次都会调用，当然前提是事件能够传递到当前的ViewGroup中。<br>2.FLAG_DISALLOW_INTERCEPT这个标记位的作用，可以用来处理事件的滑动冲突。</p>
+<p>接着在看当ViewGroup不拦截事件的时候，事件会向下分发交由它的子View进行处理，源代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">final View[] children=mChildren;</span><br><span class="line">for(int i=childrenCount-1;i&gt;=0;i++)&#123;</span><br><span class="line">	final int childIndex=customOrder?getChildDrawingOrder(childrenCount,i):i;</span><br><span class="line">	final View child=(preorderedList==null)?children[childIndex]:preorderedList.get(childIndex);</span><br><span class="line">	if(!canViewReceivePointerEvents(child) ||</span><br><span class="line">		!isTransformedTouchPointInView(x,y,child,null)&#123;</span><br><span class="line">		continue;</span><br><span class="line">	&#125;</span><br><span class="line">	newTouchTarget=getTouchTarget(child);</span><br><span class="line">	if(newTouchTarget!=null)&#123;</span><br><span class="line">		//Child is already receiving touch within its bounds.</span><br><span class="line">		//Give it the new pointer in addtion to the ones it is handling.</span><br><span class="line">		newTouchTarget.pointerIdBits|=idBitsToAssign;</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	resetCancelNextUpFlag(child);</span><br><span class="line">	if(dispatchTransformedTouchEvent(ev,false,child,idBitsToAssign))&#123;</span><br><span class="line">		//Child wants to receive touch within its bounds.</span><br><span class="line">		mLastTouchDownTime=ev.getDownTime();</span><br><span class="line">		if(preorderedList!=null)&#123;</span><br><span class="line">			//childIndex points to presorted list,find original index</span><br><span class="line">			for(int j=0;j&lt;childrenCount;j++)&#123;</span><br><span class="line">				if(children[childIndex]==mChildren[j])&#123;</span><br><span class="line">					mLastTouchDownIndex=j;</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			mLastTouchDownIndex=childIndex;</span><br><span class="line">		&#125;</span><br><span class="line">		mLastTouchDownX=ev.getX();</span><br><span class="line">		mLastTouchDownY=ev.getY();</span><br><span class="line">		newTouchTarget=addTouchTarget(child,idBitsToAssign);</span><br><span class="line">		alreadyDispatchToNewTouchTarget=true;</span><br><span class="line">		break;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码逻辑很清晰，首先遍历ViewGroup的所有子View，然后判断子元素是否能够接受到点击事件。<strong>是否能够接受到点击事件主要由两点蓝衡量：子元素是否在播放动画和点击事件的坐标是否落在子元素的区域内。</strong>如果某个子元素满足上述两个条件，那么事件就会传递给它来处理。可以看到，dispatchTransformedTouchEvent事件上调用了子元素的dispatchTouchEvent方法，在它的内部有如下一段内容，而在上面的代码中child传递的不是null,因此他会直接调用子元素的dispatchTouchEvent方法，这样事件就交由子元素处理了，从而完成了一轮事件分发。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(child==null)&#123;</span><br><span class="line">	handled=super.dispatchTouchEvent(event);</span><br><span class="line">&#125;else&#123;</span><br><span class="line">	handled=child.dispatchTouchEvent(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果子元素的dispatchTouchEvent返回true，这时我们暂时不用考虑事件在子元素内部是怎么分发的，那么mFirstTouchTarget就会被赋值同时跳出for循环，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">newTouchTarget=addTouchTarget(child,idBitsToAssign);</span><br><span class="line">alreadyDispatchedToNewTouchTarget=true;</span><br><span class="line">break;</span><br></pre></td></tr></table></figure>
+
+<p>这几行代码完成了mFirstTouchTarget的赋值并且终止对子View的遍历。如果子元素的dispatchTouchEvent返回false，ViewGroup就会把事件分发给下一个子元素。<br>其实mFirstTouchTarget真正的赋值过程是在addTouchTarget内部完成的，从下面的addTouchTarget方法的内部可以看出，mFirstTouchTarget其实是一种单链表结构。mFirstTouchTarget是否被赋值，将直接影响到ViewGroup对事件的拦截策略，如果mFirstTouchTarget为null,那么ViewGroup就默认拦截接下来同一事件序列中的所有的点击事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private TouchTarget addTouchTarget(View child,int pointerIdBits)&#123;</span><br><span class="line">	TouchTarget target=TouchTarget.obtain(child,pointerIdBits);</span><br><span class="line">	target.next=mFirstTouchTarget;</span><br><span class="line">	return target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果遍历所有的子元素事件都没有被合适地处理，这包含两种情况：<br>1.ViewGroup没有子元素<br>2.子元素处理了点击事件，但是在dispatchTouchEvent中返回了false（一般是因为子元素在onTouchEvent中返回了false）<br>在这两种情况下，ViewGroup会自己处理点击事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if(mFirstTouchTarget ==null)&#123;</span><br><span class="line">	//No touch targets so treat this as an ordinary view.</span><br><span class="line">	handled=dispatchTransformedTouchEvent(ev,canceled,null,TouchTarget.ALL_POINTER_IDS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意，这里的第三个参数child 为null，从前面的分析可以知道，它会调用super.dispatchTouchEvent，很显然，这里就转到了View的dispatchTouchEvent方法，有关View的事件分发，请关注后面的博文。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-支持Html渲染的TextView—LinkTextView" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/支持Html渲染的TextView—LinkTextView/">支持Html渲染的TextView—LinkTextView</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/支持Html渲染的TextView—LinkTextView/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>需求场景是这样的：<br>在Android中实现如下效果：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzIwMTEwMTEwNDU2" alt="这里写图片描述"><br>很多人都会说:So easy!交给h5去做，It’s not my bussiness!</p>
+<p>好吧，我也好想说一句:H5你去做吧，It’s not my bussiness!<br>然并卵，产品需求说要做Android源生的，然后苦逼的事情就此开始了……</p>
+<p>然后，思想步入正轨，开始思考这个需求的实现方式：<br>1.一个TextView控件，通过SpannableString的方式把“打开百度”字样拼接上去<br>必须承认，这是实现这种效果为数不多的方法之一，然而实现过程会略显复杂：<br>首先需要确定”打开百度”几个字符的位置，然后通过SpannableString拼接到TextView上去。</p>
+<p>Finished!<br>Really ? It’s not finished!</p>
+<p>需求分析并非如此！<br><strong>将”打开百度”文字按照这个样式拼上去只是第一步，更重要的是你点击这个TextView能从浏览器中打开这个百度链接吗？</strong></p>
+<p>那有人就会说了，再获取到url通过浏览器打开就行了！<br>的确，这样是可以实现，但是拼接指定样式的字符已经是很复杂了，再获取URL打开链接会让实现方式更复杂一些，而且这些需求的实现过程都是在View层操作的，比如你在Activity中先获取到这个TextView,然后在通过SpannaleString 将字符拼接，然后再拿到URL去打开链接。</p>
+<p>换句话说，如果有100个地方需要实现这种效果，就需要通过相同的逻辑复制100遍。</p>
+<p>换个思路，能不能通过“改造”TextView自动实现这一过程？</p>
+<p>必须可以。</p>
+<p>然后第二种实现方式就来了。</p>
+<p>2.通过Html.fromHtml的方式实现<br>也就是说，将这些文字用html的格式传递，然后TextView使用Html的方式实现效果！</p>
+<p>那么我们真正需要的数据格式应该是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;font color=&quot;black&quot; style=&quot;text-size:20;&quot;&gt;</span><br><span class="line">	周末加班很不爽有木有?!</span><br><span class="line">&lt;/font&gt;</span><br><span class="line">&lt;a href=&quot;http://www.baidu.com&quot;&gt;</span><br><span class="line">	&lt;font color=&quot;#fe751a&quot;&gt;</span><br><span class="line">		打开百度</span><br><span class="line">	&lt;/font&gt;</span><br><span class="line">&lt;/a&gt;</span><br><span class="line">&lt;font color=&quot;black&quot; &gt;看会电影休息一下吧！&lt;/font&gt;</span><br></pre></td></tr></table></figure>
+
+<p>1.通过Html的方式实现如图的效果</p>
+<p>伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textView.setText(Html.fromHtml(htmlStr));</span><br></pre></td></tr></table></figure>
+
+<p>这个就不需要详细阐述了。<br>2.获取URL<br>这里，我们使用正则表达式来获取百度链接，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//匹配URL的正则表达式</span><br><span class="line">    private static final String REGEX_STRING = &quot;(http|ftp|https):\\/\\/[\\w\\-_]&quot; +</span><br><span class="line">            &quot;+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;amp;/~\\+#])?&quot;;</span><br><span class="line"></span><br><span class="line">Pattern pattern = Pattern.compile(REGEX_STRING);</span><br><span class="line">                Matcher matcher = pattern.matcher(htmlStr);</span><br><span class="line">                if (matcher.find()) &#123;</span><br><span class="line">                    String hrefUrl = matcher.group();</span><br><span class="line">                    System.out.println(&quot;html-&gt;&quot;+hrefUrl);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，关键的实现细节已结束。<br>剩下的就是对TextView的“改造了”，具体流程不再阐述，完整代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">package com.example.myview;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.net.Uri;</span><br><span class="line">import android.text.Html;</span><br><span class="line">import android.text.TextUtils;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line"></span><br><span class="line">import java.util.regex.Matcher;</span><br><span class="line">import java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunLei on 16/3/19.</span><br><span class="line"> * e-mail:wcl_android@163.com</span><br><span class="line"> */</span><br><span class="line">public class LinkTextView extends TextView &#123;</span><br><span class="line">    //匹配URL的正则表达式</span><br><span class="line">    private static final String REGEX_STRING = &quot;(http|ftp|https):\\/\\/[\\w\\-_]&quot; +</span><br><span class="line">            &quot;+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;amp;/~\\+#])?&quot;;</span><br><span class="line">    private String tmpStr = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    public LinkTextView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LinkTextView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LinkTextView(Context context, AttributeSet attrs, int defStyle) &#123;</span><br><span class="line">        super(context, attrs, defStyle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setText(CharSequence text, BufferType type) &#123;</span><br><span class="line">        tmpStr = text.toString();</span><br><span class="line">        if (text.toString().contains(&quot;href&quot;)) &#123;</span><br><span class="line">            super.setText(Html.fromHtml(text.toString()), type);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            super.setText(text, type);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void performTextClick(Context context) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            CharSequence text = tmpStr;</span><br><span class="line">            if (!TextUtils.isEmpty(text)) &#123;</span><br><span class="line">                Pattern pattern = Pattern.compile(REGEX_STRING);</span><br><span class="line">                Matcher matcher = pattern.matcher(text);</span><br><span class="line">                if (matcher.find()) &#123;</span><br><span class="line">                    String hrefUrl = matcher.group();</span><br><span class="line">                    if (!TextUtils.isEmpty(hrefUrl)) &#123;</span><br><span class="line">                        Intent intent = new Intent();</span><br><span class="line">                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">                        intent.setAction(&quot;android.intent.action.VIEW&quot;);</span><br><span class="line">                        Uri content_url = Uri.parse(hrefUrl);</span><br><span class="line">                        intent.setData(content_url);</span><br><span class="line">                        context.startActivity(intent);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义控件</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/支持Html渲染的TextView—LinkTextView/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Android中两种序列化方式的比较Serializable和Parcelable" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/Android中两种序列化方式的比较Serializable和Parcelable/">Android中两种序列化方式的比较Serializable和Parcelable</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/Android中两种序列化方式的比较Serializable和Parcelable/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:38:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Serializable和Parcelable接口可以完成对象的序列化过程，当我们需要通过Intent和Binder传输数据时就需要使用者两种序列化方式。还有，我们需要对象持久化到存储设备或者通过网络传输给其他客户端，这个使用也需要使用Serializale来完成对象的序列化。在Android应用开发中，这两种方式都很常见，但两者方式并不相同。</p>
+<h4 id="1-Serializable接口"><a href="#1-Serializable接口" class="headerlink" title="1.Serializable接口"></a>1.Serializable接口</h4><p>Serializable接口是Java提供的一个序列化接口，它是一个空接口，为对象提供标准的序列化和反序列化操作。使用Serializable来实现的对象的序列化相当简单，只需要在类的生命中指定一个类似相面的标识即可自动实现默认的序列化过程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static final long serialVersionUID=871238749032;</span><br></pre></td></tr></table></figure>
+
+<p>完整的对象序列化代码示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//Model</span><br><span class="line">public class User implements Serializable&#123;</span><br><span class="line">	private static final long serialVersionUID=871238749032;</span><br><span class="line"></span><br><span class="line">	public int userId;</span><br><span class="line">	public String userName;</span><br><span class="line">	public String password;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//序列化到本地</span><br><span class="line">User user=new User(0,&quot;wcl_android@163.com&quot;,&quot;123456&quot;);</span><br><span class="line">ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(&quot;user.obj&quot;));</span><br><span class="line">out.writeObject(user);</span><br><span class="line">out.close;</span><br><span class="line"></span><br><span class="line">//反序列化</span><br><span class="line">ObjectInputStream in=new ObjectInputStream(new FileInputStream(&quot;user.obj&quot;));</span><br><span class="line">User user=(User)in.readObject();</span><br><span class="line">in.close();</span><br></pre></td></tr></table></figure>
+
+<p>这种方式是Java提供的一种序列化方式，过程非常简单，甚至有些开发人员都不需要声明serialVersionUID也可以完成这个过程，但serialVersionUID到底需不需要指定呢？</p>
+<p>需要！</p>
+<p>Java API既然提供了这个serialVersionUID，那么它必定是有用的。这个serialVersionUID是用来辅助序列化和反序列化过程的，原则上序列化后的数据中的serialVersionUID只有和当前类的serialVersionUID相同才能够正常地被反序列化。</p>
+<p>serialVersionUID的详细工作过程是这样的：序列化的时候系统会把当前类的serialVersionUID写入序列化的二进制文件中，当反序列化的时候系统会检测文件中的serialVersionUID是否和当前类的serialVersionUID一致，如果一致就说明序列化的类的版本和当前类的版本是相同的，这个时候可以成功反序列化；否则说明当前类和反序列化的类相比发生了某些变化，比如成员变量的数量、类型发生了变化，这个时候是无法正常反序列化的。</p>
+<p>一般来说，我们应该手动指定serialVersionUID的值，比如1L，也可以让IDE根据当前类的结构自动去生成它的hash值，这样序列化和反序列化时两者的serialVersionUID是相同的，因此可以正常进行反序列化操作。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">当然，我们还需要考虑一种情况，如果类结构发生了非城规改变，比如修改了类名，修改了成员变量的类型，这个时候尽管serialVersionUID验证通过了，但是反序列化过程仍然会失败，因为类的结构有了毁灭性的改变，根本无法从老版本的数据中还原出一个新的类结构的对象。</span><br><span class="line"></span><br><span class="line">对于使用序列化还有两点需要注意：</span><br><span class="line">1.静态成员变量属于类不属于对象，所以不参与序列化过程</span><br><span class="line">2.用transient关键字标记的成员变量不参与序列化过程</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 2.Parcelable接口</span><br><span class="line">Parcelable接口是Android SDK提供的一种专门用于Android应用中对象的序列化和反序列化的方式，相比于Seriablizable具有更好的性能。实现Parcelable接口的对象就可以实现序列化并可以通过Intent和Binder传递。</span><br><span class="line"></span><br><span class="line">下面是一个完成的实现了Parcelable接口的类</span><br></pre></td></tr></table></figure></p>
+<p>public class User implements Parcelable{<br>    public int userId;<br>    public String userName;<br>    public String password;<br>    public Book book;</p>
+<pre><code>public User(int userId,String userName,String password,Book book){
+    this.userId=userId;
+    this.userName=userName;
+    this.password=password;
+    this.book=book;
+}
+
+public int describeContents(){
+    //几乎所有情况都返回0，仅在当前对象中存在文件描述符时返回1
+    return 0;
+}
+
+public void writeToParcel(Parcel out,int flags){
+    out.writeInt(userId);
+    out.writeString(userName);
+    out.writeString(password);
+    out.writeParcelable(book,0);
+}
+
+public static final Parcelable.Creator&lt;User&gt; CREATOR=new Parcelable.Creator&lt;User&gt;(){
+    public User createFromParcel(Parcel in){
+        return new User(in);
+    }
+
+    public User[] newArray(int size){
+        return new User[size];
+    }
+}
+
+private User(Parcel in){
+    userId=in.readInt();
+    userName=in.readString();
+    password=in.readString();        book=in.readParcelable(Thread.currentThread().getContextClassLoader());
+}</code></pre><p>}<br>```<br>看起来比Serializable方式复杂太多。我们使用表格把Parcelable方式的相关方法进行说明</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+<th>标记位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>createFromParcel(Parcel in)</td>
+<td>从序列化后的对象中创建原始对象</td>
+<td></td>
+</tr>
+<tr>
+<td>newArray(int size)</td>
+<td>创建指定长度的原始对象数组</td>
+<td></td>
+</tr>
+<tr>
+<td>User(Parcel in)</td>
+<td>从序列化后的对象中创建原始对象</td>
+<td></td>
+</tr>
+<tr>
+<td>writeToParcel(Parcel out,int flags)</td>
+<td>将当前对象写入序列化结构中</td>
+<td>PARCALABLE_WRITE_RETURN_VALUE</td>
+</tr>
+<tr>
+<td>describeContents</td>
+<td>返回当前对象的内容描述，几乎所有情况都返回0，仅在当前对象中存在文件描述符时返回1</td>
+<td>CONTENTS_FILE_DESCRIPTOR</td>
+</tr>
+</tbody></table>
+<p>既然Parcelable和Serializable都可以实现序列化并且可以用于Intent间的数据传递，那么两者有什么区别呢？</p>
+<table>
+<thead>
+<tr>
+<th>区别</th>
+<th>Serializable</th>
+<th>Parcelable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>所属API</td>
+<td>JAVA API</td>
+<td>Android SDK API</td>
+</tr>
+<tr>
+<td>原理</td>
+<td>序列化和反序列化过程需要大量的I/O操作</td>
+<td>序列化和反序列化过程不需要大量的I/O操作</td>
+</tr>
+<tr>
+<td>开销</td>
+<td>开销大</td>
+<td>开销小</td>
+</tr>
+<tr>
+<td>效率</td>
+<td>低</td>
+<td>很高</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>序列化到本地或者通过网络传输</td>
+<td>内存序列化</td>
+</tr>
+</tbody></table>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/Android中两种序列化方式的比较Serializable和Parcelable/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Android中的线程池ThreadPoolExecutor" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="2019/07/19/Android中的线程池ThreadPoolExecutor/">Android中的线程池ThreadPoolExecutor</a>
+    </h1>
+  
+
+        
+        <a href="2019/07/19/Android中的线程池ThreadPoolExecutor/" class="archive-article-date">
+  	<time datetime="2019-07-19T13:37:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>####提到线程池就必须先说一下使用线程池的好处：</p>
+<ul>
+<li>1.重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销；</li>
+<li>2.能有效控制线程池的最大并发数，避免大量的线程之间因相互抢占系统资源而导致的阻塞现象；</li>
+<li>3.能够对线程进行简单的管理，并提供定时执行以及制定事件间隔循环执行等功能。</li>
+</ul>
+<p>Android中的线程池的概念来源于Java中的Executor，Executor是一个接口，真正的线程池的实现为ThreadPoolExecutor。ThreadPoolExecutor提供了一系列参数来配置线程池，通过不同的参数可以创建不同的线程池。从线程池的功能特性来说，Android中的线程池主要分为4类，且这4类线程池可以通过Executors所提供的工厂方法来得到。</p>
+<h3 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a><strong>ThreadPoolExecutor</strong></h3><p>ThreadPoolExecutor是线程池的真正实现，它的构造方法提供了一系列参数来配置线程池。<br>下面是ThreadPoolExecutor的一个比较常用的构造方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public ThreadPoolExecutor(</span><br><span class="line">	int corePoolSize,</span><br><span class="line">	int maximunPoolSize,</span><br><span class="line">	long keepAliveTime,</span><br><span class="line">	TimeUnit unit,</span><br><span class="line">	BlockingQueue&lt;Runnable&gt; workQueue,</span><br><span class="line">	ThreadFactory threadFactory</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>#####下面对构造方法中的各个参数进行介绍</p>
+<ul>
+<li><strong>1.corePoolSize</strong><br>线程池的核心线程数，默认情况下 ，核心线程会在线程池中一直存活，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* &lt;strong&gt;2.maximumPoolSize&lt;/strong&gt;</span><br><span class="line">线程池所能容纳的最大线程数，当活动线程数达到这个数值后，后续的新任务将会被阻塞。</span><br><span class="line"></span><br><span class="line">* &lt;strong&gt;3.keepAliveTime&lt;/strong&gt;</span><br><span class="line">非核心线程闲置时的超长时长，超过这个时长，非核心线程就会被回收。当ThreadPoolExecutor的allowCoreThreadTimeOut属性设置成true时，keepAliveTime同样会作用于核心线程。</span><br><span class="line"></span><br><span class="line">* &lt;strong&gt;4.unit&lt;/strong&gt;</span><br><span class="line">用于指定keepAliveTime参数的时间单位，这是一个枚举，常用的有TimeUnit.MILLISECONDS(毫秒)，TimeUnit.SECONDS(秒)以及TimeUnit.MINUTES(分钟)等。</span><br><span class="line"></span><br><span class="line">* &lt;strong&gt;5.workQueue&lt;/strong&gt;</span><br><span class="line">线程池中的任务队列，通过线程池的execute方法提交的Runnable对象会存储在这个参数中。</span><br><span class="line"></span><br><span class="line">* &lt;strong&gt;6.threadFactory&lt;/strong&gt;</span><br><span class="line">线程工程，为线程池提供创建新线程的功能。ThreadFactory是一个接口，它只有一个方法：Thread newThread(Runnable r).</span><br><span class="line"></span><br><span class="line">除了上面的这些主要参数外，ThreadPoolExecutor还有一个不常用的参数RejectedExecutionHandler handler。当线程池无法执行新任务时，这可能是由于任务队列已满或者是无法成功执行任务，这个时候ThreadPoolExecutor会调用handler的rejectedExecution方法来通知调用者，默认情况下rejectedExecution方法会直接抛出一个RejectedExecutionException。ThreadPoolExecutor为RejectedExecutionHandler提供了几个可选值:CallerRunsPolicy,AbortPolicy,DiscardPolicy和DiscardOldestPolicy,其中AbortPolicy是默认值，它会直接抛出RejectedExecutionException。</span><br><span class="line"></span><br><span class="line">ThreadPoolExecutor执行任务时大致遵循以下规则</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>1.如果线程池中的线程数量未达到核心线程的数量，那么会直接启动一个核心线程来执行任务。</p>
+<p>2.如果线程池中的线程数量已经达到或者超过核心线程的数量，那么任务会被插入到任务队列中排队等待执行。</p>
+<p>3.如果在步骤2中无法将任务插入到任务队列中，这往往是由于队列任务已满，这个时候如果线程数量未达到线程池规定的最大值，那么会立刻启动一个非核心线程来执行任务。</p>
+<p>4.如果步骤3中线程数量已经达到线程池规定的最大值，那么就拒绝执行此任务，ThreadPoolExecutor会调用RejectedExecutionHandler的rejectedExecution方法来通知调用者。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ThreadPoolExecutor的参数配置在AsyncTask中有明细的表现，下面是AsyncTask中的线程池的配置情况：</span><br></pre></td></tr></table></figure>
+
+<p>private static final int CPU_COUNT=Runtime.getRuntime().availableProcessors();<br>private static final int CORE_POOL_SIZE=CPU_COUNT+1;<br>private static final int MAXMIUM_POOL_SIZE=CPU_COUNT*2+1;<br>private static final int KEEP_ALIVE=1;</p>
+<p>private static final ThreadFactory sThreadFactory=new ThreadFactory(){<br>    private final AtomicInteger mCount=new AtomicInteger(1);</p>
+<pre><code>public Thread newThread(Runnable r){
+    return new Thread(r,&quot;AsyncTask #&quot;+mCount.getAndIncrement());
+}</code></pre><p>};</p>
+<p>private static final BlockingQueue<runnable> sPoolWorkQueue=new LinkedBlockingQueue<runnable>(128);</runnable></runnable></p>
+<p>public static final Executor THREAD_POOL_EXECUTOR=new ThreadPoolExecutor(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,KEEP_ALIVE,TimeUnit.SECONDS,sPoolWorkQueue,sThreadFactory);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#####从上面的代码可以知道，AsyncTask对THREAD_POOL_EXECUTOR这个线程池进行了配置，配置后的线程池规格如下：</span><br><span class="line">* 1.核心线程数等于CPU核心数+1；</span><br><span class="line">* 2.线程池的最大线程数为CPU核心数的2倍+1；</span><br><span class="line">* 3.核心线程无超时机制，非核心线程在闲置时的超时时间为1秒；</span><br><span class="line">* 4.任务队列的容量为128.</span><br><span class="line"></span><br><span class="line">上面介绍了ThreadPoolExecutor的相关介绍和构造方法参数的含义，下面介绍一下常用的几个线程池的分类。</span><br><span class="line"></span><br><span class="line">#### &lt;strong&gt;1.FixedThreadPool&lt;/strong&gt;</span><br><span class="line">通过Executors的newFixedThreadPool方法来创建。它是一种线程数量固定的线程池，当线程处于空闲状态时，它们并不会被回收，除非线程池被关闭了。当所有的线程都处于活动状态时，新任务都会处于等待状态，直到有线程空闲出来。由于FixedThreadPool只有核心线程并且这些核心线程不会被回收，这意味着它能够更加快速地响应外界的请求。newFixedThreadPool方法的实现如下，可以发现FixedThreadPool中只有核心线程并且这些核心线程并没有超时机制，另外任务队列也是没有大小限制的。</span><br></pre></td></tr></table></figure>
+
+<p>public static ExecutorService newFixedThreadPool(int nThreads){<br>    return new ThreadPoolExecutor(nThreads,nThreads,0L,TimeUnit.SECONDS,new LinkedBlockingQueue<runnable>());<br>}</runnable></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### &lt;strong&gt;2.CachedThreadPool&lt;/strong&gt;</span><br><span class="line">通过Executors的newCachedThreadPool方法来创建。它是一种线程数量不定的线程池，它只有非核心线程，并且其最大线程数为Integer.MAX_VALUE。由于Integer.MAX_VALUE是一个很大的数，实际上就相当于最大线程数可以任意大。当线程池中的线程都处于活动状态时，线程池会创建新的线程来处理新任务，否则就会利用空闲的线程来处理新任务。线程池中的空闲线程都有超时机制，这个超时时长为60秒，超过60秒闲置线程就会被回收。和FixedThreadPool不同的是，CachedThreadPool的任务队列其实相当于一个空集合，这将导致任何任务都会被立即执行，因此在这种情况下SynchronousQueue是无法插入任务的。SynchronousQueue是一个非常特殊的队列，在很多情况下可以把它理解为一个无法储存元素的队列。从CachedThreadPool的特性来看，这类线程池比较适合执行大量的耗时较少的任务。当整个线程池都处于闲置状态时，线程池中的线程都会超时而被停止，这个时候CachedThreadPool之中实际上是没有任何线程的，它几乎是不占任何系统资源的。newCachedThreadPool方法的实现如下：</span><br></pre></td></tr></table></figure>
+
+<p>public static ExecutorService newCachedThreadPool(){<br>    return new ThreadPoolExecutor(0,Integer.MAX_VALUE,60L,<br>    TimeUnit.SECONDS,new SynchronousQueue<runnable>());<br>}</runnable></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### &lt;strong&gt;3.ScheduledThreadPool&lt;/strong&gt;</span><br><span class="line">通过Executors的newScheduledThreadPool方法来创建。它的核心线程数量是固定的，而非核心线程数是没有限制的，并且当非核心线程空闲时会被回收。ScheduledThreadPool这类线程池主要用于执行定时任务和具有固定周期的重复任务。newScheduledThreadPool方法的实现如下所示：</span><br></pre></td></tr></table></figure>
+
+<p>public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize){<br>    return new ScheduledThreadPoolExecutor(corePoolSize);<br>}</p>
+<p>public ScheduledThreadPoolExecutor(int corePoolSize){<br>    super(corePoolSize,Integer.MAX_VALUE,0,NANOSECONDS,new DelayedWorkQueue());<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### &lt;strong&gt;4.SingleThreadPool&lt;/strong&gt;</span><br><span class="line">通过Executors的newSingleThreadExecutor方法来创建。这类线程池内部只有一个核心线程，它确保所有的任务都在同一个线程中按顺序执行。SingleThreadExecutor的意义在于统一所有的外界任务到一个线程中，这使得在这些任务之间不需要处理线程同步的问题。</span><br><span class="line">newSingleThreadExecutor方法的实现如下：</span><br></pre></td></tr></table></figure>
+
+<p>public static ExecotorService newSingleThreadExecutor(){<br>    reutrn new FinalizableDelegatedExecutorService(new ThreadPoolExecutor(1,1,0L,TimeUnit.MILLSECONDS,new LinkedBlockingQueue<runnable>()));<br>}<br>```</runnable></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="2019/07/19/Android中的线程池ThreadPoolExecutor/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="page/2/">2</a><a class="extend next" rel="next" href="page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -396,7 +1327,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
+                <a href="javascript:void(0)" class="js-tag color3">Android</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title>Android自定义控件—仿仪表盘进度控件ArcProgressBar | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="开门见山，效果图如下： 这种效果经常会遇到，但却一直不知道这个效果图应该怎么描述，所以暂且以“仪表盘进度控件”来描述，各位博友如果有更好的描述这种效果的词汇，请回复博文告诉我，在此先谢谢各位博友了！ 其实做出这样的效果并不困难，只需要了解自定义控件的常规步骤，Canvas绘图操作，外加一点点数学基础就行了，因为在绘制控件的过程中，需要计算一些坐标点和圆弧位置等信息。 为了更加方便的使用该控件，该控">
+<meta name="keywords" content="Android,自定义控件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+<meta property="og:title" content="Android自定义控件—仿仪表盘进度控件ArcProgressBar">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/Android自定义控件—仿仪表盘进度控件ArcProgressBar/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="开门见山，效果图如下： 这种效果经常会遇到，但却一直不知道这个效果图应该怎么描述，所以暂且以“仪表盘进度控件”来描述，各位博友如果有更好的描述这种效果的词汇，请回复博文告诉我，在此先谢谢各位博友了！ 其实做出这样的效果并不困难，只需要了解自定义控件的常规步骤，Canvas绘图操作，外加一点点数学基础就行了，因为在绘制控件的过程中，需要计算一些坐标点和圆弧位置等信息。 为了更加方便的使用该控件，该控">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzAyMTA1NTAwNTQ2">
+<meta property="og:updated_time" content="2019-07-19T13:44:30.421Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="Android自定义控件—仿仪表盘进度控件ArcProgressBar">
+<meta name="twitter:description" content="开门见山，效果图如下： 这种效果经常会遇到，但却一直不知道这个效果图应该怎么描述，所以暂且以“仪表盘进度控件”来描述，各位博友如果有更好的描述这种效果的词汇，请回复博文告诉我，在此先谢谢各位博友了！ 其实做出这样的效果并不困难，只需要了解自定义控件的常规步骤，Canvas绘图操作，外加一点点数学基础就行了，因为在绘制控件的过程中，需要计算一些坐标点和圆弧位置等信息。 为了更加方便的使用该控件，该控">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzAyMTA1NTAwNTQ2">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -154,39 +157,57 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Android自定义控件—仿仪表盘进度控件ArcProgressBar" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      Android自定义控件—仿仪表盘进度控件ArcProgressBar
     </h1>
   
 
         
         <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-19T13:44:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <p>开门见山，效果图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzAyMTA1NTAwNTQ2" alt="这里写图片描述"></p>
+<p>这种效果经常会遇到，但却一直不知道这个效果图应该怎么描述，所以暂且以“仪表盘进度控件”来描述，各位博友如果有更好的描述这种效果的词汇，请回复博文告诉我，在此先谢谢各位博友了！</p>
+<p>其实做出这样的效果并不困难，只需要了解自定义控件的常规步骤，Canvas绘图操作，外加一点点数学基础就行了，因为在绘制控件的过程中，需要计算一些坐标点和圆弧位置等信息。</p>
+<p>为了更加方便的使用该控件，该控件支持自定义控件属性，并提供支持链式编程的方法供开发者设置各种参数，以下是控件实现的各个步骤。</p>
+<p><strong>1.自定义控件属性，在布局中直接设置控件参数</strong><br>在res-&gt;values-&gt;attrs.xml中新增自定义的控件属性如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;declare-styleable name=&quot;ArcProgressBar&quot;&gt;</span><br><span class="line">        &lt;attr name=&quot;current_progress&quot; format=&quot;float&quot;/&gt;</span><br><span class="line">        &lt;attr name=&quot;chart_title&quot; format=&quot;string&quot;/&gt;</span><br><span class="line">        &lt;attr name=&quot;max_progress&quot; format=&quot;float&quot;/&gt;</span><br><span class="line">        &lt;attr name=&quot;progress_unit&quot; format=&quot;string&quot;/&gt;</span><br><span class="line">&lt;/declare-styleable&gt;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>PS：如不存在attrs.xml文件，则可以新建任意支持自定义属性的xml文件，且文件名无需保持一致。</p>
+<p><strong>2.自定义AroProgressBar过程</strong></p>
+<p><strong>2.1 新建ArcProgressBar类并继承View</strong><br><strong>2.2 获取自定义控件属性并进行相关资源（画笔，颜色等）的初始化</strong><br>由于需要从布局文件中的自定义属性获取相关布局初始化数据，所以必须实现如下构造函数并从自定义属性对象中获取相关属性数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public ArcProgressBar(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ArcProgressBar);</span><br><span class="line">        float hours = typedArray.getFloat(R.styleable.ArcProgressBar_current_progress, 0);</span><br><span class="line">        String chartTitle = typedArray.getString(R.styleable.ArcProgressBar_chart_title);</span><br><span class="line">        float maxProgress = typedArray.getFloat(R.styleable.ArcProgressBar_max_progress, 0);</span><br><span class="line">        String progressUnit = typedArray.getString(R.styleable.ArcProgressBar_progress_unit);</span><br><span class="line"></span><br><span class="line">        if (hours &gt; 0) &#123;</span><br><span class="line">            this.currentProgress = hours;</span><br><span class="line">        &#125;</span><br><span class="line">        if (maxProgress &gt; 0) &#123;</span><br><span class="line">            this.maxProgress = maxProgress;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!TextUtils.isEmpty(chartTitle)) &#123;</span><br><span class="line">            this.chartName = chartTitle;</span><br><span class="line">        &#125;</span><br><span class="line">        if (!TextUtils.isEmpty(progressUnit)) &#123;</span><br><span class="line">            this.progressUnitString = progressUnit;</span><br><span class="line">        &#125;</span><br><span class="line">        typedArray.recycle();</span><br><span class="line"></span><br><span class="line">        init();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>需要注意的一点，在获取自定义属性完毕后，请调用typedArray.recycle();方法释放自定义属性对象。</p>
+<p>其中init()方法中是对相关要使用到的画笔进行初始化操作，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">private void init() &#123;</span><br><span class="line">        backArcPaint = new Paint();</span><br><span class="line">        backArcPaint.setAntiAlias(true);</span><br><span class="line">        backArcPaint.setColor(INNER_CIRCLE_BORDER_COLOR);</span><br><span class="line">        backArcPaint.setStrokeWidth(arcStrokeWidth);</span><br><span class="line">        backArcPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        backArcPaint.setStrokeCap(Paint.Cap.ROUND);</span><br><span class="line"></span><br><span class="line">        fontArcPaint = new Paint();</span><br><span class="line">        fontArcPaint.setAntiAlias(true);</span><br><span class="line">        fontArcPaint.setColor(FONT_CIRCLE_BORDER_COLOR);</span><br><span class="line">        fontArcPaint.setStrokeWidth(arcStrokeWidth);</span><br><span class="line">        fontArcPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line">        fontArcPaint.setStrokeCap(Paint.Cap.ROUND);</span><br><span class="line"></span><br><span class="line">        chartNamePaint = new Paint();</span><br><span class="line">        chartNamePaint.setStyle(Paint.Style.FILL);</span><br><span class="line">        chartNamePaint.setAntiAlias(true);</span><br><span class="line">        chartNamePaint.setTextSize(chartNameTextSize);</span><br><span class="line">        chartNamePaint.setColor(FONT_CIRCLE_BORDER_COLOR);</span><br><span class="line"></span><br><span class="line">        unitTextWidth = chartNamePaint.measureText(progressUnitString);</span><br><span class="line"></span><br><span class="line">        currentProgressNumberPaint = new Paint();</span><br><span class="line">        currentProgressNumberPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">        currentProgressNumberPaint.setAntiAlias(true);</span><br><span class="line">        currentProgressNumberPaint.setTextSize(unitTextSize);</span><br><span class="line">        currentProgressNumberPaint.setColor(Color.WHITE);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>相关要涉及到的控件的成员变量声明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">private int circleRectWidth;</span><br><span class="line">    //圆弧边框宽度</span><br><span class="line">    private float arcStrokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,</span><br><span class="line">            10, getContext().getResources().getDisplayMetrics());</span><br><span class="line">    //图标名称字符大小</span><br><span class="line">    private float chartNameTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,</span><br><span class="line">            15, getContext().getResources().getDisplayMetrics());</span><br><span class="line">    //圆形中心当前进度数字字符大小</span><br><span class="line">    private float unitTextSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,</span><br><span class="line">            30, getContext().getResources().getDisplayMetrics());</span><br><span class="line">    //底层圆弧画笔</span><br><span class="line">    private Paint backArcPaint;</span><br><span class="line">    //前层圆弧画笔</span><br><span class="line">    private Paint fontArcPaint;</span><br><span class="line">    //绘制图标名称的画笔</span><br><span class="line">    private Paint chartNamePaint;</span><br><span class="line">    //绘制数字的画笔</span><br><span class="line">    private Paint currentProgressNumberPaint;</span><br><span class="line">    //圆弧半径</span><br><span class="line">    private int circleRadius;</span><br><span class="line">    //中心点X轴坐标</span><br><span class="line">    private int centerX;</span><br><span class="line">    //中心店Y轴坐标</span><br><span class="line">    private int centerY;</span><br><span class="line">    //半径占控件宽度的比例</span><br><span class="line">    private final float RADIUS_RATIO = 0.3f;</span><br><span class="line">    //圆弧开始绘制的角度</span><br><span class="line">    private final int START_ANGLE = 135;</span><br><span class="line">    //底层圆弧扫过的角度</span><br><span class="line">    private final int INNER_CIRCLE_SWEEP_ANGLE = 270;</span><br><span class="line">    //底层圆弧的颜色</span><br><span class="line">    private final int INNER_CIRCLE_BORDER_COLOR = Color.parseColor(&quot;#aaf0f1f2&quot;);</span><br><span class="line">    //上层圆弧的颜色</span><br><span class="line">    private final int FONT_CIRCLE_BORDER_COLOR = Color.parseColor(&quot;#eef0f1f2&quot;);</span><br><span class="line">    private final int BG_COLOR = Color.parseColor(&quot;#fe751a&quot;);</span><br><span class="line">    //默认图标名称</span><br><span class="line">    private String chartName = &quot;无标题&quot;;</span><br><span class="line">    //默认当前进度</span><br><span class="line">    private float currentProgress = 0;</span><br><span class="line">    //当前进度单位</span><br><span class="line">    private String progressUnitString = &quot;&quot;;</span><br><span class="line">    //进度单位所占的宽度</span><br><span class="line">    private float unitTextWidth;</span><br><span class="line">    //底部文案的y轴坐标</span><br><span class="line">    private float yPosBottomAlign;</span><br><span class="line">    //最大进度數</span><br><span class="line">    private float maxProgress = 8;</span><br><span class="line">    private RectF rectF;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p><strong>2.3 控件的测量过程</strong><br>控件的测量过程需要重写父类的onMeasure方法并通过setMeasuredDimension方法将最终的测量结果设置给控件。<br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        int widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        int widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">        int heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        int heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line"></span><br><span class="line">        if (widthSpecMode == MeasureSpec.AT_MOST || heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">            float defaultSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,</span><br><span class="line">                    200, getContext().getResources().getDisplayMetrics());</span><br><span class="line">            widthSpecSize = (int) defaultSize;</span><br><span class="line">            heightSpecSize = (int) defaultSize;</span><br><span class="line">        &#125;</span><br><span class="line">        setMeasuredDimension(Math.min(widthSpecSize, heightSpecSize), Math.min(widthSpecSize, heightSpecSize));</span><br><span class="line"></span><br><span class="line">        circleRectWidth = widthSpecSize;</span><br><span class="line">        circleRadius = (int) (circleRectWidth * RADIUS_RATIO);</span><br><span class="line">        centerX = circleRectWidth / 2;</span><br><span class="line">        centerY = circleRectWidth / 2;</span><br><span class="line">        float rad = (float) (45 * Math.PI / 180);</span><br><span class="line">        yPosBottomAlign = (float) (circleRadius * Math.sin(rad) + centerY);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的测量过程就是获取控件的宽和高，并取宽和高中较小的一个作为控件的宽高，因为我们实现的控件的宽高是一致的。<br>这里需要特别注意的是对控件AT_MOST测量模式的处理，如果在布局文件中设置的宽高是wrap_content，则获取到的宽高是0，这时候就需要对控件设置默认的宽高，这也是自定义控件中的应该需要做的处理过程之一。</p>
+<p><strong>2.4 控件的绘制过程</strong><br>控件的绘制操作需要重写父类的onDraw，并通过Canvas对图形进行绘制。<br>每个控件的绘制都是有先后顺序的，并且后面绘制的图形如果在坐标上与前面绘制的图形有交集，则后面绘制的图形会在坐标存在交集的区域覆盖前面绘制的图形。<br>该控件的绘制过程代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onDraw(final Canvas canvas) &#123;</span><br><span class="line">        super.onDraw(canvas);</span><br><span class="line">        drawChart(canvas, currentProgress);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void drawChart(Canvas canvas, float loopIndex) &#123;</span><br><span class="line">        canvas.drawColor(BG_COLOR);</span><br><span class="line">        //1.绘制背景圆弧</span><br><span class="line">        if (rectF == null) &#123;</span><br><span class="line">            rectF = new RectF(centerX - circleRadius,//left</span><br><span class="line">                    centerY - circleRadius,//top</span><br><span class="line">                    centerX + circleRadius,//right</span><br><span class="line">                    centerY + circleRadius);//bottom</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        canvas.drawArc(rectF, START_ANGLE, INNER_CIRCLE_SWEEP_ANGLE, false, backArcPaint);</span><br><span class="line"></span><br><span class="line">        //2.绘制进度圆弧</span><br><span class="line">        if (maxProgress &gt; 0) &#123;</span><br><span class="line">            canvas.drawArc(rectF, START_ANGLE, loopIndex / maxProgress * 270, false, fontArcPaint);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        //3.绘制底部文案</span><br><span class="line">        float chartNameWidth = chartNamePaint.measureText(chartName);</span><br><span class="line">        Paint.FontMetrics fontMetrics = chartNamePaint.getFontMetrics();</span><br><span class="line">        float chartNameHeight = fontMetrics.descent - fontMetrics.ascent;</span><br><span class="line">        canvas.drawText(chartName, centerX - chartNameWidth / 2, (float) (yPosBottomAlign + chartNameHeight * 1.5), chartNamePaint);</span><br><span class="line"></span><br><span class="line">        //4.绘制中间的当前进度</span><br><span class="line">        float hourNumberWidth = currentProgressNumberPaint.measureText(String.valueOf(loopIndex));</span><br><span class="line">        float hourNumberHeight = currentProgressNumberPaint.getFontMetrics().bottom - currentProgressNumberPaint.getFontMetrics().top;</span><br><span class="line">        //4.1绘制当前进度数字</span><br><span class="line">        canvas.drawText(String.valueOf(loopIndex), centerX - hourNumberWidth / 2, centerY + chartNameHeight / 4, currentProgressNumberPaint);</span><br><span class="line">        //4.1绘制进度单位</span><br><span class="line">        canvas.drawText(progressUnitString, centerX - unitTextWidth / 2, centerY + chartNameHeight / 4 + hourNumberHeight / 2, chartNamePaint);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，控件的实现过程已基本完成，但为了更方便地修改控件的相关属性，需要暴漏一些公共方法供开发者使用，此控件暴漏的公共方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * 设置当前进度</span><br><span class="line">     *</span><br><span class="line">     * @param hour</span><br><span class="line">     */</span><br><span class="line">    public ArcProgressBar setCurrentProgress(float hour) &#123;</span><br><span class="line">        if (hour &lt; 0) &#123;</span><br><span class="line">            currentProgress = 0f;</span><br><span class="line">        &#125; else if (hour &gt; maxProgress) &#123;</span><br><span class="line">            currentProgress = maxProgress;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            currentProgress = hour;</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置图标名称(底部)</span><br><span class="line">     *</span><br><span class="line">     * @param chartName</span><br><span class="line">     */</span><br><span class="line">    public ArcProgressBar setProgressUnit(String chartName) &#123;</span><br><span class="line">        if (TextUtils.isEmpty(chartName))</span><br><span class="line">            return this;</span><br><span class="line"></span><br><span class="line">        this.chartName = chartName;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 设置最大进度</span><br><span class="line">     */</span><br><span class="line">    public ArcProgressBar setMaxProgress(float maxHour) &#123;</span><br><span class="line">        if (maxHour &lt;= 0) &#123;</span><br><span class="line">            return this;</span><br><span class="line">        &#125; else if (maxHour &lt; currentProgress) &#123;</span><br><span class="line">            this.maxProgress = currentProgress;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            this.maxProgress = maxHour;</span><br><span class="line">        &#125;</span><br><span class="line">        return this;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 刷新界面</span><br><span class="line">     * PS:参数设置完成后，务必调用此方法刷新页面</span><br><span class="line">     */</span><br><span class="line">    public void refresh() &#123;</span><br><span class="line">        invalidate();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，在设置完相应的参数后，需调用refresh方法才会调用控件的重绘操作，这也是为了避免过多的重复绘制造成系统处理很多不必要的控件重绘过程。</p>
+<p>如果开发者需要涉及到动态绘制当前进度的效果，用户可以通过handler进行绘制或者继承SurfaceView进行绘制，不过强烈推荐继承SurfaceView进行绘制，因为在SurfaceView中其实是在子线程中完成的控件绘制过程，这样就很大程度上降低了在UI线程绘制控件造成的性能问题，有关SurfaceView绘制控件的过程大家可以关注相关博文。</p>
 
       
 
@@ -216,6 +237,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义控件</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -266,7 +302,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/19/Android自定义控件—仿仪表盘进度控件ArcProgressBar/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,15 +316,20 @@
   
 <nav id="article-nav">
   
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../Android自定义控件实现圆形进度CircleProgressBar/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          my first page
+          Android自定义控件实现圆形进度CircleProgressBar
         
       </div>
     </a>
   
+  
+    <a href="../Android事件分发机制源码剖析-1-——Activity对点击事件的分发过程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android事件分发机制源码剖析(1)——Activity对点击事件的分发过程</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -412,19 +453,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

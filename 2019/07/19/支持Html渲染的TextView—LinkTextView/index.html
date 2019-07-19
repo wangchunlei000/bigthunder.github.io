@@ -6,19 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title>支持Html渲染的TextView—LinkTextView | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="需求场景是这样的：在Android中实现如下效果：很多人都会说:So easy!交给h5去做，It’s not my bussiness! 好吧，我也好想说一句:H5你去做吧，It’s not my bussiness!然并卵，产品需求说要做Android源生的，然后苦逼的事情就此开始了…… 然后，思想步入正轨，开始思考这个需求的实现方式：1.一个TextView控件，通过SpannableStr">
+<meta name="keywords" content="Android,自定义控件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+<meta property="og:title" content="支持Html渲染的TextView—LinkTextView">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/支持Html渲染的TextView—LinkTextView/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="需求场景是这样的：在Android中实现如下效果：很多人都会说:So easy!交给h5去做，It’s not my bussiness! 好吧，我也好想说一句:H5你去做吧，It’s not my bussiness!然并卵，产品需求说要做Android源生的，然后苦逼的事情就此开始了…… 然后，思想步入正轨，开始思考这个需求的实现方式：1.一个TextView控件，通过SpannableStr">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzIwMTEwMTEwNDU2">
+<meta property="og:updated_time" content="2019-07-19T14:28:56.772Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="支持Html渲染的TextView—LinkTextView">
+<meta name="twitter:description" content="需求场景是这样的：在Android中实现如下效果：很多人都会说:So easy!交给h5去做，It’s not my bussiness! 好吧，我也好想说一句:H5你去做吧，It’s not my bussiness!然并卵，产品需求说要做Android源生的，然后苦逼的事情就此开始了…… 然后，思想步入正轨，开始思考这个需求的实现方式：1.一个TextView控件，通过SpannableStr">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzIwMTEwMTEwNDU2">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -154,40 +157,49 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-支持Html渲染的TextView—LinkTextView" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      支持Html渲染的TextView—LinkTextView
     </h1>
   
 
         
         <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-19T13:40:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <p>需求场景是这样的：<br>在Android中实现如下效果：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTYwMzIwMTEwMTEwNDU2" alt="这里写图片描述"><br>很多人都会说:So easy!交给h5去做，It’s not my bussiness!</p>
+<p>好吧，我也好想说一句:H5你去做吧，It’s not my bussiness!<br>然并卵，产品需求说要做Android源生的，然后苦逼的事情就此开始了……</p>
+<p>然后，思想步入正轨，开始思考这个需求的实现方式：<br>1.一个TextView控件，通过SpannableString的方式把“打开百度”字样拼接上去<br>必须承认，这是实现这种效果为数不多的方法之一，然而实现过程会略显复杂：<br>首先需要确定”打开百度”几个字符的位置，然后通过SpannableString拼接到TextView上去。</p>
+<p>Finished!<br>Really ? It’s not finished!</p>
+<p>需求分析并非如此！<br><strong>将”打开百度”文字按照这个样式拼上去只是第一步，更重要的是你点击这个TextView能从浏览器中打开这个百度链接吗？</strong></p>
+<p>那有人就会说了，再获取到url通过浏览器打开就行了！<br>的确，这样是可以实现，但是拼接指定样式的字符已经是很复杂了，再获取URL打开链接会让实现方式更复杂一些，而且这些需求的实现过程都是在View层操作的，比如你在Activity中先获取到这个TextView,然后在通过SpannaleString 将字符拼接，然后再拿到URL去打开链接。</p>
+<p>换句话说，如果有100个地方需要实现这种效果，就需要通过相同的逻辑复制100遍。</p>
+<p>换个思路，能不能通过“改造”TextView自动实现这一过程？</p>
+<p>必须可以。</p>
+<p>然后第二种实现方式就来了。</p>
+<p>2.通过Html.fromHtml的方式实现<br>也就是说，将这些文字用html的格式传递，然后TextView使用Html的方式实现效果！</p>
+<p>那么我们真正需要的数据格式应该是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;font color=&quot;black&quot; style=&quot;text-size:20;&quot;&gt;</span><br><span class="line">	周末加班很不爽有木有?!</span><br><span class="line">&lt;/font&gt;</span><br><span class="line">&lt;a href=&quot;http://www.baidu.com&quot;&gt;</span><br><span class="line">	&lt;font color=&quot;#fe751a&quot;&gt;</span><br><span class="line">		打开百度</span><br><span class="line">	&lt;/font&gt;</span><br><span class="line">&lt;/a&gt;</span><br><span class="line">&lt;font color=&quot;black&quot; &gt;看会电影休息一下吧！&lt;/font&gt;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>1.通过Html的方式实现如图的效果</p>
+<p>伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">textView.setText(Html.fromHtml(htmlStr));</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>这个就不需要详细阐述了。<br>2.获取URL<br>这里，我们使用正则表达式来获取百度链接，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//匹配URL的正则表达式</span><br><span class="line">    private static final String REGEX_STRING = &quot;(http|ftp|https):\\/\\/[\\w\\-_]&quot; +</span><br><span class="line">            &quot;+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;amp;/~\\+#])?&quot;;</span><br><span class="line"></span><br><span class="line">Pattern pattern = Pattern.compile(REGEX_STRING);</span><br><span class="line">                Matcher matcher = pattern.matcher(htmlStr);</span><br><span class="line">                if (matcher.find()) &#123;</span><br><span class="line">                    String hrefUrl = matcher.group();</span><br><span class="line">                    System.out.println(&quot;html-&gt;&quot;+hrefUrl);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
+<p>至此，关键的实现细节已结束。<br>剩下的就是对TextView的“改造了”，具体流程不再阐述，完整代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">package com.example.myview;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line">import android.content.Intent;</span><br><span class="line">import android.net.Uri;</span><br><span class="line">import android.text.Html;</span><br><span class="line">import android.text.TextUtils;</span><br><span class="line">import android.util.AttributeSet;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line"></span><br><span class="line">import java.util.regex.Matcher;</span><br><span class="line">import java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Created by WangChunLei on 16/3/19.</span><br><span class="line"> * e-mail:wcl_android@163.com</span><br><span class="line"> */</span><br><span class="line">public class LinkTextView extends TextView &#123;</span><br><span class="line">    //匹配URL的正则表达式</span><br><span class="line">    private static final String REGEX_STRING = &quot;(http|ftp|https):\\/\\/[\\w\\-_]&quot; +</span><br><span class="line">            &quot;+(\\.[\\w\\-_]+)+([\\w\\-\\.,@?^=%&amp;amp;:/~\\+#]*[\\w\\-\\@?^=%&amp;amp;/~\\+#])?&quot;;</span><br><span class="line">    private String tmpStr = &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    public LinkTextView(Context context) &#123;</span><br><span class="line">        super(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LinkTextView(Context context, AttributeSet attrs) &#123;</span><br><span class="line">        super(context, attrs);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public LinkTextView(Context context, AttributeSet attrs, int defStyle) &#123;</span><br><span class="line">        super(context, attrs, defStyle);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void setText(CharSequence text, BufferType type) &#123;</span><br><span class="line">        tmpStr = text.toString();</span><br><span class="line">        if (text.toString().contains(&quot;href&quot;)) &#123;</span><br><span class="line">            super.setText(Html.fromHtml(text.toString()), type);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            super.setText(text, type);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void performTextClick(Context context) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            CharSequence text = tmpStr;</span><br><span class="line">            if (!TextUtils.isEmpty(text)) &#123;</span><br><span class="line">                Pattern pattern = Pattern.compile(REGEX_STRING);</span><br><span class="line">                Matcher matcher = pattern.matcher(text);</span><br><span class="line">                if (matcher.find()) &#123;</span><br><span class="line">                    String hrefUrl = matcher.group();</span><br><span class="line">                    if (!TextUtils.isEmpty(hrefUrl)) &#123;</span><br><span class="line">                        Intent intent = new Intent();</span><br><span class="line">                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">                        intent.setAction(&quot;android.intent.action.VIEW&quot;);</span><br><span class="line">                        Uri content_url = Uri.parse(hrefUrl);</span><br><span class="line">                        intent.setData(content_url);</span><br><span class="line">                        context.startActivity(intent);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
 
       
@@ -216,6 +228,21 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">自定义控件</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -266,7 +293,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/19/支持Html渲染的TextView—LinkTextView/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,15 +307,20 @@
   
 <nav id="article-nav">
   
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../Android事件分发机制源码剖析-2-—顶层View对点击事件的分发过程/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          my first page
+          Android事件分发机制源码剖析(2)—顶层View对点击事件的分发过程
         
       </div>
     </a>
   
+  
+    <a href="../Android中两种序列化方式的比较Serializable和Parcelable/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android中两种序列化方式的比较Serializable和Parcelable</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -412,19 +444,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>

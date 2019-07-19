@@ -6,19 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hello World | </title>
+  <title>跨平台基础网络框架初探 | </title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+  <meta name="description" content="前言对于新派单通知、订单时效变更通知等需要及时反馈给用户的消息，目前点我达骑手的解决方案是定时轮询并通过http请求的方式主动从服务器获取变更，这种方式存在一定的缺陷，如http方式轮询流量消耗较高、消息通知不及时等。随着订单量和活跃用户量的急剧增加，这种轮询方式的弊端也逐渐显现出来，需要一种能够及时发送消息且流量消耗较低、弱网环境表现优异的方案替代现有轮询方案，那就是Socket长连接的方式。">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2019/07/18/hello-world/index.html">
+<meta property="og:title" content="跨平台基础网络框架初探">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/跨平台基础网络框架初探/index.html">
 <meta property="og:site_name">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="前言对于新派单通知、订单时效变更通知等需要及时反馈给用户的消息，目前点我达骑手的解决方案是定时轮询并通过http请求的方式主动从服务器获取变更，这种方式存在一定的缺陷，如http方式轮询流量消耗较高、消息通知不及时等。随着订单量和活跃用户量的急剧增加，这种轮询方式的弊端也逐渐显现出来，需要一种能够及时发送消息且流量消耗较低、弱网环境表现优异的方案替代现有轮询方案，那就是Socket长连接的方式。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-07-18T15:01:20.231Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTYzODM3MTc2">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTYzOTI1NTcx">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MDAyMTAx">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTAyNDQy">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTI2MzAx">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTM2OTAy">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MjA2MTE3">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MjM1NzQ5">
+<meta property="og:updated_time" content="2019-07-19T13:20:37.719Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="跨平台基础网络框架初探">
+<meta name="twitter:description" content="前言对于新派单通知、订单时效变更通知等需要及时反馈给用户的消息，目前点我达骑手的解决方案是定时轮询并通过http请求的方式主动从服务器获取变更，这种方式存在一定的缺陷，如http方式轮询流量消耗较高、消息通知不及时等。随着订单量和活跃用户量的急剧增加，这种轮询方式的弊端也逐渐显现出来，需要一种能够及时发送消息且流量消耗较低、弱网环境表现优异的方案替代现有轮询方案，那就是Socket长连接的方式。">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTYzODM3MTc2">
   
     <link rel="alternative" href="/atom.xml" title type="application/atom+xml">
   
@@ -154,39 +164,51 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hello-world" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-跨平台基础网络框架初探" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Hello World
+      跨平台基础网络框架初探
     </h1>
   
 
         
         <a href="" class="archive-article-date">
-  	<time datetime="2019-07-18T12:54:40.644Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
+  	<time datetime="2019-07-19T13:18:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>对于新派单通知、订单时效变更通知等需要及时反馈给用户的消息，目前点我达骑手的解决方案是定时轮询并通过http请求的方式主动从服务器获取变更，这种方式存在一定的缺陷，如http方式轮询流量消耗较高、消息通知不及时等。随着订单量和活跃用户量的急剧增加，这种轮询方式的弊端也逐渐显现出来，需要一种能够及时发送消息且流量消耗较低、弱网环境表现优异的方案替代现有轮询方案，那就是Socket长连接的方式。</p>
+<p>Android客户端实现Socket长连接的框架有大名鼎鼎的Netty和Mina，也有微信团队开源的跨平台基础网络框架Mars，也就是本文要介绍的网络框架。</p>
+<h3 id="Mars是什么？"><a href="#Mars是什么？" class="headerlink" title="Mars是什么？"></a>Mars是什么？</h3><p>Mars是<strong>==微信官方==</strong>推出的C++编写的跨平台、跨业务的终端基础组件，可以直接在Android、iOS、Mac等平台使用。框架包含Common、STN、SDT、XLog等模块，下图为Mars官方提供的架构图：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTYzODM3MTc2" alt="这里写图片描述"></p>
+<p>各模块的主要功能如下:</p>
+<p><strong>1.Common</strong>:Mars框架最底层部分，为STN、XLOG、SDT模块提供组件支持，主要包括socket、线程、消息队列、协程等基础工具。</p>
+<p><strong>2.STN</strong>：信令分发网络模块，也是 Mars 最主要的部分，可以认为是Mars框架中的网络框架组件，是跨平台的 <code>socket 层解决方案</code>，主要负责终端与服务器的小数据信令通道。包含了微信终端在移动网络上的大量优化经验与成果，经历了微信海量用户的考验。</p>
+<p><strong>3.SDT</strong>：网络诊断模块，可以通过ping、dns、tcp等方式检测网络状况，并能够进行流量的统计。</p>
+<p><strong>4.XLOG</strong>：高性能运行期日志组件，可以通过<a href="http://blog.csdn.net/tencent_bugly/article/details/53157830" target="_blank" rel="noopener">穿越门</a>获取更多关于Xlog的信息。</p>
+<p>框架介绍向来都是高端大气的，在使用过程中是否真的能够做到高可用，高性能，负载均衡？Mars的五年的发展史和微信官方使用意味着这会是不错的移动APP Socket解决方案，在github上开源后已经有近万的star和近两千的fork，微信团队也曾公开表示会持续对Mars维护。</p>
+<h3 id="Mars怎么用？"><a href="#Mars怎么用？" class="headerlink" title="Mars怎么用？"></a>Mars怎么用？</h3><p>Mars于2016年12月28日被微信团队开源，github地址是<a href="https://github.com/Tencent/mars" target="_blank" rel="noopener">https://github.com/Tencent/mars</a> ，所以可以根据需求对源码进行改造来满足项目使用要求。<br>以github提供的demo为例，简要阐述下环境搭建的步骤。</p>
+<p><strong>1.下载源码</strong></p>
+<p>从Mars代码仓库中pull出代码后，代码的组织结构是这样的：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTYzOTI1NTcx" alt="这里写图片描述"><br>其中mars部分为框架的C++源码部分，Mars中的SDT、STN、XLOG等模块的源码都在这里，如有必要，可以对源码进行改造。</p>
+<p>samples为在Mac、Android、iOS等平台集成的demo工程，Server为简易搭建的服务器端代码工程，我们将使用Server+android两个工程构建简易的demo环境并进行Socket通讯。</p>
+<p><strong>2.Server环境搭建</strong></p>
+<p>将目录切换到/mars-master/samples/Server后会有一个start-server.py python脚本，使用<code>python start_server.py</code>执行该脚本并选择对应的编译平台，编译完成后，在mac电脑上出现如下两个弹窗：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MDAyMTAx" alt="这里写图片描述"></p>
+<hr>
+![这里写图片描述](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MDE0NDAz)
+至此，Server端的工程已经运行完毕，在Client端只需要将连接的服务器地址配置成自己server的IP即可。
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p><strong>3.Client环境搭建(以Android为例)</strong></p>
+<p>android工程的sample代码在/mars-master/samples/android目录下，将该目录的代码导入到AndroidStudio后，全局搜索<code>marsopen.cn</code>字符串替换成步骤2中运行的Server的IP地址后即可运行。以mac操作系统为例，在终端输入ifconfig即可查看到当前电脑的IP地址，截图如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTAyNDQy" alt="这里写图片描述"><br>运行成功后，Sample的界面是这样子的：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTI2MzAx" alt="这里写图片描述"><br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MTM2OTAy" alt="这里写图片描述"><br>需要注意的是，页面中的STN Discuss、Xlog Discuss、SDT Discuss并非是针对STN、Xlog、SDT这三个模块的功能定制，这些文案都是从server中获取后填充到RecyclerView中去的，只是为了区分会话的唯一性，在同一个服务器IP地址的同一个模块下才能进行IM通讯。</p>
+<p><strong>4.简易版IM软件</strong></p>
+<p>其实Mars Sample就是一个简单的IM软件，点击页面的STN Discuss、Xlog Discuss、SDT Discuss中的任意一个即可进入聊天页面。聊天页面打开后，首先会弹窗创建一个昵称(不创建也是可以的)，点击确定后开始跟在同一个Server的其他用户聊天。<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MjA2MTE3" alt="这里写图片描述"></p>
+<h3 id="网络框架对比"><a href="#网络框架对比" class="headerlink" title="网络框架对比"></a>网络框架对比</h3><p>Mars是一款基于TCP协议的Socket网络框架，Mars与Android/iOS平台中常用的网络框架的对比清下如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTgwMjIzMTY0MjM1NzQ5" alt="这里写图片描述"><br>Mars目前是不支持完整的Http请求方式的，不过微信官方已表示将集成Http请求方式作为Mars后续开源的重要完善部分。因为Mars是微信团队使用的基础网络框架，对于“移动互联网”中网络状态不稳定等特点做了大量的优化工作，并且这些优化经过微信超大用户量的长期验证和使用的。</p>
+<h3 id="Mars生态"><a href="#Mars生态" class="headerlink" title="Mars生态"></a>Mars生态</h3><p>由于开源时间(2016年底)较晚等原因，Mars生态不够完善，通过搜索引擎搜索到的关于Mars框架的内容也相对较少。但为了表示微信官方对这一跨平台、跨业务的socket解决方案的重视，github仓库中的wiki含有大量微信官方撰写的Blog，不仅包含各平台集成开发文档，还包含一些Mars框架在微信团队在5年的迭代过程中的演进和优化，如Mars智能心跳方案的深入介绍、应对弱网络状况的解决方案、信令传输超时方案优化等。这些Blog对于Mars扫盲和框架集成是没有太大的问题，但独木难成林，未来的Mars生态必然依赖越来越多的框架使用者在使用过程中的经验累计和推广，相信在微信官方的重视和广大使用者的共同努力下，Mars必定会成为跨平台Socket解决方案的不二选择！</p>
 
       
 
@@ -216,7 +238,29 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/bigthunder.github.io/categories/框架//" class="article-tag-list-link color3">框架</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -266,7 +310,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/18/hello-world/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/19/跨平台基础网络框架初探/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -280,11 +324,11 @@
   
 <nav id="article-nav">
   
-    <a href="../my-first-page/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="../属性动画在Android自定义View中的应用场景/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          my first page
+          属性动画在Android自定义View中的应用场景
         
       </div>
     </a>
@@ -412,19 +456,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Diary</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
+                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">IDE</a>
+                <a href="javascript:void(0)" class="js-tag color1">自定义控件</a>
               </li>
             
             <div class="clearfix"></div>
